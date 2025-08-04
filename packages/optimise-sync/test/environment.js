@@ -1,14 +1,13 @@
-/*eslint no-console: "off"*/
+/* eslint no-console: "off" */
 import { erase, migrate } from '../src/utils/db-handler';
 import seed from './seed';
 const OptimiseSyncServer = require('../src/optimiseSyncServer').default;
-const NodeEnvironment = require('jest-environment-node');
+const NodeEnvironment = require('jest-environment-node').default;
 
 let optimiseSyncServer = null;
 let optimiseSyncRouter = null;
 
 class OptimiseNodeEnvironment extends NodeEnvironment {
-
     static async globalSetup() {
         process.env.NODE_ENV = 'test';
         optimiseSyncServer = new OptimiseSyncServer({});

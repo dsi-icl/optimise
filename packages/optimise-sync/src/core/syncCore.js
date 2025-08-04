@@ -1,6 +1,5 @@
 import dbcon from '../utils/db-connection';
 class SyncCore {
-
     /**
      * @function updatePatient updates patient profiles
      *
@@ -11,7 +10,7 @@ class SyncCore {
     static async updatePatientProfiles(agent, profiles) {
         const db = await dbcon().then(client => client.db());
         const inserts = [];
-        profiles.forEach(profile => {
+        profiles.forEach((profile) => {
             delete profile.consent;
             delete profile.study;
             inserts.push(db.collection(`PATIENT_PROFILES_${agent.toUpperCase()}`).replaceOne({ id: profile.id }, profile, { upsert: true }).then(({ result }) => result));
@@ -29,7 +28,7 @@ class SyncCore {
     static async updateUsers(agent, users) {
         const db = await dbcon().then(client => client.db());
         const inserts = [];
-        users.forEach(user => {
+        users.forEach((user) => {
             inserts.push(db.collection(`USERS_${agent.toUpperCase()}`).replaceOne({ uuid: user.uuid }, user, { upsert: true }).then(({ result }) => result));
         });
         return Promise.all(inserts);
@@ -90,7 +89,8 @@ class SyncCore {
                         claim: agent
                     }
                 }, { upsert: false });
-            } else if (record.claim !== agent) {
+            }
+            else if (record.claim !== agent) {
                 error = 'The validation key is claimed by a different agent';
             }
         }

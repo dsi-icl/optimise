@@ -29,7 +29,7 @@
     color: hsl(var(--color-background-h), var(--color-background-s), 20%);
 }
 
-.profileActions > a > svg {
+.profileActions>a>svg {
     width: 1.2em;
     margin-left: 1.2em;
     margin-right: 0.3em;
@@ -69,7 +69,7 @@
 }
 
 a:focus .createPatientText,
-a:focus span:first-of-type:not(.createPatientSign) { 
+a:focus span:first-of-type:not(.createPatientSign) {
     text-decoration: underline;
 }
 
@@ -109,7 +109,7 @@ a:focus span:first-of-type:not(.createPatientSign) {
     cursor: pointer;
 }
 
-.searchItem > div {
+.searchItem>div {
     height: 100%;
     background-color: hsl(var(--color-background-h), var(--color-background-s), 97%);
     border-bottom: 4px solid var(--color-accent);
@@ -121,13 +121,13 @@ a:focus span:first-of-type:not(.createPatientSign) {
     line-height: 1.8em;
 }
 
-.searchItem:hover > div {
+.searchItem:hover>div {
     color: hsl(var(--color-background-h), var(--color-background-s), 30%);
     background-color: hsl(var(--color-background-h), var(--color-background-s), 94%);
     border-bottom: 4px solid var(--color-shade-two);
 }
 
-.searchItem .matchedString{
+.searchItem .matchedString {
     color: hsl(var(--color-shade-one-h), var(--color-shade-one-s), 70%);
 }
 

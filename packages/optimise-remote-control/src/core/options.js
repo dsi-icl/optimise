@@ -7,7 +7,7 @@ import crypto from 'crypto';
  * @constructor
  */
 const Options = function (configuration = {}) {
-    //Get all the attributes
+    // Get all the attributes
     const config = {};
 
     for (const attr in configuration)

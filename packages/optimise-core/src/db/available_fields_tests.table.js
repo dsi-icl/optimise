@@ -38,7 +38,7 @@ export default async (dbcon, version) => {
             break;
         case 13:
             await dbcon()(TABLE_NAME)
-                .where('idname','Gd enhancing lesions:result')
+                .where('idname', 'Gd enhancing lesions:result')
                 .update({ permittedValues: 'None,Single,Multiple,Brain,Brain C Spine,Brain C & T Spine' });
             await dbcon()(TABLE_NAME).where('definition', 'Indication').update({
                 permittedValues: 'Diagnosis,Monitoring,Relapse,Other Clinical Events,Baseline Scan'

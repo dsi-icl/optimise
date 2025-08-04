@@ -4,7 +4,7 @@
         "lib": [
             "dom",
             "dom.iterable",
-            "es2023"
+            "ES6"
         ],
         "allowJs": true,
         "skipLibCheck": true,

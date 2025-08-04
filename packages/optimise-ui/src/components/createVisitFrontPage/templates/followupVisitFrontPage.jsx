@@ -24,29 +24,91 @@ class FollowupVisitFrontPage extends Component {
         const { pregnancySubStudyConsent } = this.props.data;
         const pageNumberToElementMap = {
             0: <VisitFrontPageIntroduction match={match} location={location} />,
-            1: <VSFrontPageWrapper match={match} location={location} category={'vitals'} />,
-            2: <ComorbidityWrapper yesOrNoQuestion={<p>Is there any <b>newly diagnosed</b> ICD11-identified comorbidity since last visit?</p>} />,
+            1: <VSFrontPageWrapper match={match} location={location} category="vitals" />,
+            2: <ComorbidityWrapper yesOrNoQuestion={(<p>
+                Is there any
+                <b>newly diagnosed</b>
+                {' '}
+                ICD11-identified comorbidity since last visit?
+            </p>)}
+            />,
             3: <EDSSWrapper yesOrNoQuestion={<p>Was an EDSS measurement performed at this visit?</p>} />,
             4: <ConcomitantMedWrapper yesOrNoQuestion={
                 <>
-                    <p>Has the patient started any <b>new</b> non-disease-modifying medication and/or supplements, or had <b>any change</b> (including termination) thereof since last visit?</p>
+                    <p>
+                        Has the patient started any
+                        <b>new</b>
+                        {' '}
+                        non-disease-modifying medication and/or supplements, or had
+                        <b>any change</b>
+                        {' '}
+                        (including termination) thereof since last visit?
+                    </p>
                     <br />
                     <p>If yes, please do the following:</p>
                     <p>1. Record any new medications or supplements for this visit; and</p>
                     <p>2. Edit and add end date to any previous medications that has been terminated.</p>
-                </>} />,
+                </>
+            }
+            />,
             5: <TreatmentWrapper
                 yesOrNoQuestion={
                     <>
-                        <p>Is there any <b>new disease-modifying treatments (DMT)</b>, <b>DMT switch</b>, or <b>new immunosuppressive medication</b> since last visit.</p>
+                        <p>
+                            Is there any
+                            <b>new disease-modifying treatments (DMT)</b>
+                            ,
+                            <b>DMT switch</b>
+                            , or
+                            <b>new immunosuppressive medication</b>
+                            {' '}
+                            since last visit.
+                        </p>
                         <br />
-                        <p>To record a DMT switch, <b>edit the previous treatment providing an 'end date', and then record a new treatment</b>.</p>
+                        <p>
+                            To record a DMT switch,
+                            <b>edit the previous treatment providing an &lsquo;end date&rsquo;, and then record a new treatment</b>
+                            .
+                        </p>
                     </>
-                } />,
-            6: <RelapseWrapper yesOrNoQuestion={<p>Is there any <b>MS relapse</b> since last visit?</p>} />,
-            7: <OtherSAEWrapper yesOrNoQuestion={<p>Is there any <b>serious adverse event</b>, <b>malignancy</b>, or <b>opportunistic infection</b> since last visit?</p>} />,
-            8: <TestWrapper yesOrNoQuestion={<p>Are there any lab results for <b>Anti-JCV antibody status</b>, <b>total white cell and lymphocyte count</b>, or <b>liver function</b> since last visit?</p>} />,
-            9: <MRIWrapper yesOrNoQuestion={<p>Are there any <b>brain MRI</b> results since last visit?</p>} />
+                }
+            />,
+            6: <RelapseWrapper yesOrNoQuestion={<p>
+                Is there any
+                <b>MS relapse</b>
+                {' '}
+                since last visit?
+            </p>}
+            />,
+            7: <OtherSAEWrapper yesOrNoQuestion={<p>
+                Is there any
+                <b>serious adverse event</b>
+                ,
+                <b>malignancy</b>
+                , or
+                <b>opportunistic infection</b>
+                {' '}
+                since last visit?
+            </p>}
+            />,
+            8: <TestWrapper yesOrNoQuestion={<p>
+                Are there any lab results for
+                <b>Anti-JCV antibody status</b>
+                ,
+                <b>total white cell and lymphocyte count</b>
+                , or
+                <b>liver function</b>
+                {' '}
+                since last visit?
+            </p>}
+            />,
+            9: <MRIWrapper yesOrNoQuestion={<p>
+                Are there any
+                <b>brain MRI</b>
+                {' '}
+                results since last visit?
+            </p>}
+            />
         };
 
         if (pregnancySubStudyConsent && this.props.data.demographicData.gender !== 1) {
@@ -54,7 +116,8 @@ class FollowupVisitFrontPage extends Component {
                 10: <PregnancyWrapper yesOrNoQuestion={<p>Do you wish to record pregnancy data?</p>} />,
                 11: <CommunicationWrapper />
             });
-        } else {
+        }
+        else {
             Object.assign(pageNumberToElementMap, {
                 10: <CommunicationWrapper />
             });
@@ -78,7 +141,8 @@ class FollowupVisitFrontPage extends Component {
                 10: 'Pregnancy',
                 11: 'Communication and notes'
             });
-        } else {
+        }
+        else {
             Object.assign(pageToTitleMap, {
                 10: 'Communication and notes'
             });

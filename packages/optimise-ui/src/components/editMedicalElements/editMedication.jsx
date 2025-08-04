@@ -48,7 +48,6 @@ class EditMed extends Component {
         });
     }
 
-
     _deleteFunction() {
         const { params } = this.props.match;
         const { renderedInFrontPage } = this.props;
@@ -77,28 +76,37 @@ class EditMed extends Component {
                     <BackButton to={`/patientProfile/${params.patientId}`} />
                 </div>
                 <form className={_style.panel}>
-                    {treatment ?
-                        <>
+                    {treatment
+                        ? <>
                             {wannaUpdate ? <UpdateMedEntry location={this.props.location} renderedInFrontPage={this.props.renderedInFrontPage} data={treatment} /> : null}
-                            {wannaUpdate ? <><button onClick={this._handleWannaUpdateClick}>Cancel</button><br /><br /></> :
-                                <><button onClick={this._handleWannaUpdateClick}>Change treatment, dose, form or frequency</button> <br /> <br /></>
-                            }
+                            {wannaUpdate
+                                ? <>
+                                    <button onClick={this._handleWannaUpdateClick}>Cancel</button>
+                                    <br />
+                                    <br />
+                                </>
+                                : <>
+                                    <button onClick={this._handleWannaUpdateClick}>Change treatment, dose, form or frequency</button>
+                                    {' '}
+                                    <br />
+                                    {' '}
+                                    <br />
+                                </>}
                             <button onClick={this._handleClick} className={style.deleteButton}>Delete this treatment</button>
                             {
-                                renderedInFrontPage ?
-                                    <>
-                                        <br/><br/><br/>
+                                renderedInFrontPage
+                                    ? <>
+                                        <br />
+                                        <br />
+                                        <br />
                                         <NavLink to={`/patientProfile/${params.patientId}/visitFrontPage/${params.visitId}/page/${params.currentPage}${this.props.location.search}`}><button>Back</button></NavLink>
                                     </>
-                                    :
-                                    null
+                                    : null
                             }
                         </>
-                        :
-                        <div>
+                        : <div>
                             <i>We could not find the treatment you are looking for.</i>
-                        </div>
-                    }
+                        </div>}
                 </form>
             </>
         );
@@ -218,61 +226,91 @@ class UpdateMedEntry extends Component {
         return (
             <>
                 <label>Treatment: </label>
-                <select onChange={this._handleChange} name='drug' value={drug}>
-                    <option value='unselected'></option>
+                <select onChange={this._handleChange} name="drug" value={drug}>
+                    <option value="unselected"></option>
                     {drugs.filter(d => d.deleted === '-').sort((a, b) => a.name.localeCompare(b.name)).map(el => <option key={el.id} value={el.id}>{el.name}</option>)}
-                </select><br /><br />
+                </select>
+                <br />
+                <br />
                 <label>Dose: </label>
-                <input disabled={unit === 'na'} onChange={this._handleChange} name='dose' value={unit === 'na' ? 'N/A' : dose} /><br /><br />
+                <input disabled={unit === 'na'} onChange={this._handleChange} name="dose" value={unit === 'na' ? 'N/A' : dose} />
+                <br />
+                <br />
                 <label>Unit: </label>
-                <select onChange={this._handleChange} name='unit' value={unit}>
-                    <option value='unselected'></option>
-                    <option value='cc'>cc</option>
-                    <option value='mg'>mg</option>
-                    <option value='µg'>µg</option>
-                    <option value='na'>N/A</option>
-                </select><br /><br />
+                <select onChange={this._handleChange} name="unit" value={unit}>
+                    <option value="unselected"></option>
+                    <option value="cc">cc</option>
+                    <option value="mg">mg</option>
+                    <option value="µg">µg</option>
+                    <option value="na">N/A</option>
+                </select>
+                <br />
+                <br />
                 <label>Form: </label>
-                <select onChange={this._handleChange} name='form' value={form}>
-                    <option value='unselected'></option>
-                    <option value='OR'>Oral</option>
-                    <option value='IV'>Intravenous</option>
-                    <option value='IM'>Intramuscular</option>
-                    <option value='IT'>Intrathecal</option>
-                    <option value='SC'>Subcutaneous</option>
-                    <option value='SL'>Sublingual</option>
-                </select><br /><br />
-                <label htmlFor='startDate'>Start date: </label><br /><PickDate startDate={this.state.startDate} handleChange={this._handleDateChange} /><br /><br />
+                <select onChange={this._handleChange} name="form" value={form}>
+                    <option value="unselected"></option>
+                    <option value="OR">Oral</option>
+                    <option value="IV">Intravenous</option>
+                    <option value="IM">Intramuscular</option>
+                    <option value="IT">Intrathecal</option>
+                    <option value="SC">Subcutaneous</option>
+                    <option value="SL">Sublingual</option>
+                </select>
+                <br />
+                <br />
+                <label htmlFor="startDate">Start date: </label>
+                <br />
+                <PickDate startDate={this.state.startDate} handleChange={this._handleDateChange} />
+                <br />
+                <br />
                 <label>Frequency (fill both or leave both blank): </label>
-                <select name='times' value={times} onChange={this._handleChange} autoComplete='off'>
-                    <option value='unselected'></option>
-                    <option value='1'>once</option>
-                    <option value='2'>twice</option>
-                    <option value='3'>three times</option>
-                    <option value='4'>four times</option>
-                </select><br /><br />
-                <select name='intervalUnit' value={this.state.intervalUnit} onChange={this._handleChange} autoComplete='off'>
-                    <option value='unselected'></option>
-                    <option value='day'>per day</option>
-                    <option value='week'>per week</option>
-                    <option value='6weeks'>per six weeks</option>
-                    <option value='8weeks'>per eight weeks</option>
-                    <option value='month'>per month</option>
-                    <option value='year'>per year</option>
-                </select><br /><br />
-                <label htmlFor='noEndDate'>The treatment is ongoing: </label><input type='checkbox' name='noEndDate' onChange={this._handleToggleNoEndDate} checked={this.state.noEndDate} /><br />
-                {this.state.noEndDate ? null :
-                    (<><label htmlFor='terminatedDate'>End date: </label>
-                        <PickDate startDate={this.state.terminatedDate ? this.state.terminatedDate : moment()} handleChange={this._handleTerminatedDateChange} /><br /><br />
-                        <label>Reason for termination:
-                            <select name='terminatedReason' value={this.state.terminatedReason} onChange={this._handleChange}>
-                                <option value='unselected'></option>
-                                {this.props.interruptionReasons.map(el => <option value={el.id}>{el.value}</option>)}
+                <select name="times" value={times} onChange={this._handleChange} autoComplete="off">
+                    <option value="unselected"></option>
+                    <option value="1">once</option>
+                    <option value="2">twice</option>
+                    <option value="3">three times</option>
+                    <option value="4">four times</option>
+                </select>
+                <br />
+                <br />
+                <select name="intervalUnit" value={this.state.intervalUnit} onChange={this._handleChange} autoComplete="off">
+                    <option value="unselected"></option>
+                    <option value="day">per day</option>
+                    <option value="week">per week</option>
+                    <option value="6weeks">per six weeks</option>
+                    <option value="8weeks">per eight weeks</option>
+                    <option value="month">per month</option>
+                    <option value="year">per year</option>
+                </select>
+                <br />
+                <br />
+                <label htmlFor="noEndDate">The treatment is ongoing: </label>
+                <input type="checkbox" name="noEndDate" onChange={this._handleToggleNoEndDate} checked={this.state.noEndDate} />
+                <br />
+                {this.state.noEndDate
+                    ? null
+                    : (<>
+                        <label htmlFor="terminatedDate">End date: </label>
+                        <PickDate startDate={this.state.terminatedDate ? this.state.terminatedDate : moment()} handleChange={this._handleTerminatedDateChange} />
+                        <br />
+                        <br />
+                        <label>
+                            Reason for termination:
+                            <select name="terminatedReason" value={this.state.terminatedReason} onChange={this._handleChange}>
+                                <option value="unselected"></option>
+                                {this.props.interruptionReasons.map(el => <option key={el.id} value={el.id}>{el.value}</option>)}
                             </select>
                         </label>
                     </>)}
-                {this.state.error ? <><div className={style.error}>{this.state.error}</div><br /></> : null}
-                <button onClick={this._handleSubmit}>Submit</button><br /><br />
+                {this.state.error
+                    ? <>
+                        <div className={style.error}>{this.state.error}</div>
+                        <br />
+                    </>
+                    : null}
+                <button onClick={this._handleSubmit}>Submit</button>
+                <br />
+                <br />
             </>
         );
     }

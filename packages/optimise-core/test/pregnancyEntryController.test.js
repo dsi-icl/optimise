@@ -150,7 +150,6 @@ describe('Delete pregnancy entry controller tests', () => {
             return true;
         }));
 
-
     test('Request deletion with bad ID type (should fail)', () => admin
         .delete('/demographics/PregnancyEntry')
         .send({ pregnancyEntryId: 'WRONG' })
@@ -172,5 +171,4 @@ describe('Delete pregnancy entry controller tests', () => {
             expect(body.state).toBe(0);
             return true;
         }));
-
 });

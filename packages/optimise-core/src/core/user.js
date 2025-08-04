@@ -7,11 +7,11 @@ import dbcon from '../utils/db-connection';
 
 class User {
     static getUserByUsername(user) {
-        return new Promise((resolve, reject) => dbcon()('USERS').select({ id: 'id', username: 'username', realname: 'realname', adminPriv: 'adminPriv', email: 'email' }).where('username', 'like', user).andWhere({ deleted: '-' }).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
+        return new Promise((resolve, reject) => dbcon()('USERS').select({ id: 'id', username: 'username', realname: 'realname', adminPriv: 'adminPriv', email: 'email' }).where('username', 'like', user).andWhere({ deleted: '-' }).then(result => resolve(result)).catch(error => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
     }
 
     static getUserByID(uid) {
-        return new Promise((resolve, reject) => dbcon()('USERS').select({ id: 'id', username: 'username', realname: 'realname', adminPriv: 'adminPriv', email: 'email' }).where('id', uid).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
+        return new Promise((resolve, reject) => dbcon()('USERS').select({ id: 'id', username: 'username', realname: 'realname', adminPriv: 'adminPriv', email: 'email' }).where('id', uid).then(result => resolve(result)).catch(error => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
     }
 
     static createUser({ id }, { pw, username, realname, isAdmin, email }) {
@@ -27,7 +27,7 @@ class User {
             entryObj.iterations = hashContainer.iteration;
             entryObj.adminPriv = isAdmin;
             entryObj.createdByUser = id;
-            return createEntry('USERS', entryObj).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.CREATIONFAIL, error)));
+            return createEntry('USERS', entryObj).then(result => resolve(result)).catch(error => reject(ErrorHelper(message.errorMessages.CREATIONFAIL, error)));
         });
     }
 
@@ -43,23 +43,24 @@ class User {
                 }
                 if (email !== undefined)
                     obj.email = email;
-                return dbcon()('USERS').update(obj).where({ username: username, deleted: '-' }).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.UPDATEFAIL, error)));
-            } catch (err) {
+                return dbcon()('USERS').update(obj).where({ username: username, deleted: '-' }).then(result => resolve(result)).catch(error => reject(ErrorHelper(message.errorMessages.UPDATEFAIL, error)));
+            }
+ catch (err) {
                 return reject(ErrorHelper(message.errorMessages.UPDATEFAIL, err));
             }
         });
     }
 
     static changeRights({ adminPriv, id }) {
-        return new Promise((resolve, reject) => dbcon()('USERS').update({ adminPriv: adminPriv }).where({ id: id, deleted: '-' }).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.UPDATEFAIL, error))));
+        return new Promise((resolve, reject) => dbcon()('USERS').update({ adminPriv: adminPriv }).where({ id: id, deleted: '-' }).then(result => resolve(result)).catch(error => reject(ErrorHelper(message.errorMessages.UPDATEFAIL, error))));
     }
 
     static deleteUser(user, userReq) {
-        return new Promise((resolve, reject) => deleteEntry('USERS', user, userReq).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.DELETEFAIL, error))));
+        return new Promise((resolve, reject) => deleteEntry('USERS', user, userReq).then(result => resolve(result)).catch(error => reject(ErrorHelper(message.errorMessages.DELETEFAIL, error))));
     }
 
     static eraseUser(id) {
-        return new Promise((resolve, reject) => eraseEntry('USERS', { id: id }).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.ERASEFAILED, error))));
+        return new Promise((resolve, reject) => eraseEntry('USERS', { id: id }).then(result => resolve(result)).catch(error => reject(ErrorHelper(message.errorMessages.ERASEFAILED, error))));
     }
 
     static loginUser({ username, pw }) {
@@ -72,10 +73,11 @@ class User {
                     return reject(ErrorHelper(message.userError.BADPASSWORD));
                 else
                     return resolve(result[0]);
-            } catch (err) {
+            }
+ catch (err) {
                 return reject(err);
             }
-        }).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
+        }).catch(error => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
     }
 
     static logoutUser() {

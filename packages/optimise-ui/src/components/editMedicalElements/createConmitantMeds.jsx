@@ -46,13 +46,11 @@ class EditConcomitantMeds extends Component {
                     <form className={_style.panel}>
                         {
                             patientProfile.data.concomitantMeds.length === 0
-                                ?
-                                <p>No concomitant medication recorded yet.</p>
-                                :
-                                patientProfile.data.concomitantMeds
+                                ? <p>No concomitant medication recorded yet.</p>
+                                : patientProfile.data.concomitantMeds
                                     /* if rendered in front page then show all visits; if not then, only the visit in the page */
-                                    .filter((el) => renderedInFrontPage ? true : parseInt(el.visit) === parseInt(this.props.match.params.visitId))
-                                    .map((el) =>
+                                    .filter(el => renderedInFrontPage ? true : parseInt(el.visit) === parseInt(this.props.match.params.visitId))
+                                    .map(el =>
                                         <OneComorbidity
                                             key={el.id}
                                             data={el}
@@ -61,21 +59,21 @@ class EditConcomitantMeds extends Component {
                                         />
                                     )
                         }
-                        {!this.state.addMore ?
-                            <>
+                        {!this.state.addMore
+                            ? <>
                                 <br />
                                 <button onClick={this._handleClickingAdd}>Record more concomitant medication</button>
-                            </>
-                            :
-                            <div className={_style.newInterruption}>
-                                <label>Record new concomitant medication: </label><CreateConcomitantMed match={match} location={location} onChange={this._handleValueChange} />
-                            </div>
-                        }
+                              </>
+                            : <div className={_style.newInterruption}>
+                                <label>Record new concomitant medication: </label>
+                                <CreateConcomitantMed match={match} location={location} onChange={this._handleValueChange} />
+                              </div>}
                     </form>
                 </>
             );
-        } else {
-            return <div><Icon symbol='loading' /></div>;
+        }
+        else {
+            return <div><Icon symbol="loading" /></div>;
         }
     }
 }
@@ -168,7 +166,7 @@ class OneComorbidity extends Component {
         });
     };
 
-    _deleteFunction = id => {
+    _deleteFunction = (id) => {
         const that = this;
         return () => {
             const { patientId } = that.props;
@@ -182,7 +180,7 @@ class OneComorbidity extends Component {
         };
     };
 
-    _handleSubmit = ev => {
+    _handleSubmit = (ev) => {
         ev.preventDefault();
         if (this.state.lastSubmit && (new Date()).getTime() - this.state.lastSubmit < 500 ? true : false)
             return;
@@ -216,7 +214,7 @@ class OneComorbidity extends Component {
         });
     };
 
-    _handleEditClick = ev => {
+    _handleEditClick = (ev) => {
         ev.preventDefault();
         this.setState(prevState => ({
             editing: !prevState.editing,
@@ -228,40 +226,89 @@ class OneComorbidity extends Component {
         const { editing } = this.state;
         const { data, typedict } = this.props;
         return (
-            <div className={style.interruption} style={{
-                overflow: editing ? 'visible' : 'hidden'
-            }}>
+            <div
+                className={style.interruption}
+                style={{
+                    overflow: editing ? 'visible' : 'hidden'
+                }}
+            >
                 {
-                    editing ?
-                        <>
-                            <label htmlFor='event'>What medication is it?</label><br />
-                            <select name='event' value={this.state.type_new} onChange={this._handleTypeChange} autoComplete='off'>
+                    editing
+                        ? <>
+                            <label htmlFor="event">What medication is it?</label>
+                            <br />
+                            <select name="event" value={this.state.type_new} onChange={this._handleTypeChange} autoComplete="off">
                                 {this.props.types.map(type => <option key={type.id} value={type.id}>{type.name}</option>)}
-                            </select> <br /><br />
-                            <label>Indication: <input type='text' value={this.state.indication_new} onChange={this._handleIndicationChange}/></label> <br/><br/>
-                            <label htmlFor=''>Start date:</label><br /><PickDate startDate={this.state.startDate_new} handleChange={this._handleStartDateChange} /><br /><br/>
-                            <label htmlFor='noEndDate'>The medication is ongoing: </label><input type='checkbox' name='noEndDate' onChange={this._handleToggleEndDate} checked={this.state.noEndDate_new} /><br />
-                            {this.state.noEndDate_new ? null : (<><label htmlFor='endDate'>End date: </label><PickDate startDate={this.state.endDate_new ? this.state.endDate_new : moment()} handleChange={this._handleEndDateChange} /><br /></>)}<br />
-                            {this.state.error ? <><div className={style.error}>{this.state.error}</div><br /></> : null}
-                            <button onClick={this._handleSubmit}>Confirm change</button><br /><br />
+                            </select>
+                            {' '}
+                            <br />
+                            <br />
+                            <label>
+                                Indication:
+                                <input type="text" value={this.state.indication_new} onChange={this._handleIndicationChange} />
+                            </label>
+                            {' '}
+                            <br />
+                            <br />
+                            <label htmlFor="">Start date:</label>
+                            <br />
+                            <PickDate startDate={this.state.startDate_new} handleChange={this._handleStartDateChange} />
+                            <br />
+                            <br />
+                            <label htmlFor="noEndDate">The medication is ongoing: </label>
+                            <input type="checkbox" name="noEndDate" onChange={this._handleToggleEndDate} checked={this.state.noEndDate_new} />
+                            <br />
+                            {this.state.noEndDate_new
+                                ? null
+                                : (<>
+                                    <label htmlFor="endDate">End date: </label>
+                                    <PickDate startDate={this.state.endDate_new ? this.state.endDate_new : moment()} handleChange={this._handleEndDateChange} />
+                                    <br />
+                                   </>)}
+                            <br />
+                            {this.state.error
+                                ? <>
+                                    <div className={style.error}>{this.state.error}</div>
+                                    <br />
+                                  </>
+                                : null}
+                            <button onClick={this._handleSubmit}>Confirm change</button>
+                            <br />
+                            <br />
                             <button onClick={this._handleCancelClick}>Cancel</button>
-                        </>
-                        :
-                        <>
-                            <p><b>Drug:</b> {typedict[data.concomitantMedId].name}</p>
-                            <p><b>Indication:</b> {data.indication}</p>
-                            <p><b>Start date:</b> {new Date(parseInt(data.startDate, 10)).toDateString()}</p>
-                            { data.endDate ? <p><b>End date:</b> {new Date(parseInt(data.endDate, 10)).toDateString()}</p> : <p>Patient is still taking this medication</p> }
-                            <br/>
+                          </>
+                        : <>
+                            <p>
+                                <b>Drug:</b>
+                                {' '}
+                                {typedict[data.concomitantMedId].name}
+                            </p>
+                            <p>
+                                <b>Indication:</b>
+                                {' '}
+                                {data.indication}
+                            </p>
+                            <p>
+                                <b>Start date:</b>
+                                {' '}
+                                {new Date(parseInt(data.startDate, 10)).toDateString()}
+                            </p>
+                            {data.endDate
+                                ? <p>
+                                    <b>End date:</b>
+                                    {' '}
+                                    {new Date(parseInt(data.endDate, 10)).toDateString()}
+                                  </p>
+                                : <p>Patient is still taking this medication</p>}
+                            <br />
                             <DeleteButton clickhandler={() => this._handleClickDelete(data)} />
-                            <span title='Edit' onClick={this._handleEditClick} className={style.dataEdit}><Icon symbol='edit' /></span>
-                        </>
+                            <span title="Edit" onClick={this._handleEditClick} className={style.dataEdit}><Icon symbol="edit" /></span>
+                          </>
                 }
             </div>
         );
     }
 }
-
 
 @connect(state => ({
     patientId: state.patientProfile.data.id,
@@ -322,7 +369,6 @@ class CreateConcomitantMed extends Component {
         });
     }
 
-
     _handleSubmitClick(ev) {
         ev.preventDefault();
         if (this.state.lastSubmit && (new Date()).getTime() - this.state.lastSubmit < 500 ? true : false)
@@ -364,16 +410,44 @@ class CreateConcomitantMed extends Component {
         }
         return (
             <div className={_style.panel}>
-                <label htmlFor='event'>What medication is it?</label><br />
-                <select name='event' value={this.state.type} onChange={this._handleTypeChange} autoComplete='off'>
-                    <option value='unselected'></option>
+                <label htmlFor="event">What medication is it?</label>
+                <br />
+                <select name="event" value={this.state.type} onChange={this._handleTypeChange} autoComplete="off">
+                    <option value="unselected"></option>
                     {this.props.types.map(type => <option key={type.id} value={type.id}>{type.name}</option>)}
-                </select> <br /><br />
-                <label>Indication: <input type='text' value={this.state.indication} onChange={this._handleIndicationChange}/></label> <br/><br/>
-                <label htmlFor=''>Start date:</label><br /><PickDate startDate={this.state.startDate} handleChange={this._handleStartDateChange} /><br /><br/>
-                <label htmlFor='noEndDate'>The medication is ongoing: </label><input type='checkbox' name='noEndDate' onChange={this._handleToggleEndDate} checked={this.state.noEndDate} /><br />
-                {this.state.noEndDate ? null : (<><label htmlFor='endDate'>End date: </label><PickDate startDate={this.state.endDate ? this.state.endDate : moment()} handleChange={this._handleEndDateChange} /><br /></>)}<br />
-                {this.state.error ? <><div className={style.error}>{this.state.error}</div><br /></> : null}
+                </select>
+                {' '}
+                <br />
+                <br />
+                <label>
+                    Indication:
+                    <input type="text" value={this.state.indication} onChange={this._handleIndicationChange} />
+                </label>
+                {' '}
+                <br />
+                <br />
+                <label htmlFor="">Start date:</label>
+                <br />
+                <PickDate startDate={this.state.startDate} handleChange={this._handleStartDateChange} />
+                <br />
+                <br />
+                <label htmlFor="noEndDate">The medication is ongoing: </label>
+                <input type="checkbox" name="noEndDate" onChange={this._handleToggleEndDate} checked={this.state.noEndDate} />
+                <br />
+                {this.state.noEndDate
+                    ? null
+                    : (<>
+                        <label htmlFor="endDate">End date: </label>
+                        <PickDate startDate={this.state.endDate ? this.state.endDate : moment()} handleChange={this._handleEndDateChange} />
+                        <br />
+                       </>)}
+                <br />
+                {this.state.error
+                    ? <>
+                        <div className={style.error}>{this.state.error}</div>
+                        <br />
+                      </>
+                    : null}
                 <button onClick={this._handleSubmitClick}>Submit</button>
             </div>
         );

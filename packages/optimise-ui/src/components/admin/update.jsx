@@ -3,7 +3,6 @@ import React, { PureComponent } from 'react';
 let timer;
 
 export class Update extends PureComponent {
-
     constructor(props) {
         super(props);
         this.state = {};
@@ -28,13 +27,19 @@ export class Update extends PureComponent {
             return (
                 <>
                     You are not using the desktop version of this software.
-                    Please check <a href="https://optimise-ms.org">https://optimise-ms.org</a> for more information about new versions.
+                    Please check
+                    {' '}
+                    <a href="https://optimise-ms.org">https://optimise-ms.org</a>
+                    {' '}
+                    for more information about new versions.
                 </>
             );
         else
             return (
                 <>
-                    {this.state.ipcUpdateStatus || 'Checking for updates...'}<br /><br />
+                    {this.state.ipcUpdateStatus || 'Checking for updates...'}
+                    <br />
+                    <br />
                     {this.state.ipcUpdateReady === true ? <button onClick={() => window.ipcUpdateCommander()}>Quit and install</button> : null}
                 </>
             );

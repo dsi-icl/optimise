@@ -9,7 +9,7 @@ export default async (dbcon, version) => {
             await tableMove(TABLE_NAME, version);
             await schema_v19(dbcon);
             const listOfTables = await dbcon().raw('SELECT name FROM sqlite_master WHERE type="table" ORDER BY name');
-            const V18_PREGNANCY_ENTRY_TABLE_NAME = listOfTables.find((table) => table.name.match(/ARCHIVE_V18_(\d*)_PREGNANCY_ENTRY/) !== null)?.name;
+            const V18_PREGNANCY_ENTRY_TABLE_NAME = listOfTables.find(table => table.name.match(/ARCHIVE_V18_(\d*)_PREGNANCY_ENTRY/) !== null)?.name;
             if (V18_PREGNANCY_ENTRY_TABLE_NAME !== null) {
                 const oldData = (await dbcon()(V18_PREGNANCY_ENTRY_TABLE_NAME).where({ deleted: '-' }).select('*'));
 
@@ -51,7 +51,7 @@ export default async (dbcon, version) => {
     }
 };
 
-const schema_v19 = (dbcon) => dbcon().schema.createTable(TABLE_NAME, (table) => {
+const schema_v19 = dbcon => dbcon().schema.createTable(TABLE_NAME, (table) => {
     table.increments('id').primary();
     table.integer('patientId').notNullable().references('id').inTable('PATIENTS');
     table.integer('pregnancyId').notNullable().references('id').inTable('PATIENT_PREGNANCY');

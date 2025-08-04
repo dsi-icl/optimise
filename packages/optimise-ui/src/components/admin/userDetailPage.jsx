@@ -10,7 +10,7 @@ import store from '../../redux/store';
 // eslint-disable-next-line no-useless-escape
 const email_reg = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-/* receives prop this.props.match.params.userId and store.getAllUsers*/
+/* receives prop this.props.match.params.userId and store.getAllUsers */
 @connect(state => ({
     data: state.getAllUsers
 }))
@@ -24,28 +24,39 @@ class UserDetail extends Component {
                 <>
                     <div className={style.ariane}>
                         <h2>USER INFORMATION</h2>
-                        <BackButton to={'/administration/users'} />
+                        <BackButton to="/administration/users" />
                     </div>
                     <div className={style.userDetailPanel}>
                         <div className={style.userDetail}>
-                            {usersFiltered.length === 1 ?
-                                <>
-                                    <UserInfo data={usersFiltered[0]} /><br />
-                                    <ChangeUserEmail username={usersFiltered[0].username} /> <br /><br />
-                                    <ChangeUserPassword username={usersFiltered[0].username} /> <br /><br />
-                                    <ChangeUserPrivilege userId={usersFiltered[0].id} adminPriv={usersFiltered[0].adminPriv} /> <br /><br />
-                                    <DeleteUser username={usersFiltered[0].username} /> <br />
-                                </>
-                                :
-                                <div>
+                            {usersFiltered.length === 1
+                                ? <>
+                                    <UserInfo data={usersFiltered[0]} />
+                                    <br />
+                                    <ChangeUserEmail username={usersFiltered[0].username} />
+                                    {' '}
+                                    <br />
+                                    <br />
+                                    <ChangeUserPassword username={usersFiltered[0].username} />
+                                    {' '}
+                                    <br />
+                                    <br />
+                                    <ChangeUserPrivilege userId={usersFiltered[0].id} adminPriv={usersFiltered[0].adminPriv} />
+                                    {' '}
+                                    <br />
+                                    <br />
+                                    <DeleteUser username={usersFiltered[0].username} />
+                                    {' '}
+                                    <br />
+                                  </>
+                                : <div>
                                     <i>We could not find the user you are looking for!</i>
-                                </div>
-                            }
+                                  </div>}
                         </div>
                     </div>
                 </>
             );
-        } else {
+        }
+        else {
             return null;
         }
     }
@@ -58,17 +69,40 @@ class UserInfo extends PureComponent {
         const { data } = this.props;
         return (
             <div>
-                <label>ID: </label> {data.id}  <br />
-                <label>Username: </label> {data.username} <br />
-                <label>Real name: </label> {data.realname} <br />
-                <label>Email: </label> {data.email} <br />
-                <label>This user is {data.adminPriv ? 'an admin' : 'a standard user'}. </label> <br />
+                <label>ID: </label>
+                {' '}
+                {data.id}
+                {' '}
+                <br />
+                <label>Username: </label>
+                {' '}
+                {data.username}
+                {' '}
+                <br />
+                <label>Real name: </label>
+                {' '}
+                {data.realname}
+                {' '}
+                <br />
+                <label>Email: </label>
+                {' '}
+                {data.email}
+                {' '}
+                <br />
+                <label>
+                    This user is
+                    {data.adminPriv ? 'an admin' : 'a standard user'}
+                    .
+                    {' '}
+                </label>
+                {' '}
+                <br />
             </div>
         );
     }
 }
 
-/* receive props this.props.username*/
+/* receive props this.props.username */
 class ChangeUserEmail extends Component {
     constructor() {
         super();
@@ -98,16 +132,28 @@ class ChangeUserEmail extends Component {
     render() {
         if (this.state.addMore)
             return <div className={style.userFeature}>
-                <label htmlFor='email'>Email:</label><br /><input name='email' type='text' ref={this.emailRef} /><br /><br />
-                {this.state.error ? <><div className={style.error}>{this.state.error}</div><br /><br /></> : null}
-                <button onClick={this._handleSubmit}>Submit</button><br /><br />
+                <label htmlFor="email">Email:</label>
+                <br />
+                <input name="email" type="text" ref={this.emailRef} />
+                <br />
+                <br />
+                {this.state.error
+                    ? <>
+                        <div className={style.error}>{this.state.error}</div>
+                        <br />
+                        <br />
+                      </>
+                    : null}
+                <button onClick={this._handleSubmit}>Submit</button>
+                <br />
+                <br />
                 <button onClick={this._handleClickingAdd}>Cancel</button>
-            </div>;
+                   </div>;
         return <button onClick={this._handleClickingAdd}>Change user email</button>;
     }
 }
 
-/* receive props this.props.username*/
+/* receive props this.props.username */
 class ChangeUserPassword extends Component {
     constructor() {
         super();
@@ -138,12 +184,28 @@ class ChangeUserPassword extends Component {
     render() {
         if (this.state.addMore)
             return <div className={style.userFeature}>
-                <label htmlFor='password'>Password:</label><br /><input name='password' type='password' ref={this.pwRef} /><br /><br />
-                <label htmlFor='passwordConf'>Confirm Password:</label><br /><input name='passwordConf' type='password' ref={this.conPwRef} /><br /><br />
-                {this.state.error ? <><div className={style.error}>{this.state.error}</div><br /><br /></> : null}
-                <button onClick={this._handleSubmit}>Submit</button><br /><br />
+                <label htmlFor="password">Password:</label>
+                <br />
+                <input name="password" type="password" ref={this.pwRef} />
+                <br />
+                <br />
+                <label htmlFor="passwordConf">Confirm Password:</label>
+                <br />
+                <input name="passwordConf" type="password" ref={this.conPwRef} />
+                <br />
+                <br />
+                {this.state.error
+                    ? <>
+                        <div className={style.error}>{this.state.error}</div>
+                        <br />
+                        <br />
+                      </>
+                    : null}
+                <button onClick={this._handleSubmit}>Submit</button>
+                <br />
+                <br />
                 <button onClick={this._handleClickingAdd}>Cancel</button>
-            </div>;
+                   </div>;
         return <button onClick={this._handleClickingAdd}>Change user password</button>;
     }
 }
@@ -156,13 +218,13 @@ class ChangeUserPrivilege extends Component {
         };
         store.dispatch(changePrivAPICall(body));
     };
+
     render() {
         if (this.props.adminPriv === 1)
             return <button onClick={this._handleClick}>Withdraw admin privileges from this user</button>;
         return <button onClick={this._handleClick}>Give this user admin privileges</button>;
     }
 }
-
 
 class DeleteUser extends Component {
     constructor() {
@@ -183,8 +245,9 @@ class DeleteUser extends Component {
 
     render() {
         if (this.state.clicked) {
-            return <Redirect to='/administration/users' />;
-        } else {
+            return <Redirect to="/administration/users" />;
+        }
+        else {
             return (
                 <div>
                     <button onClick={this._handleClick}>Delete this user</button>

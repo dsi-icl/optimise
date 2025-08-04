@@ -71,30 +71,38 @@ class EditTest extends Component {
                     <BackButton to={`/patientProfile/${params.patientId}`} />
                 </div>
                 <form className={_style.panel}>
-                    {testsFiltered ?
-                        <>
+                    {testsFiltered
+                        ? <>
                             {wannaUpdate ? <UpdateTestEntry location={location} renderedInFrontPage={this.props.renderedInFrontPage} data={test} elementId={params.elementId} /> : null}
-                            {wannaUpdate ? <><button onClick={this._handleWannaUpdateClick}>Cancel</button><br /><br /></> :
-                                <><button onClick={this._handleWannaUpdateClick}>Change test date</button><br /><br /></>
-                            }
+                            {wannaUpdate
+                                ? <>
+                                    <button onClick={this._handleWannaUpdateClick}>Cancel</button>
+                                    <br />
+                                    <br />
+                                  </>
+                                : <>
+                                    <button onClick={this._handleWannaUpdateClick}>Change test date</button>
+                                    <br />
+                                    <br />
+                                  </>}
                             <button onClick={this._handleClick} className={style.deleteButton}>Delete this test</button>
-                            <br /><br />
+                            <br />
+                            <br />
                             <div>Note: You cannot change the type of test. If you created the wrong type of test you can delete this event record and create a new one.</div>
                             {
-                                renderedInFrontPage ?
-                                    <>
-                                        <br/><br/><br/>
+                                renderedInFrontPage
+                                    ? <>
+                                        <br />
+                                        <br />
+                                        <br />
                                         <NavLink to={`/patientProfile/${params.patientId}/visitFrontPage/${params.visitId}/page/${params.currentPage}${this.props.location.search}`}><button>Back</button></NavLink>
-                                    </>
-                                    :
-                                    null
+                                      </>
+                                    : null
                             }
-                        </>
-                        :
-                        <div>
+                          </>
+                        : <div>
                             <i>We could not find the test you are looking for.</i>
-                        </div>
-                    }
+                          </div>}
                 </form>
             </>
         );
@@ -189,19 +197,27 @@ class UpdateTestEntry extends Component {
     }
 
     render() {
-        const { startDate /*, actualOccurredDate */ } = this.state;
+        const { startDate /* , actualOccurredDate */ } = this.state;
         return (
             <>
                 <label>Date of test: </label>
                 <PickDate startDate={startDate} handleChange={this._handleDateChange} />
-                <br /><br />
+                <br />
+                <br />
                 {/*
                 <label>Date on which test results were processed: </label>
                 <PickDate startDate={actualOccurredDate} handleChange={this._handleActualDateChange} />
                 <br />
                 */}
-                {this.state.error ? <><div className={style.error}>{this.state.error}</div><br /></> : null}
-                <button onClick={this._handleSubmit}>Submit</button><br /><br />
+                {this.state.error
+                    ? <>
+                        <div className={style.error}>{this.state.error}</div>
+                        <br />
+                      </>
+                    : null}
+                <button onClick={this._handleSubmit}>Submit</button>
+                <br />
+                <br />
             </>
         );
     }

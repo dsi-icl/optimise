@@ -7,27 +7,25 @@ import Icon from '../icon';
 import scaffold_style from '../createMedicalElements/medicalEvent.module.css';
 import style from './offspringPage.module.css';
 
-
 export class BackButton extends Component {
     render() {
         return (
-            <Link to={this.props.to} title='Close' className={scaffold_style.backButton}><Icon symbol='close' /></Link>
+            <Link to={this.props.to} title="Close" className={scaffold_style.backButton}><Icon symbol="close" /></Link>
         );
     }
 }
-
 
 export function checkIfObjIsEmpty(...objs) {
     for (let each of objs) {
         if (Object.keys(each).length !== 0) {
             return false;
-        } else {
+        }
+        else {
             continue;
         }
     }
     return true;
 }
-
 
 /* receives ref and an array of choices  */
 export class SelectField extends Component {
@@ -49,7 +47,6 @@ export class SelectField extends Component {
     }
 
     _handleOneTwoClick(ev) {
-
         ev.preventDefault();
 
         let nullify = false;
@@ -74,7 +71,6 @@ export class SelectField extends Component {
     }
 
     _handleThreeFourClick(ev) {
-
         ev.preventDefault();
 
         let nullify = false;
@@ -99,7 +95,6 @@ export class SelectField extends Component {
     }
 
     _handleNormalClick(ev) {
-
         ev.preventDefault();
 
         let nullify = false;
@@ -124,7 +119,6 @@ export class SelectField extends Component {
     }
 
     _handleLeftRightClick(ev) {
-
         ev.preventDefault();
 
         let nullify = false;
@@ -162,14 +156,14 @@ export class SelectField extends Component {
                     <table className={style.leftRightButton}>
                         <tbody>
                             <tr>
-                                <td><button type='button' ref={this.leftButton} onClick={this._handleLeftRightClick} className={origVal !== 'LEFT' ? style.noActive : ''}>Left</button></td>
-                                <td><button type='button' ref={this.rightButton} onClick={this._handleLeftRightClick} className={origVal !== 'RIGHT' ? style.noActive : ''}>Right</button></td>
-                                <td><button type='button' ref={this.bothButton} onClick={this._handleLeftRightClick} className={origVal !== 'BOTH' ? style.noActive : ''}>Both</button></td>
+                                <td><button type="button" ref={this.leftButton} onClick={this._handleLeftRightClick} className={origVal !== 'LEFT' ? style.noActive : ''}>Left</button></td>
+                                <td><button type="button" ref={this.rightButton} onClick={this._handleLeftRightClick} className={origVal !== 'RIGHT' ? style.noActive : ''}>Right</button></td>
+                                <td><button type="button" ref={this.bothButton} onClick={this._handleLeftRightClick} className={origVal !== 'BOTH' ? style.noActive : ''}>Both</button></td>
                             </tr>
                         </tbody>
                     </table>
                     <select ref={reference} defaultValue={origVal} className={style.leftRightSelect}>
-                        <option value='unselected'></option>
+                        <option value="unselected"></option>
                         {choices.map(el => <option key={el} value={el}>{el}</option>)}
                     </select>
                 </>
@@ -180,13 +174,13 @@ export class SelectField extends Component {
                     <table className={style.leftRightButton}>
                         <tbody>
                             <tr>
-                                <td><button type='button' ref={this.normalButton} onClick={this._handleNormalClick} className={origVal !== 'NORMAL' ? style.noActive : ''}>Normal</button></td>
-                                <td><button type='button' ref={this.abnormalButton} onClick={this._handleNormalClick} className={origVal !== 'ABNORMAL' ? style.noActive : ''}>Abnormal</button></td>
+                                <td><button type="button" ref={this.normalButton} onClick={this._handleNormalClick} className={origVal !== 'NORMAL' ? style.noActive : ''}>Normal</button></td>
+                                <td><button type="button" ref={this.abnormalButton} onClick={this._handleNormalClick} className={origVal !== 'ABNORMAL' ? style.noActive : ''}>Abnormal</button></td>
                             </tr>
                         </tbody>
                     </table>
                     <select ref={reference} defaultValue={origVal} className={style.leftRightSelect}>
-                        <option value='unselected'></option>
+                        <option value="unselected"></option>
                         {choices.map(el => <option key={el} value={el}>{el}</option>)}
                     </select>
                 </>
@@ -197,13 +191,13 @@ export class SelectField extends Component {
                     <table className={style.otButton}>
                         <tbody>
                             <tr>
-                                <td><button type='button' ref={this.oneButton} onClick={this._handleOneTwoClick} className={origVal !== '1' ? style.noActive : ''}>1</button></td>
-                                <td><button type='button' ref={this.twoButton} onClick={this._handleOneTwoClick} className={origVal !== '2' ? style.noActive : ''}>2</button></td>
+                                <td><button type="button" ref={this.oneButton} onClick={this._handleOneTwoClick} className={origVal !== '1' ? style.noActive : ''}>1</button></td>
+                                <td><button type="button" ref={this.twoButton} onClick={this._handleOneTwoClick} className={origVal !== '2' ? style.noActive : ''}>2</button></td>
                             </tr>
                         </tbody>
                     </table>
                     <select ref={reference} defaultValue={origVal} className={style.leftRightSelect}>
-                        <option value='unselected'></option>
+                        <option value="unselected"></option>
                         {choices.map(el => <option key={el} value={el}>{el}</option>)}
                     </select>
                 </>
@@ -214,20 +208,20 @@ export class SelectField extends Component {
                     <table className={style.otButton}>
                         <tbody>
                             <tr>
-                                <td><button type='button' ref={this.threeButton} onClick={this._handleThreeFourClick} className={origVal !== '3' ? style.noActive : ''}>3</button></td>
-                                <td><button type='button' ref={this.fourButton} onClick={this._handleThreeFourClick} className={origVal !== '4' ? style.noActive : ''}>4</button></td>
+                                <td><button type="button" ref={this.threeButton} onClick={this._handleThreeFourClick} className={origVal !== '3' ? style.noActive : ''}>3</button></td>
+                                <td><button type="button" ref={this.fourButton} onClick={this._handleThreeFourClick} className={origVal !== '4' ? style.noActive : ''}>4</button></td>
                             </tr>
                         </tbody>
                     </table>
                     <select ref={reference} defaultValue={origVal} className={style.leftRightSelect}>
-                        <option value='unselected'></option>
+                        <option value="unselected"></option>
                         {choices.map(el => <option key={el} value={el}>{el}</option>)}
                     </select>
                 </>
             );
         return (
             <select ref={reference} defaultValue={origVal}>
-                <option value='unselected'></option>
+                <option value="unselected"></option>
                 {choices.map(el => <option key={el} value={el}>{el}</option>)}
             </select>
         );
@@ -252,11 +246,13 @@ export class BooleanField extends Component {
         const { checked } = this.state;
         return (
             <Fragment key={key}>
-                <input ref={reference} type='checkbox' style={{ display: 'none' }} checked={checked} onChange={() => null} />
+                <input ref={reference} type="checkbox" style={{ display: 'none' }} checked={checked} onChange={() => null} />
                 <button
                     className={checked ? '' : style.noActive}
                     onClick={this._onClick}
-                >{name}</button>
+                >
+                    {name}
+                </button>
             </Fragment>
         );
     }
@@ -267,7 +263,7 @@ export class TextField extends Component {
     render() {
         const { reference, origVal } = this.props;
         return (
-            <input defaultValue={origVal} ref={reference} type='text' />
+            <input defaultValue={origVal} ref={reference} type="text" />
         );
     }
 }
@@ -314,9 +310,9 @@ export class AntibodyField extends Component {
         const { currentTextValue, currentBooleanValue } = this.state;
         return (
             <div className={style.antibodyContainer}>
-                <input defaultValue={origVal} ref={reference} type='hidden' />
+                <input defaultValue={origVal} ref={reference} type="hidden" />
                 <button className={currentBooleanValue ? '' : style.noActive} onClick={this._onClick}>Not detected</button>
-                <input value={currentTextValue} onChange={this._onChange} type='text' />
+                <input value={currentTextValue} onChange={this._onChange} type="text" />
             </div>
         );
     }
@@ -325,7 +321,7 @@ export class AntibodyField extends Component {
 export const createLevelObj = (fields) => {
     let obj = [];
 
-    fields.forEach(f => {
+    fields.forEach((f) => {
         obj.push(f.idname.split(':').reverse().reduce((a, c) => !a ? { [c]: f } : ({ [c]: a }), null));
     });
 
@@ -333,7 +329,7 @@ export const createLevelObj = (fields) => {
 };
 
 export const mappingFields = (typeHash, references, originalValues, transformer) => {
-    const curry = el => {
+    const curry = (el) => {
         const title = el[0];
         let content = el[1];
         if (content.hasOwnProperty('id')) {
@@ -346,7 +342,9 @@ export const mappingFields = (typeHash, references, originalValues, transformer)
                 case 'B': // 5
                     return (
                         <div key={Math.random()} className={style.dataItem}>
-                            <BooleanField reference={references[content.id].ref} name={content.definition} default={origVal && origVal === '1' ? true : false} /><br /><br />
+                            <BooleanField reference={references[content.id].ref} name={content.definition} default={origVal && origVal === '1' ? true : false} />
+                            <br />
+                            <br />
                         </div>
                     );
                 case 'C': { // 3
@@ -354,13 +352,17 @@ export const mappingFields = (typeHash, references, originalValues, transformer)
                         return (
                             <div key={Math.random()} className={style.dataItem}>
                                 <label>{content.definition}</label>
-                                <SelectField origVal={origVal ? origVal : null} reference={references[content.id].ref} choices={content.permittedValues.split(',')} /><br /><br />
+                                <SelectField origVal={origVal ? origVal : null} reference={references[content.id].ref} choices={content.permittedValues.split(',')} />
+                                <br />
+                                <br />
                             </div>
                         );
                     return (
                         <div key={Math.random()} className={style.dataItem}>
                             <label>{content.definition}</label>
-                            <TextField origVal={origVal ? origVal : null} reference={references[content.id].ref} /><br /><br />
+                            <TextField origVal={origVal ? origVal : null} reference={references[content.id].ref} />
+                            <br />
+                            <br />
                         </div>
                     );
                 }
@@ -370,28 +372,56 @@ export const mappingFields = (typeHash, references, originalValues, transformer)
                     return (
                         <div key={Math.random()} className={style.dataItem}>
                             <label>{content.definition}</label>
-                            <PickDate startDate={dateSlot ? dateSlot : undefined} reference={references[content.id].ref} /><br /><br />
+                            <PickDate startDate={dateSlot ? dateSlot : undefined} reference={references[content.id].ref} />
+                            <br />
+                            <br />
                         </div>
                     );
                 case 'FAB':
                     return (
                         <div key={Math.random()} className={style.dataItem}>
-                            <label>{content.definition}{content.unit ? <em> in {content.unit}</em> : ''}</label>
-                            <AntibodyField origVal={origVal ? origVal : null} reference={references[content.id].ref} /><br /><br />
+                            <label>
+                                {content.definition}
+                                {content.unit
+                                    ? <em>
+                                        {' '}
+                                        in
+                                        {content.unit}
+                                      </em>
+                                    : ''}
+                            </label>
+                            <AntibodyField origVal={origVal ? origVal : null} reference={references[content.id].ref} />
+                            <br />
+                            <br />
                         </div>
                     );
                 default: // 3
                     return (
                         <div key={Math.random()} className={style.dataItem}>
-                            <label>{content.definition}{content.unit ? <em> in {content.unit}</em> : ''}</label>
-                            <TextField origVal={origVal ? origVal : null} reference={references[content.id].ref} /><br /><br />
+                            <label>
+                                {content.definition}
+                                {content.unit
+                                    ? <em>
+                                        {' '}
+                                        in
+                                        {content.unit}
+                                      </em>
+                                    : ''}
+                            </label>
+                            <TextField origVal={origVal ? origVal : null} reference={references[content.id].ref} />
+                            <br />
+                            <br />
                         </div>
                     );
             }
-        } else {
+        }
+        else {
             return (
                 <div key={title} className={style.level}>
-                    <div className={style.levelHeader}> {title}</div>
+                    <div className={style.levelHeader}>
+                        {' '}
+                        {title}
+                    </div>
                     <div className={style.levelBody}>{Object.entries(content).map(curry)}</div>
                 </div>
             );

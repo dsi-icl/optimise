@@ -138,7 +138,6 @@ describe('MedDRA upload tests', () => {
             return true;
         })
     );
-
 });
 
 describe('Fetching MedDRA codes', () => {

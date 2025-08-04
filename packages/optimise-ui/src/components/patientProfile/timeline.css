@@ -52,10 +52,12 @@
     cursor: pointer;
     height: 100%;
 }
+
 .react-calendar-timeline .rct-calendar-header .rct-dateHeader-primary {
     color: var(--color-background);
     background: hsl(var(--color-background-h), var(--color-background-s), 97%);
 }
+
 .react-calendar-timeline .rct-calendar-header .rct-dateHeader>span {
     height: 100%;
     line-height: 30px;

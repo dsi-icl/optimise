@@ -41,7 +41,6 @@ const optionsContainer = {
 };
 
 class DataController {
-
     static _RouterDeleteData({ params, body, user }, res) {
         const options = optionsContainer[`${params.dataType}`];
         if (options === undefined) {
@@ -128,15 +127,16 @@ class DataController {
     static _RouterAddOrUpdate(req, res) {
         if (optionsContainer.hasOwnProperty(`${req.params.dataType}`)) {
             const options = optionsContainer[req.params.dataType];
-            if (!(req.body.hasOwnProperty(`${options.entryIdString}`) &&
-                (req.body.hasOwnProperty('add') || req.body.hasOwnProperty('update')))) {
+            if (!(req.body.hasOwnProperty(`${options.entryIdString}`)
+              && (req.body.hasOwnProperty('add') || req.body.hasOwnProperty('update')))) {
                 res.status(400).json(ErrorHelper(message.dataMessage.MISSINGVALUE + options.entryIdString));
                 return;
-            } else {
+            }
+ else {
                 const entries = DataController._formatEntries(options, req);
                 entries.entryId = req.body[options.entryIdString];
-                if (!req.body.hasOwnProperty('update')) { req.body.update = {}; }  //adding an empty obj so that the code later doesn't throw error for undefined
-                if (!req.body.hasOwnProperty('add')) { req.body.add = {}; }   //same
+                if (!req.body.hasOwnProperty('update')) { req.body.update = {}; } // adding an empty obj so that the code later doesn't throw error for undefined
+                if (!req.body.hasOwnProperty('add')) { req.body.add = {}; } // same
                 // Verify that the entryTable ID exists in database (i.e. visitId:1 in body must have the row with id 1 in VISIT Table)
                 return getEntry(options.entryTable, { id: req.body[options.entryIdString], deleted: '-' }, '*')
                     .then((entryResult) => {
@@ -167,31 +167,31 @@ class DataController {
                                     const inputValue = req.body[addOrUpdate][fieldId];
                                     let time;
                                     switch (fieldType) {
-                                        case 5: //'B':
+                                        case 5: // 'B':
                                             if (inputValue !== '' && !(inputValue === true || inputValue === false || inputValue === 1 || inputValue === 0 || inputValue === '1' || inputValue === '0' || inputValue.toUpperCase() === 'YES' || inputValue.toUpperCase() === 'NO')) {
                                                 res.status(400).json(ErrorHelper(`${message.dataMessage.BOOLEANFIELD}${fieldDefinition}`));
                                                 return false;
                                             }
                                             break;
-                                        case 3: //'C':
-                                            if (inputValue !== '' && inputValue !== 'unselected' && result[i][0]['permittedValues'] !== null && !(result[i][0]['permittedValues'].split(',').includes(inputValue))) {  //see if the value is in the permitted values
+                                        case 3: // 'C':
+                                            if (inputValue !== '' && inputValue !== 'unselected' && result[i][0]['permittedValues'] !== null && !(result[i][0]['permittedValues'].split(',').includes(inputValue))) { // see if the value is in the permitted values
                                                 res.status(400).json(ErrorHelper(`${fieldDefinition}${message.dataMessage.CHARFIELD}${result[i][0]['permittedValues']}`));
                                                 return false;
                                             }
                                             break;
-                                        case 1: //'I':
+                                        case 1: // 'I':
                                             if (inputValue !== '' && !(parseInt(inputValue) === parseFloat(inputValue))) {
                                                 res.status(400).json(ErrorHelper(`${message.dataMessage.INTEGERFIELD}${fieldDefinition}`));
                                                 return false;
                                             }
                                             break;
-                                        case 2: //'F':
+                                        case 2: // 'F':
                                             if (inputValue !== '' && !(parseFloat(inputValue).toString() === inputValue.toString())) {
                                                 res.status(400).json(ErrorHelper(`${message.dataMessage.NUMBERFIELD}${fieldDefinition}`));
                                                 return false;
                                             }
                                             break;
-                                        case 6: //'D':
+                                        case 6: // 'D':
                                             time = moment(inputValue, moment.ISO_8601);
                                             if (inputValue !== '' && !time.isValid()) {
                                                 const msg = (time.invalidAt() === undefined || time.invalidAt() < 0) ? message.userError.INVALIDDATE : message.dateError[time.invalidAt()];
@@ -218,7 +218,8 @@ class DataController {
                         return false;
                     });
             }
-        } else {
+        }
+ else {
             res.status(404).json(ErrorHelper(message.userError.WRONGPATH));
         }
     }

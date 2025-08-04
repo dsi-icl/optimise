@@ -42,7 +42,6 @@ const browser = detect();
     whoami: () => dispatch(whoami())
 }))
 class App extends Component {
-
     constructor(...args) {
         super(...args);
         let state = {
@@ -89,7 +88,6 @@ class App extends Component {
     }
 }
 
-
 function mapDispatchToProps(dispatch) {
     return {
         getVisitFieldsCall: () => dispatch(getVisitFieldsCall()),
@@ -117,9 +115,7 @@ function mapDispatchToProps(dispatch) {
     fetching: state.availableFields.fetching
 }), mapDispatchToProps)
 class LoadingFields extends Component {
-
     componentDidMount() {
-
         this.props.getVisitFieldsCall();
         this.props.getTestFieldsCall();
         this.props.getClinicalEventTypesCall();
@@ -143,7 +139,8 @@ class LoadingFields extends Component {
     render() {
         if (this.props.fetching) {
             return <CenterSpinner />;
-        } else {
+        }
+        else {
             return (
                 <>
                     <MenuBar />

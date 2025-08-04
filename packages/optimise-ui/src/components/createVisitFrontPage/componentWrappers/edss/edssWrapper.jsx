@@ -12,22 +12,21 @@ export class EDSSWrapper extends Component {
         const { yesOrNoQuestion } = this.props;
         return <Switch>
             <Route
-                path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/yes_or_no'
-                render={({ match, location }) => <YesOrNo match={match} location={location} questionString={yesOrNoQuestion}/>}
+                path="/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/yes_or_no"
+                render={({ match, location }) => <YesOrNo match={match} location={location} questionString={yesOrNoQuestion} />}
             />
             <Route
-                path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage'
+                path="/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage"
                 render={({ match, location }) =>
                     <>
                         <div className={style.page}>
                             <div className={scaffold_style.padding_div}>
-                                <EDSSPage childRef={component => { this.form = component; }} match={match} location={location} renderedInFrontPage={true} override_style={override_style}/>
+                                <EDSSPage childRef={(component) => { this.form = component; }} match={match} location={location} renderedInFrontPage={true} override_style={override_style} />
                             </div>
                         </div>
-                        <FrontPageNavigationButton onClickNext={(ev) => { this.form._handleSubmit(ev); this.forceUpdate(); }} formSaved={() => this.form.state.saved} match={match} location={location}/>
-                    </>
-                }
+                        <FrontPageNavigationButton onClickNext={(ev) => { this.form._handleSubmit(ev); this.forceUpdate(); }} formSaved={() => this.form.state.saved} match={match} location={location} />
+                    </>}
             />
-        </Switch>;
+               </Switch>;
     }
 }

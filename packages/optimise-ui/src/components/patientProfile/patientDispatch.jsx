@@ -8,10 +8,10 @@ import { connect } from 'react-redux';
 class PatientDispatch extends Component {
     render() {
         if (this.props.currentPatient === undefined || this.props.currentPatient === null)
-            return <Redirect to='/searchPatient' />;
+            return <Redirect to="/searchPatient" />;
         else
             return <Redirect to={`/patientProfile/${this.props.currentPatient}`} />;
     }
 }
 
-export {PatientDispatch};
+export { PatientDispatch };

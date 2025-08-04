@@ -37,7 +37,8 @@ parser.on('readable', () => {
         if (level > tmpLevel) {
             tmpParent.push(lastNode.id);
             tmpLevel = level;
-        } else if (level < tmpLevel) {
+        }
+ else if (level < tmpLevel) {
             for (let i = 0; i < tmpLevel - level; i++) {
                 tmpParent.pop();
             }

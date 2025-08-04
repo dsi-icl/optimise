@@ -6,12 +6,11 @@ if (process.platform !== 'win32') {
 
 try {
     const fs = require('fs-extra');
-    const packageInfo = JSON.parse(fs.readFileSync('package.json'));
+    const packageInfo = JSON.parse(fs.readFileSync('package.json').toString());
 
     packageInfo.version = '0.0.1';
 
     fs.writeFile('package.json', JSON.stringify(packageInfo, null, 4), (err) => {
-
         if (err) {
             console.error('\nFile package.json could not overwritten');
             process.exit(1);
@@ -62,9 +61,9 @@ try {
             console.error(`Child process had an error ${error}`);
             process.exit(1);
         });
-
     });
-} catch (e) {
+}
+catch (e) {
     console.error('Update test failed', e);
     process.exit(1);
 }

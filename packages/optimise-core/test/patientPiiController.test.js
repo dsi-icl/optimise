@@ -203,7 +203,6 @@ describe('Create PII controller test', () => {
                 return true;
             })
     );
-
 });
 
 describe('Fetching PII', () => {
@@ -373,5 +372,4 @@ describe('Delete PII test suite', () => {
                 expect(body.state).toBe(1);
                 return true;
             }));
-
 });

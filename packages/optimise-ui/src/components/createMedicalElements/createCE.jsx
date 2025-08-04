@@ -82,7 +82,6 @@ class CreateCE extends Component {
         };
     }
 
-
     _handleSubmitClick(ev) {
         ev.preventDefault();
         if (this.state.lastSubmit && (new Date()).getTime() - this.state.lastSubmit < 500 ? true : false)
@@ -109,7 +108,7 @@ class CreateCE extends Component {
         }
         const requestBody = this._formatRequestBody();
         const { patientId, visitId, currentPage } = this.props.match.params;
-        requestBody.toFormat = this.props.renderedInFrontPage ? (ceId) => `/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${currentPage}/data/${ceId}${this.props.location.search}` : () => `/patientProfile/${this.props.match.params.patientId}`;
+        requestBody.toFormat = this.props.renderedInFrontPage ? ceId => `/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${currentPage}/data/${ceId}${this.props.location.search}` : () => `/patientProfile/${this.props.match.params.patientId}`;
 
         this.setState({
             lastSubmit: (new Date()).getTime(),
@@ -135,30 +134,52 @@ class CreateCE extends Component {
                         <BackButton to={`/patientProfile/${params.patientId}`} />
                     </div>
                     <div className={_style.panel}>
-                        <label htmlFor=''>Date of occurence:</label><br /><PickDate startDate={this.state.startDate} handleChange={this._handleDateChange} /><br />
-                        <label htmlFor='noEndDate'>The event is ongoing: </label><input type='checkbox' name='noEndDate' onChange={this._handleToggleEndDate} checked={this.state.noEndDate} /><br />
-                        {this.state.noEndDate ? null : (<><label htmlFor='endDate'>End date: </label><PickDate startDate={this.state.endDate ? this.state.endDate : moment()} handleChange={this._handleEndDateChange} /><br /></>)}<br />
-                        <label className={ fixedCeTypes && fixedCeTypes.length === 1 ? _style.test_type_hidden : ''} htmlFor='event'>What type of event is it?</label><br />
-                        <select className={ fixedCeTypes && fixedCeTypes.length === 1 ? _style.test_type_hidden : ''} name='event' value={this.state.ceType} onChange={this._handleTypeChange} autoComplete='off'>
-                            { fixedCeTypes && fixedCeTypes.length === 1 ? null : <option value='unselected'></option> }
-                            { !fixedCeTypes
-                                ?
-                                <>{this.props.types.map(type => <option key={type.id} value={type.id}>{type.name}</option>)}</>
-                                :
-                                <>{this.props.types.filter(type => fixedCeTypes.includes(parseInt(type.id))).map(type => <option key={type.id} value={type.id}>{type.name}</option>)}</>
-                            }
-                        </select> <br /><br />
-                        <label htmlFor='meddra'>MedDRA:</label><br />
-                        <MeddraPicker key={params.patientId} value={this.state.meddra} onChange={this._handleMedDRAChange} /><br /><br />
-                        {this.state.error ? <><div className={style.error}>{this.state.error}</div><br /></> : null}
+                        <label htmlFor="">Date of occurence:</label>
+                        <br />
+                        <PickDate startDate={this.state.startDate} handleChange={this._handleDateChange} />
+                        <br />
+                        <label htmlFor="noEndDate">The event is ongoing: </label>
+                        <input type="checkbox" name="noEndDate" onChange={this._handleToggleEndDate} checked={this.state.noEndDate} />
+                        <br />
+                        {this.state.noEndDate
+                            ? null
+                            : (<>
+                                <label htmlFor="endDate">End date: </label>
+                                <PickDate startDate={this.state.endDate ? this.state.endDate : moment()} handleChange={this._handleEndDateChange} />
+                                <br />
+                               </>)}
+                        <br />
+                        <label className={fixedCeTypes && fixedCeTypes.length === 1 ? _style.test_type_hidden : ''} htmlFor="event">What type of event is it?</label>
+                        <br />
+                        <select className={fixedCeTypes && fixedCeTypes.length === 1 ? _style.test_type_hidden : ''} name="event" value={this.state.ceType} onChange={this._handleTypeChange} autoComplete="off">
+                            {fixedCeTypes && fixedCeTypes.length === 1 ? null : <option value="unselected"></option>}
+                            {!fixedCeTypes
+                                ? <>{this.props.types.map(type => <option key={type.id} value={type.id}>{type.name}</option>)}</>
+                                : <>{this.props.types.filter(type => fixedCeTypes.includes(parseInt(type.id))).map(type => <option key={type.id} value={type.id}>{type.name}</option>)}</>}
+                        </select>
+                        {' '}
+                        <br />
+                        <br />
+                        <label htmlFor="meddra">MedDRA:</label>
+                        <br />
+                        <MeddraPicker key={params.patientId} value={this.state.meddra} onChange={this._handleMedDRAChange} />
+                        <br />
+                        <br />
+                        {this.state.error
+                            ? <>
+                                <div className={style.error}>{this.state.error}</div>
+                                <br />
+                              </>
+                            : null}
                         <button onClick={this._handleSubmitClick}>Submit</button>
                     </div>
                 </>
             );
-        } else {
+        }
+        else {
             return null;
         }
     }
 }
 
-export {CreateCE};
+export { CreateCE };

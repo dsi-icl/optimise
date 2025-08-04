@@ -1,4 +1,4 @@
-//External node module imports
+// External node module imports
 import express from 'express';
 import expressSession from 'express-session';
 import knexSessionConnect from 'connect-session-knex';
@@ -71,10 +71,8 @@ class OptimiseServer {
     start() {
         const _this = this;
         return new Promise((resolve, reject) => {
-
             // Operate database migration if necessary
             migrate().then(() => {
-
                 // Adding API documentation
                 _this.app.use('/documentation', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
@@ -95,7 +93,7 @@ class OptimiseServer {
                 _this.app.use(passport.initialize());
                 _this.app.use(passport.session());
 
-                //Passport session serialize and deserialize
+                // Passport session serialize and deserialize
                 passport.serializeUser(UserController.serializeUser);
                 passport.deserializeUser(UserController.deserializeUser);
 
@@ -129,7 +127,8 @@ class OptimiseServer {
                             // Handle CSRF token errors here
                             res.status(403);
                             res.json(ErrorHelper('Form tempered with'));
-                        } else {
+                        }
+ else {
                             next(error);
                         }
                     }
@@ -168,7 +167,6 @@ class OptimiseServer {
 
                 // Return the Express application
                 return resolve(_this.app);
-
             }).catch(err => reject(err));
         });
     }
@@ -182,7 +180,8 @@ class OptimiseServer {
     stop() {
         try {
             return dbcon().destroy();
-        } catch (__unused__exception) {
+        }
+ catch (__unused__exception) {
             return Promise.resolve();
         }
     }
@@ -192,13 +191,11 @@ class OptimiseServer {
      * @desc Initialize the routes accessible prior CSRF protection
      */
     setupNoCSRFPoints() {
-
         // Log the user in
         this.app.route('/users/login').post(UserController.loginUser(this.config.remoteControlEndPoint));
 
         // Log the user out
         this.app.route('/users/logout').post(UserController.logoutUser);
-
     }
 
     /**
@@ -206,14 +203,12 @@ class OptimiseServer {
      * @desc Initialize the current ID routes
      */
     setupIDProbe() {
-
-        //Passport session serialize and deserialize
+        // Passport session serialize and deserialize
         passport.serializeUser(UserController.serializeUser);
         passport.deserializeUser(UserController.deserializeUser);
 
         this.app.route('/whoami')
-            .get(UserController.whoAmI(this.config.remoteControlEndPoint)); //GET current session user
-
+            .get(UserController.whoAmI(this.config.remoteControlEndPoint)); // GET current session user
     }
 
     /**
@@ -221,7 +216,6 @@ class OptimiseServer {
      * @desc Initialize the users related routes
      */
     setupUsers() {
-
         // Interacts with the user in the DB
         // (POST : create / DELETE : delete / PUT : modify)
         // Real path is /users

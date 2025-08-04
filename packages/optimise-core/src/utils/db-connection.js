@@ -13,7 +13,7 @@ export default () => {
                 },
                 pool: {
                     afterCreate: (conn, cb) => {
-                        conn.run('PRAGMA foreign_keys = ON', cb);      ///set timezone ="UTC" ????
+                        conn.run('PRAGMA foreign_keys = ON', cb); /// set timezone ="UTC" ????
                     },
                     min: 0,
                     max: 1,
@@ -24,10 +24,10 @@ export default () => {
                     destroyTimeoutMillis: 60 * 1000 * 5,
                     acquireTimeoutMillis: 60 * 1000 * 5
                 },
-                useNullAsDefault: true,
-                multipleStatements: true
+                useNullAsDefault: true
             });
-        } catch (e) {
+        }
+        catch (__unusedError) {
             process.stderr.write('Knex connection init issue\n');
         }
     return connection;

@@ -13,7 +13,7 @@ import style from './createPatient.module.css';
     demofields: state.availableFields.demoFields[0],
     patientId: state.createPatient.patientId
 }))
-class CreatePatient extends Component {    //get these props from state: this.props.visitFields, this.props.patientId
+class CreatePatient extends Component { // get these props from state: this.props.visitFields, this.props.patientId
     constructor(props) {
         super(props);
         this.state = {
@@ -165,7 +165,6 @@ class CreatePatient extends Component {    //get these props from state: this.pr
             store.dispatch(createPatientCall(body));
             this.setState({ dispatched: true });
         });
-
     }
 
     render() {
@@ -191,77 +190,164 @@ class CreatePatient extends Component {    //get these props from state: this.pr
                 <>
                     <div className={style.ariane}>
                         <h2>+ New Patient Profile</h2>
-                        <BackButton to={'/searchPatient'} />
+                        <BackButton to="/searchPatient" />
                     </div>
                     <div className={style.panel}>
                         <form onSubmit={this._handleSubmit}>
-                            <label htmlFor='aliasId'>Patient ID:</label> <br /> <input value={this.state.aliasId} name='aliasId' onChange={this._handleFreeTextChange} autoComplete='off' /><br /><br />
-                            <h4>Personal information</h4><br />
-                            <label htmlFor='givenName'>Given name:</label><br /> <input value={this.state.givenName} name='givenName' onChange={this._handleFreeTextChange} autoComplete='off' /><br /><br />
-                            <label htmlFor='surname'>Surname:</label><br /> <input value={this.state.surname} name='surname' onChange={this._handleFreeTextChange} autoComplete='off' /><br /><br />
-                            <label htmlFor='address'>Full Address:</label><br /><input value={this.state.address} name='address' onChange={this._handleFreeTextChange} autoComplete='off' /><br /><br />
-                            <label htmlFor='postcode'>Postcode:</label><br /> <input value={this.state.postcode} name='postcode' onChange={this._handleFreeTextChange} autoComplete='off' /><br /><br />
+                            <label htmlFor="aliasId">Patient ID:</label>
+                            {' '}
                             <br />
-                            <h4>Consent</h4><br />
-                            <label htmlFor='showConsentDatePicker'>Does the patient give consent for sharing:</label><br />
-                            <select name='showConsentDatePicker' value={this.state.showConsentDatePicker} onChange={this._handleConsentChange} autoComplete='off'>
-                                <option value='Y'>Yes</option>
-                                <option value='N'>No</option>
-                            </select><br /><br />
+                            {' '}
+                            <input value={this.state.aliasId} name="aliasId" onChange={this._handleFreeTextChange} autoComplete="off" />
+                            <br />
+                            <br />
+                            <h4>Personal information</h4>
+                            <br />
+                            <label htmlFor="givenName">Given name:</label>
+                            <br />
+                            {' '}
+                            <input value={this.state.givenName} name="givenName" onChange={this._handleFreeTextChange} autoComplete="off" />
+                            <br />
+                            <br />
+                            <label htmlFor="surname">Surname:</label>
+                            <br />
+                            {' '}
+                            <input value={this.state.surname} name="surname" onChange={this._handleFreeTextChange} autoComplete="off" />
+                            <br />
+                            <br />
+                            <label htmlFor="address">Full Address:</label>
+                            <br />
+                            <input value={this.state.address} name="address" onChange={this._handleFreeTextChange} autoComplete="off" />
+                            <br />
+                            <br />
+                            <label htmlFor="postcode">Postcode:</label>
+                            <br />
+                            {' '}
+                            <input value={this.state.postcode} name="postcode" onChange={this._handleFreeTextChange} autoComplete="off" />
+                            <br />
+                            <br />
+                            <br />
+                            <h4>Consent</h4>
+                            <br />
+                            <label htmlFor="showConsentDatePicker">Does the patient give consent for sharing:</label>
+                            <br />
+                            <select name="showConsentDatePicker" value={this.state.showConsentDatePicker} onChange={this._handleConsentChange} autoComplete="off">
+                                <option value="Y">Yes</option>
+                                <option value="N">No</option>
+                            </select>
+                            <br />
+                            <br />
                             {
-                                this.state.showConsentDatePicker === 'Y' ?
-                                    <>
+                                this.state.showConsentDatePicker === 'Y'
+                                    ? <>
                                         <label>Consent date:</label>
-                                        <PickDate startDate={this.state.optimiseConsentDate} handleChange={this._handleConsentDateChange} /> <br /><br />
-                                    </>
-                                    :
-                                    null
-                            }
-                            <br />
-                            <h4>Basic demographic data</h4><br />
-                            <label>Date of birth:</label><br /> <PickDate startDate={this.state.DOB} handleChange={this._handleDobDateChange} /> <br /><br />
-                            <label htmlFor='gender'>Gender:</label><br /> <SelectField name='gender' value={this.state.gender} options={genders_sorted} handler={this._handleChange} /> <br /><br />
-                            {
-                                this.state.gender !== 0 && this.state.gender !== 1 ?
-                                    <>
-                                        <h4>*Pregnancy sub study consent</h4><br />
-                                        <label htmlFor='showPregnancyConsentDatePicker'>Does the patient give consent for sharing pregnancy data:</label><br />
-                                        <select name='showPregnancyConsentDatePicker' value={this.state.showPregnancyConsentDatePicker} onChange={this._handlePregnancyConsentChange} autoComplete='off'>
-                                            <option value='Y'>Yes</option>
-                                            <option value='N'>No</option>
-                                        </select><br /><br />
-                                        {
-                                            this.state.showPregnancyConsentDatePicker === 'Y' ?
-                                                <>
-                                                    <label>Consent date:</label>
-                                                    <PickDate startDate={this.state.pregnancyConsentDate} handleChange={this._handlePregnancyConsentDateChange} /> <br /><br />
-                                                </>
-                                                :
-                                                null
-                                        }
-                                    </>
+                                        <PickDate startDate={this.state.optimiseConsentDate} handleChange={this._handleConsentDateChange} />
+                                        {' '}
+                                        <br />
+                                        <br />
+                                      </>
                                     : null
                             }
-                            <label htmlFor='dominant_hand'>Dominant hand:</label><br /> <SelectField name='dominant_hand' value={this.state['dominant_hand']} options={dominant_hands_sorted} handler={this._handleChange} noEmpty={true} /> <br /><br />
-                            <label htmlFor='ethnicity'>Ethnicity:</label><br /> <SelectField name='ethnicity' value={this.state['ethnicity']} options={ethnicities} handler={this._handleChange} /> <br /><br />
-                            <label htmlFor='country_of_origin'>Country of origin:</label><br /> <SelectField name='country_of_origin' value={this.state['country_of_origin']} options={countries} handler={this._handleChange} /> <br /><br />
                             <br />
-                            <h4>Primary MS diagnosis</h4><br />
-                            <label>Diagnosis date:</label><br /> <PickDate startDate={this.state.diagnosisDate} handleChange={this._handleDiagnosisDateChange} /> <br /><br />
-                            <label htmlFor='diagnosis'>Diagnosis:</label><br /> <SelectField name='diagnosis' value={this.state['diagnosis']} options={this.props.diagnosesfields} handler={this._handleChange} /> <br /><br />
-                            {this.state.error ? <><div className={style.error}>{this.state.error}</div><br /></> : null}
+                            <h4>Basic demographic data</h4>
+                            <br />
+                            <label>Date of birth:</label>
+                            <br />
+                            {' '}
+                            <PickDate startDate={this.state.DOB} handleChange={this._handleDobDateChange} />
+                            {' '}
+                            <br />
+                            <br />
+                            <label htmlFor="gender">Gender:</label>
+                            <br />
+                            {' '}
+                            <SelectField name="gender" value={this.state.gender} options={genders_sorted} handler={this._handleChange} />
+                            {' '}
+                            <br />
+                            <br />
+                            {
+                                this.state.gender !== 0 && this.state.gender !== 1
+                                    ? <>
+                                        <h4>*Pregnancy sub study consent</h4>
+                                        <br />
+                                        <label htmlFor="showPregnancyConsentDatePicker">Does the patient give consent for sharing pregnancy data:</label>
+                                        <br />
+                                        <select name="showPregnancyConsentDatePicker" value={this.state.showPregnancyConsentDatePicker} onChange={this._handlePregnancyConsentChange} autoComplete="off">
+                                            <option value="Y">Yes</option>
+                                            <option value="N">No</option>
+                                        </select>
+                                        <br />
+                                        <br />
+                                        {
+                                            this.state.showPregnancyConsentDatePicker === 'Y'
+                                                ? <>
+                                                    <label>Consent date:</label>
+                                                    <PickDate startDate={this.state.pregnancyConsentDate} handleChange={this._handlePregnancyConsentDateChange} />
+                                                    {' '}
+                                                    <br />
+                                                    <br />
+                                                  </>
+                                                : null
+                                        }
+                                      </>
+                                    : null
+                            }
+                            <label htmlFor="dominant_hand">Dominant hand:</label>
+                            <br />
+                            {' '}
+                            <SelectField name="dominant_hand" value={this.state['dominant_hand']} options={dominant_hands_sorted} handler={this._handleChange} noEmpty={true} />
+                            {' '}
+                            <br />
+                            <br />
+                            <label htmlFor="ethnicity">Ethnicity:</label>
+                            <br />
+                            {' '}
+                            <SelectField name="ethnicity" value={this.state['ethnicity']} options={ethnicities} handler={this._handleChange} />
+                            {' '}
+                            <br />
+                            <br />
+                            <label htmlFor="country_of_origin">Country of origin:</label>
+                            <br />
+                            {' '}
+                            <SelectField name="country_of_origin" value={this.state['country_of_origin']} options={countries} handler={this._handleChange} />
+                            {' '}
+                            <br />
+                            <br />
+                            <br />
+                            <h4>Primary MS diagnosis</h4>
+                            <br />
+                            <label>Diagnosis date:</label>
+                            <br />
+                            {' '}
+                            <PickDate startDate={this.state.diagnosisDate} handleChange={this._handleDiagnosisDateChange} />
+                            {' '}
+                            <br />
+                            <br />
+                            <label htmlFor="diagnosis">Diagnosis:</label>
+                            <br />
+                            {' '}
+                            <SelectField name="diagnosis" value={this.state['diagnosis']} options={this.props.diagnosesfields} handler={this._handleChange} />
+                            {' '}
+                            <br />
+                            <br />
+                            {this.state.error
+                                ? <>
+                                    <div className={style.error}>{this.state.error}</div>
+                                    <br />
+                                  </>
+                                : null}
                             <button type="submit">Submit</button>
                         </form>
                         <br />
                     </div>
                 </>
             );
-        } else {
+        }
+        else {
             return <Redirect to={`/patientProfile/${this.state.aliasId}`} />;
         }
     }
 }
-
 
 /**
 * @prop {string} this.props.name - field name
@@ -272,7 +358,7 @@ class CreatePatient extends Component {    //get these props from state: this.pr
 export class SelectField extends Component {
     render() {
         return (
-            <select onChange={this.props.handler} name={this.props.name} value={this.props.value} autoComplete='off'>
+            <select onChange={this.props.handler} name={this.props.name} value={this.props.value} autoComplete="off">
                 {this.props.noEmpty !== true ? <option value={0}></option> : null}
                 {this.props.options.map(el => <option key={el.id} value={el.id}>{el.value}</option>)}
             </select>

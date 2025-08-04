@@ -17,7 +17,7 @@ from its date which css grid area it belongs to, by calculating the ratio and th
     data: state.patientProfile.data,
     visitFields: state.availableFields.visitFields
 }))
-class TimelineBox extends Component {   //unfinsihed
+class TimelineBox extends Component { // unfinsihed
     render() {
         const allVisitDates = this.props.data.visits.filter(el => el.type === 1).map(el => el.visitDate);
         const allTestDates = this.props.data.tests.map(el => el.actualOccurredDate || el.expectedOccurDate);
@@ -39,7 +39,7 @@ class TimelineBox extends Component {   //unfinsihed
 
         };
 
-        const mappingDateFunction = date => {
+        const mappingDateFunction = (date) => {
             if (date.length < 1)
                 return null;
             if (date.length === 1)
@@ -54,9 +54,7 @@ class TimelineBox extends Component {   //unfinsihed
             );
         };
 
-
-        const mappingVisitFunction = visit => {
-
+        const mappingVisitFunction = (visit) => {
             // const EDSSFieldID = this.props.visitFields.filter(field => field.idname === 'edss:expanded disability status scale - estimated total')[0].id;
             // const EDSSRecord = visit.data.filter(record => record.field === EDSSFieldID);
 
@@ -72,7 +70,7 @@ class TimelineBox extends Component {   //unfinsihed
                 let edssTotalId = this.props.visitFields.filter(el => el.idname === 'edss:expanded disability status scale - estimated total');
                 if (edssTotalId.length > 0) {
                     edssTotalId = edssTotalId[0].id;
-                    visit.data.filter(el => el.field === edssTotalId).forEach(e => {
+                    visit.data.filter(el => el.field === edssTotalId).forEach((e) => {
                         edssPoints = e.value;
                     });
                 }
@@ -96,8 +94,7 @@ class TimelineBox extends Component {   //unfinsihed
             );
         };
 
-        const mappingTestFunction = test => {
-
+        const mappingTestFunction = (test) => {
             const startDate = parseInt(test.actualOccurredDate || test.expectedOccurDate, 10);
             let start = Math.floor((startDate - allDates[0]) * 100 / maxDatePoint);
             let end = start + 1;
@@ -110,8 +107,7 @@ class TimelineBox extends Component {   //unfinsihed
             );
         };
 
-        const mappingMedFunction = med => {
-
+        const mappingMedFunction = (med) => {
             const startDate = parseInt(med.startDate, 10);
             const endDate = parseInt(med.terminatedDate || moment().valueOf(), 10);
             let start = Math.floor((startDate - allDates[0]) * 100 / maxDatePoint);
@@ -125,8 +121,7 @@ class TimelineBox extends Component {   //unfinsihed
             );
         };
 
-        const mappingCEFunction = CE => {
-
+        const mappingCEFunction = (CE) => {
             const startDate = parseInt(CE.dateStartDate, 10);
             const endDate = parseInt(CE.endDate || moment().valueOf(), 10);
             let start = Math.floor((startDate - allDates[0]) * 100 / maxDatePoint);
@@ -141,11 +136,14 @@ class TimelineBox extends Component {   //unfinsihed
         };
 
         return (
-            <PatientProfileSectionScaffold sectionName='Timeline' actions={(
-                <Link to={`/patientProfile/${this.props.data.patientId}/timeline`} title='Expand Timeline'>
-                    <span className={style.expandTimeline}><Icon symbol='expand' /></span>
-                </Link>
-            )}>
+            <PatientProfileSectionScaffold
+                sectionName="Timeline"
+                actions={(
+                    <Link to={`/patientProfile/${this.props.data.patientId}/timeline`} title="Expand Timeline">
+                        <span className={style.expandTimeline}><Icon symbol="expand" /></span>
+                    </Link>
+                )}
+            >
                 <div className={style.timelineBox} style={TimelineDynamicStyle}>
                     <div style={{ gridColumn: '1/2', gridRow: '1', overflow: 'hidden' }}>
                         Treatments
@@ -169,10 +167,13 @@ class TimelineBox extends Component {   //unfinsihed
                     {this.props.data.visits.filter(el => el.type === 1).map(mappingVisitFunction)}
                     {this.props.data.tests.map(mappingTestFunction)}
                     {this.props.data.clinicalEvents.map(mappingCEFunction)}
-                    <table style={{
-                        gridColumn: '3/103',
-                        gridRow: '11'
-                    }} className={style.miniTimelineDateLine}>
+                    <table
+                        style={{
+                            gridColumn: '3/103',
+                            gridRow: '11'
+                        }}
+                        className={style.miniTimelineDateLine}
+                    >
                         <tbody>
                             <tr>
                                 {mappingDateFunction(allDates)}
@@ -185,4 +186,4 @@ class TimelineBox extends Component {   //unfinsihed
     }
 }
 
-export {TimelineBox};
+export { TimelineBox };

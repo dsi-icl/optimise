@@ -16,7 +16,7 @@ class Patient {
         return new Promise((resolve, reject) => {
             if (deleted !== true)
                 whereObj.deleted = '-';
-            return getEntry('PATIENTS', whereObj, selectedObj).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error)));
+            return getEntry('PATIENTS', whereObj, selectedObj).then(result => resolve(result)).catch(error => reject(ErrorHelper(message.errorMessages.GETFAIL, error)));
         });
     }
 
@@ -27,13 +27,14 @@ class Patient {
      * @param {Boolean} deleted True to look for not deleted entries. False for also deleted ones.
      * @param {string} getOnly Filtering return.
      */
-    static getPatientProfile(whereObj, deleted, getOnly) {
+    static getPatientProfile(whereObj, deleted, getOnly = undefined) {
         return new Promise((resolve, reject) => Patient.getPatient(whereObj, { patientId: 'id', alias: 'aliasId', optimiseConsent: 'optimiseConsent', pregnancySubStudyConsent: 'pregnancySubStudyConsent', participation: 'participation' }, deleted)
             .then((Patientresult) => {
                 let patientId;
                 if (Patientresult.length === 1) {
                     patientId = Patientresult[0].patientId;
-                } else {
+                }
+                else {
                     return reject(ErrorHelper(message.errorMessages.NOTFOUND));
                 }
                 const promiseArr = [];
@@ -55,7 +56,7 @@ class Patient {
                 ];
 
                 if (getOnly && typeof getOnly === 'string')
-                    availableFunctions = getOnly.split(',').filter((func) => availableFunctions.includes(func));
+                    availableFunctions = getOnly.split(',').filter(func => availableFunctions.includes(func));
 
                 for (let i = 0; i < availableFunctions.length; i++) {
                     promiseArr.push(SelectorUtils[availableFunctions[i]](patientId, deleted));
@@ -72,18 +73,19 @@ class Patient {
                         responseObj[Object.keys(result[i])[0]] = result[i][Object.keys(result[i])[0]];
                     }
                     return resolve(responseObj);
-                }).catch((error) => reject(ErrorHelper(message.errorMessages.NOTFOUND, error)));
+                }).catch(error => reject(ErrorHelper(message.errorMessages.NOTFOUND, error)));
                 return true;
-            }).catch((error) => reject(ErrorHelper(message.errorMessages.NOTFOUND, error))));
+            }).catch(error => reject(ErrorHelper(message.errorMessages.NOTFOUND, error))));
     }
 
     /**
      * @description Search a patient from a 'like' query.
      * @returns Promise that contains the patient in the success callback and the error stack in the error callback
-     * @param {string} query The aliasId of the patient seeking for
+     * @param {string} queryfield The field to search in
+     * @param {string} queryvalue The value to search for
      */
     static searchPatients(queryfield, queryvalue) {
-        return new Promise((resolve, reject) => searchEntry(queryfield, queryvalue).then((success) => resolve(success)).catch((error) => reject(ErrorHelper(message.errorMessages.SEARCHFAIL, error))));
+        return new Promise((resolve, reject) => searchEntry(queryfield, queryvalue).then(success => resolve(success)).catch(error => reject(ErrorHelper(message.errorMessages.SEARCHFAIL, error))));
     }
 
     /**
@@ -94,17 +96,17 @@ class Patient {
         return new Promise((resolve, reject) => {
             const entryObj = Object.assign({}, patientModel, patient);
             entryObj.uuid = uuid();
-            return createEntry('PATIENTS', entryObj).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.CREATIONFAIL, error)));
+            return createEntry('PATIENTS', entryObj).then(result => resolve(result)).catch(error => reject(ErrorHelper(message.errorMessages.CREATIONFAIL, error)));
         });
     }
 
     /**
      * @description Update a new patient
      * @param {*} user Information about the user
-     * @param {*} patient The new created patient
+     * @param {*} patientObj The new created patient
      */
     static updatePatient(user, patientObj) {
-        return new Promise((resolve, reject) => updateEntry('PATIENTS', user, '*', { id: patientObj.id }, patientObj).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.CREATIONFAIL, error))));
+        return new Promise((resolve, reject) => updateEntry('PATIENTS', user, '*', { id: patientObj.id }, patientObj).then(result => resolve(result)).catch(error => reject(ErrorHelper(message.errorMessages.CREATIONFAIL, error))));
     }
 
     /**
@@ -114,7 +116,7 @@ class Patient {
      * @param {*} idObj ID of the entry that is going to be deleted
      */
     static deletePatient(user, idObj) {
-        return new Promise((resolve, reject) => deleteEntry('PATIENTS', user, idObj).then((success) => resolve(success)).catch((error) => reject(ErrorHelper(message.errorMessages.DELETEFAIL, error))));
+        return new Promise((resolve, reject) => deleteEntry('PATIENTS', user, idObj).then(success => resolve(success)).catch(error => reject(ErrorHelper(message.errorMessages.DELETEFAIL, error))));
     }
 }
 

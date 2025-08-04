@@ -6,8 +6,7 @@ import { getEntry, eraseEntry } from '../utils/controller-utils';
 import formatToJSON from '../utils/format-response';
 
 class PatientController {
-
-    static searchPatients({ query }, res) {  //get all list of patient if no query string; get similar if querystring is provided
+    static searchPatients({ query }, res) { // get all list of patient if no query string; get similar if querystring is provided
         let queryfield = '';
         let queryvalue = '';
         if (Object.keys(query).length > 2) {
@@ -42,7 +41,7 @@ class PatientController {
             return false;
         }
         if (typeof body.aliasId !== 'string' || (typeof body.optimiseConsent !== 'string' && body.optimiseConsent !== null)
-            || (typeof body.pregnancySubStudyConsent !== 'string' && body.pregnancySubStudyConsent !== null)) {
+          || (typeof body.pregnancySubStudyConsent !== 'string' && body.pregnancySubStudyConsent !== null)) {
             res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
             return false;
         }
@@ -85,10 +84,12 @@ class PatientController {
                 res.status(404).json(ErrorHelper(message.errorMessages.NOTFOUND, error));
                 return false;
             });
-        } else if (user.adminPriv !== 1) {
+        }
+ else if (user.adminPriv !== 1) {
             res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
             return false;
-        } else {
+        }
+ else {
             res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
             return false;
         }
@@ -97,14 +98,15 @@ class PatientController {
     static getPatientProfileById({ params, body }, res) {
         if (params.hasOwnProperty('patientId')) {
             return PatientCore.getPatientProfile({ aliasId: params.patientId }, false, body.getOnly)
-                .then(result => {
+                .then((result) => {
                     res.status(200).json(result);
                     return true;
-                }, error => {
+                }, (error) => {
                     res.status(404).json(ErrorHelper(message.errorMessages.NOTFOUND, error));
                     return false;
                 });
-        } else {
+        }
+ else {
             res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
             return false;
         }
@@ -133,7 +135,7 @@ class PatientController {
 
             // Erasing log entries referencing the user
             return PatientCore.getPatientProfile({ id: patientId }, false)
-                .then(result => {
+                .then((result) => {
                     const promiseContainer = [];
                     promiseContainer.push(ActionCore.erasePatients(result.id, result.patientId, undefined));
                     if (result.visits.length >= 1)
@@ -168,9 +170,9 @@ class PatientController {
                         for (let i = 0; i < result.pregnancy.length; i++)
                             promiseContainer.push(ActionCore.eraseIdOnRoute('/demographics/Pregnancy', result.pregnancy[i].id));
                     const promises = Promise.all(promiseContainer);
-                    return promises.then(subResult => {
+                    return promises.then((subResult) => {
                         if (subResult === 0 && process.env.NODE_ENV !== 'production')
-                            console.error('No logs were found corresponding to the patient. Please check the LOG_ACTIONS table.'); // eslint-disable-line no-console
+                            console.error('No logs were found corresponding to the patient. Please check the LOG_ACTIONS table.');
                         return eraseEntry('PATIENTS', { id: patientId }).then(() => {
                             res.status(200).json({ success: true, message: 'Erasure completed. Check for any data retreivable if needed.' });
                             return true;
@@ -178,9 +180,9 @@ class PatientController {
                             res.status(400).json(ErrorHelper(message.errorMessages.GETFAIL, error));
                             return false;
                         });
-                    }, subError => {
+                    }, (subError) => {
                         if (process.env.NODE_ENV !== 'production') {
-                            console.error(JSON.stringify(ErrorHelper('An error occured while erasing logs.', subError))); // eslint-disable-line no-console
+                            console.error(JSON.stringify(ErrorHelper('An error occured while erasing logs.', subError)));
                         }
                         return eraseEntry('PATIENTS', { id: patientId }).then(() => {
                             res.status(200).json({ success: true, message: 'Erasure completed. Check for any data retreivable if needed.' });

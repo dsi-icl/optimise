@@ -8,7 +8,6 @@ import WebSocket from 'ws';
 const email_reg = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 class UserController {
-
     /**
      * @fn serializeUser
      * @desc Called by session middleware to simplify user model
@@ -38,7 +37,7 @@ class UserController {
             if (user.length > 0)
                 return [null, user[0]];
             return [`Failed to retreive the user for ID ${id}`, null];
-        }).catch((error) => [`Session broke: ${error}`, null]), (__unused__error, [message, user]) => {
+        }).catch(error => [`Session broke: ${error}`, null]), (__unused__error, [message, user]) => {
             done(message, user);
         });
     }
@@ -51,7 +50,8 @@ class UserController {
         let queryUsername;
         if (!query.hasOwnProperty('username')) {
             queryUsername = '';
-        } else {
+        }
+ else {
             queryUsername = query.username;
         }
         queryUsername = `%${queryUsername}%`;
@@ -159,8 +159,8 @@ class UserController {
             res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
         }
-        if ((user.username !== body.username && user.adminPriv === 1) ||
-            user.username === body.username) {
+        if ((user.username !== body.username && user.adminPriv === 1)
+          || user.username === body.username) {
             userCore.deleteUser(user, { username: body.username }).then((result) => {
                 res.status(200).json(formatToJSON(result));
                 return true;
@@ -168,7 +168,8 @@ class UserController {
                 res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL, error));
                 return false;
             });
-        } else {
+        }
+ else {
             res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
             return;
         }
@@ -183,13 +184,16 @@ class UserController {
                 res.status(400).json(ErrorHelper(message.errorMessages.ERASEFAILED, error));
                 return false;
             });
-        } else if (user.adminPriv !== 1) {
+        }
+ else if (user.adminPriv !== 1) {
             res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
             return;
-        } else if (!body.hasOwnProperty('id')) {
+        }
+ else if (!body.hasOwnProperty('id')) {
             res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
-        } else {
+        }
+ else {
             res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }
@@ -230,12 +234,14 @@ class UserController {
             if (err) {
                 res.status(500);
                 res.json(ErrorHelper('Cannot logout of session', err));
-            } else {
+            }
+ else {
                 req.session.destroy((err) => {
                     if (err) {
                         res.status(500);
                         res.json(ErrorHelper('Cannot destroy session', err));
-                    } else {
+                    }
+ else {
                         res.status(200);
                         res.json({ message: 'Successfully logged out' });
                     }

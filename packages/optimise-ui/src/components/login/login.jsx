@@ -25,7 +25,6 @@ function mapDispatchToProps(dispatch) {
 @withRouter
 @connect(mapStateToProps, mapDispatchToProps)
 class Login extends Component {
-
     // Custom name for container
     static displayName = 'Login';
 
@@ -48,7 +47,6 @@ class Login extends Component {
     };
 
     render() {
-
         const { location, isAuthenticated, isProcessing, hasAttempted, error } = this.props;
         const { from } = location.state || { from: { pathname: '/' } };
 
@@ -63,15 +61,22 @@ class Login extends Component {
 
         return (
             <div className={style.page}>
-                <Helmet title='Login' />
+                <Helmet title="Login" />
                 <div className={style.box}>
                     <div className={style.title}>
-                        <span>optimise<strong>:</strong>ms</span>
+                        <span>
+                            optimise
+                            <strong>:</strong>
+                            ms
+                        </span>
                     </div>
                     <form className={style.form} onSubmit={this.login.bind(this)}>
-                        <input type='text' placeholder='Username' ref={this.usernameFieldRef} autoComplete='username' /><br />
-                        <input type='password' placeholder='Password' ref={this.passwordFieldRef} autoComplete='current-password' /><br />
-                        {isProcessing ? (<LoadBar />) : (<button type='submit'>Login</button>)}<br />
+                        <input type="text" placeholder="Username" ref={this.usernameFieldRef} autoComplete="username" />
+                        <br />
+                        <input type="password" placeholder="Password" ref={this.passwordFieldRef} autoComplete="current-password" />
+                        <br />
+                        {isProcessing ? (<LoadBar />) : (<button type="submit">Login</button>)}
+                        <br />
                         {hasAttempted && error !== undefined ? <div className={style.error}>{error}</div> : null}
                     </form>
                 </div>
@@ -81,4 +86,3 @@ class Login extends Component {
 }
 
 export default Login;
-

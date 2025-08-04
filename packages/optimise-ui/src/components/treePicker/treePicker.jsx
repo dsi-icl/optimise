@@ -7,19 +7,21 @@ const { Expandable } = renderers;
 const filterNodes = (filter, nodes) =>
     nodes.reduce((filtered, n) => {
         const { nodes: filteredChildren } = n.children ? filterNodes(filter, n.children) : { nodes: [] };
-        return !(filter(n) || filteredChildren.length) ? filtered : {
-            nodes: [
-                ...filtered.nodes,
-                {
-                    ...n,
-                    children: filteredChildren,
-                    state: {
-                        ...n.state,
-                        expanded: true
+        return !(filter(n) || filteredChildren.length)
+            ? filtered
+            : {
+                nodes: [
+                    ...filtered.nodes,
+                    {
+                        ...n,
+                        children: filteredChildren,
+                        state: {
+                            ...n.state,
+                            expanded: true
+                        }
                     }
-                }
-            ]
-        };
+                ]
+            };
     }, { nodes: [] });
 
 const nameMatchesSearchTerm = searchTerm => ({ name, code }) => {
@@ -46,7 +48,6 @@ const debounce = (func, wait, immediate) => {
 };
 
 export default class TreePicker extends Component {
-
     constructor(props) {
         super(props);
         const state = {
@@ -62,14 +63,16 @@ export default class TreePicker extends Component {
                 nodes: tree,
                 nodesOrigin: tree
             });
-        } else if (hash[value] === undefined || hash[value].deleted === '1') {
+        }
+        else if (hash[value] === undefined || hash[value].deleted === '1') {
             this.state = ({
                 ...state,
                 nodes: tree,
                 nodesOrigin: tree,
                 currentTermName: `${hash[value].name} (from previous codings)`
             });
-        } else {
+        }
+        else {
             let node = hash[value];
             let path = [];
             path.push(node.id);
@@ -79,7 +82,7 @@ export default class TreePicker extends Component {
             }
             const crawl = (nodeArray) => {
                 let target = path.pop();
-                return nodeArray.map(el => {
+                return nodeArray.map((el) => {
                     if (el.id !== target)
                         return el;
                     return {
@@ -103,11 +106,11 @@ export default class TreePicker extends Component {
         this.setFilterTerm = debounce(this.setFilterTerm, 500);
     }
 
-    handleChange = nodes => {
+    handleChange = (nodes) => {
         this.setState({ nodes });
     };
 
-    handleInputFocus = ev => {
+    handleInputFocus = (ev) => {
         ev.preventDefault();
         this.setState({
             opened: true
@@ -145,7 +148,7 @@ export default class TreePicker extends Component {
         this.setState(ps => ({ filterTerm: ps.filterText }));
     }
 
-    handleFilterTextChange = e => {
+    handleFilterTextChange = (e) => {
         const filterText = e.target.value;
         this.setState({ filterText });
         this.setFilterTerm();
@@ -168,13 +171,14 @@ export default class TreePicker extends Component {
                     );
                 else
                     return child;
-            } else
+            }
+            else
                 return child.props && child.props.children ? React.cloneElement(child, {}, this.searchHighlighter(child.props.children)) : child;
         });
     }
 
     render() {
-        const { formatter = (node) => node.name, hash } = this.props;
+        const { formatter = node => node.name, hash } = this.props;
         const { currentTermName, filterTerm, filterText, opened, nodes } = this.state;
         const { nodes: filteredNodes } = filterTerm !== '' ? filterNodes(nameMatchesSearchTerm(filterTerm), nodes) : { nodes };
 
@@ -191,22 +195,28 @@ export default class TreePicker extends Component {
                             <input ref={(input) => { this.searchField = input; }} value={filterText} onChange={this.handleFilterTextChange} placeholder="Search..." />
                         </div>
                         <div style={{ height: '40vh' }} className={wideStyle.tree}>
-                            <Tree nodes={filteredNodes}
+                            <Tree
+                                nodes={filteredNodes}
                                 extensions={{
                                     updateTypeHandlers: {
                                         SELECT: this.nodeSelectionHandler
                                     }
                                 }}
-                                onChange={this.handleChange}>
+                                onChange={this.handleChange}
+                            >
                                 {({ style, node, ...rest }) => {
                                     style.width = undefined;
                                     return (
                                         <div style={style} className={wideStyle.item}>
-                                            <Expandable node={node} {...rest} iconsClassNameMap={{
-                                                expanded: wideStyle.expandedNode,
-                                                collapsed: wideStyle.collapsedNode,
-                                                lastChild: wideStyle.lastChildNode
-                                            }}>
+                                            <Expandable
+                                                node={node}
+                                                {...rest}
+                                                iconsClassNameMap={{
+                                                    expanded: wideStyle.expandedNode,
+                                                    collapsed: wideStyle.collapsedNode,
+                                                    lastChild: wideStyle.lastChildNode
+                                                }}
+                                            >
                                                 <Selection node={node} {...rest}>
                                                     {this.searchHighlighter(formatter(node))}
                                                 </Selection>
@@ -224,12 +234,15 @@ export default class TreePicker extends Component {
 }
 
 const Selection = ({ node, children, onChange }) => (
-    <span className={wideStyle.noPadding} onClick={() => {
-        onChange({
-            node,
-            type: 'SELECT'
-        });
-    }} >
+    <span
+        className={wideStyle.noPadding}
+        onClick={() => {
+            onChange({
+                node,
+                type: 'SELECT'
+            });
+        }}
+    >
         {children}
-    </span >
+    </span>
 );

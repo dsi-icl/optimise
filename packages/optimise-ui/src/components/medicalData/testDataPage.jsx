@@ -8,14 +8,12 @@ import scaffold_style from '../createMedicalElements/medicalEvent.module.css';
 import style from './dataPage.module.css';
 import store from '../../redux/store';
 
-
 function mapStateToProps(state) {
     return {
         fields: state.availableFields,
         patientProfile: state.patientProfile
     };
 }
-
 
 /**
  * @class DataTemplate
@@ -27,7 +25,7 @@ function mapStateToProps(state) {
  * @prop {Function} this.props.submitData - from connect
  */
 
-/* this component serves as a sieve for the data and pass the relevant one to the form as props*/
+/* this component serves as a sieve for the data and pass the relevant one to the form as props */
 @withRouter
 @connect(mapStateToProps)
 class TestData extends Component {
@@ -71,7 +69,7 @@ class TestData extends Component {
 
         const update = {};
         const add = {};
-        Object.entries(references).forEach(el => {
+        Object.entries(references).forEach((el) => {
             const fieldId = el[0];
             const reference = el[1].ref;
             const type = el[1].type;
@@ -79,7 +77,8 @@ class TestData extends Component {
                 if (originalValues[fieldId] !== undefined) {
                     if (originalValues[fieldId] !== reference.current.value)
                         update[fieldId] = reference.current.value;
-                } else if (reference.current.value !== 'unselected') {
+                }
+                else if (reference.current.value !== 'unselected') {
                     add[fieldId] = reference.current.value;
                 }
             }
@@ -87,7 +86,8 @@ class TestData extends Component {
                 if (originalValues[fieldId] !== undefined) {
                     if (originalValues[fieldId] !== reference.current.value)
                         update[fieldId] = reference.current.value;
-                } else if (reference.current.value !== '') {
+                }
+                else if (reference.current.value !== '') {
                     add[fieldId] = reference.current.value;
                 }
             }
@@ -96,7 +96,8 @@ class TestData extends Component {
                 if (originalValues[fieldId] !== undefined) {
                     if (originalValues[fieldId] !== bool)
                         update[fieldId] = bool;
-                } else if (bool !== '0') {
+                }
+                else if (bool !== '0') {
                     add[fieldId] = bool;
                 }
             }
@@ -137,7 +138,7 @@ class TestData extends Component {
                     <div className={_style.panel}>
                         <i>We could not find the test that you are looking for.</i>
                     </div>
-                </>;
+                       </>;
             }
             const { fields } = this.props;
             const relevantFields = fields.testFields.filter(el => (el.referenceType === visitsMatched[0].type));
@@ -164,16 +165,22 @@ class TestData extends Component {
                                     return item;
                                 }))}
                             </div>
-                            { this.state.saved ? <><button disabled style={{ cursor: 'default', backgroundColor: 'green' }}>Successfully saved!</button><br/></> : null }
-                            <button type='submit'>Save</button>
+                            {this.state.saved
+                                ? <>
+                                    <button disabled style={{ cursor: 'default', backgroundColor: 'green' }}>Successfully saved!</button>
+                                    <br />
+                                  </>
+                                : null}
+                            <button type="submit">Save</button>
                         </form>
                     </div>
                 </>
             );
-        } else {
-            return <div><Icon symbol='loading' /></div>;
+        }
+        else {
+            return <div><Icon symbol="loading" /></div>;
         }
     }
 }
 
-export {TestData};
+export { TestData };

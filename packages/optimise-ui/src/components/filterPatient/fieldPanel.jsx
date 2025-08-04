@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
     fields: state.availableFields
 }))
 class Fields extends Component {
-
     constructor() {
         super();
         this._drag = this._drag.bind(this);
@@ -19,10 +18,10 @@ class Fields extends Component {
         const { visitFields } = this.props.fields;
         return (
             <div>
-                {visitFields.map(el => <div id={`field${el.id}`} draggable='true' onDragStart={this.drag} key={el.id}>{el.definition}</div>)}
+                {visitFields.map(el => <div id={`field${el.id}`} draggable="true" onDragStart={this.drag} key={el.id}>{el.definition}</div>)}
             </div>
         );
     }
 }
 
-export {Fields};
+export { Fields };

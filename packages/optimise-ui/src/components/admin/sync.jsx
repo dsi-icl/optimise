@@ -11,7 +11,6 @@ import style from './admin.module.css';
     syncNow: adminPass => dispatch(syncNowAPICall(adminPass))
 }))
 class Sync extends PureComponent {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -46,7 +45,8 @@ class Sync extends PureComponent {
         try {
             if (this.syncAddress.current.value !== '')
                 new URL(this.syncAddress.current.value);
-        } catch (e) {
+        }
+        catch (__unusedError) {
             this.setState({ error: 'Invalid Remote Host' });
             return;
         }
@@ -82,17 +82,39 @@ class Sync extends PureComponent {
 
         return (
             <>
-                <p>Optimise can connect to a central site to synchronise the content of your database.</p><br />
-                <label htmlFor='id'>Agent ID:</label><br /> <input name='id' type='text' readOnly value={id} autoComplete='off' autoCorrect='off' autoCapitalize='off' spellCheck='false' /><br /><br />
-                <label htmlFor='host'>Remote Host:</label><br /> <input name='host' type='text' ref={this.syncAddress} defaultValue={host} autoComplete='off' autoCorrect='off' autoCapitalize='off' spellCheck='false' /><br /><br />
-                <label htmlFor='key'>Validation Key:</label><br /> <input name='key' type='text' ref={this.syncKey} defaultValue={key} autoComplete='off' autoCorrect='off' autoCapitalize='off' spellCheck='false' /><br /><br />
-                {this.state.error ? <><div className={style.error}>{this.state.error}</div><br /></> : null}
-                <button onClick={this._handleSubmit} >Save Connection Information</button><br /><br />
-                <button onClick={this._handleSync} >Synchronize now</button>
+                <p>Optimise can connect to a central site to synchronise the content of your database.</p>
+                <br />
+                <label htmlFor="id">Agent ID:</label>
+                <br />
+                {' '}
+                <input name="id" type="text" readOnly value={id} autoComplete="off" autoCorrect="off" autoCapitalize="off" spellCheck="false" />
+                <br />
+                <br />
+                <label htmlFor="host">Remote Host:</label>
+                <br />
+                {' '}
+                <input name="host" type="text" ref={this.syncAddress} defaultValue={host} autoComplete="off" autoCorrect="off" autoCapitalize="off" spellCheck="false" />
+                <br />
+                <br />
+                <label htmlFor="key">Validation Key:</label>
+                <br />
+                {' '}
+                <input name="key" type="text" ref={this.syncKey} defaultValue={key} autoComplete="off" autoCorrect="off" autoCapitalize="off" spellCheck="false" />
+                <br />
+                <br />
+                {this.state.error
+                    ? <>
+                        <div className={style.error}>{this.state.error}</div>
+                        <br />
+                    </>
+                    : null}
+                <button onClick={this._handleSubmit}>Save Connection Information</button>
+                <br />
+                <br />
+                <button onClick={this._handleSync}>Synchronize now</button>
             </>
         );
-
     }
 }
 
-export { Sync};
+export { Sync };

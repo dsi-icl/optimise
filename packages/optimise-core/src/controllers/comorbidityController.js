@@ -49,9 +49,7 @@ class ComorbidityController {
         });
     }
 
-
     static editComorbidity({ body, user }, res) {
-
         if (body.hasOwnProperty('id') && typeof body.id === 'number') {
             const entryObj = Object.assign({}, body);
             if (typeof body.comorbidity !== 'number') {
@@ -65,10 +63,12 @@ class ComorbidityController {
                 res.status(400).json(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
                 return false;
             });
-        } else if (!body.hasOwnProperty('id')) {
+        }
+ else if (!body.hasOwnProperty('id')) {
             res.status(400).send(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
-        } else {
+        }
+ else {
             res.status(400).send(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }
@@ -83,7 +83,8 @@ class ComorbidityController {
                 res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL, error));
                 return false;
             });
-        } else {
+        }
+ else {
             res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }

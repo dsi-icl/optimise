@@ -3,7 +3,6 @@ import style from './userManual.module.css';
 import UserManualMDX from './userManualMenu.mdx';
 
 export default class UserManual extends Component {
-
     constructor() {
         super();
         this.state = {
@@ -35,8 +34,9 @@ export default class UserManual extends Component {
             <div className={`${style.panel} ${style.right}`}>
                 <UserManualMDX components={{
                     a: ({ href, children }) => <a href={href} className={hash === href ? style.active : ''}>{children}</a>
-                }} />
+                }}
+                />
             </div>
-        </>;
+               </>;
     }
 }

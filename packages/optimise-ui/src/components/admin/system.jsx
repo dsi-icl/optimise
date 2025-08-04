@@ -14,10 +14,22 @@ class SystemInfo extends PureComponent {
     render() {
         return (
             <>
-                This system relies on <pre className={style.packageName}>optimise-core:v{this.props.serverInfo.version}</pre> and <pre className={style.packageName}>optimise-ui:v{uiPackageInfo.version}</pre>
+                This system relies on
+                {' '}
+                <pre className={style.packageName}>
+                    optimise-core:v
+                    {this.props.serverInfo.version}
+                </pre>
+                {' '}
+                and
+                {' '}
+                <pre className={style.packageName}>
+                    optimise-ui:v
+                    {uiPackageInfo.version}
+                </pre>
             </>
         );
     }
 }
 
-export {SystemInfo};
+export { SystemInfo };

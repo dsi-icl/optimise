@@ -95,7 +95,7 @@ class EditPrimaryDiagnoses extends Component {
                     <form className={style.panel}>
                         {patientProfile.data.diagnosis
                             .sort((a, b) => parseInt(a.diagnosisDate) - parseInt(b.diagnosisDate))
-                            .map((el) =>
+                            .map(el =>
                                 <OneEditPrimaryDiagnoses
                                     key={Math.random()}
                                     data={el}
@@ -104,30 +104,47 @@ class EditPrimaryDiagnoses extends Component {
                                     patientId={patientProfile.data.patientId}
                                 />
                             )}
-                        {!this.state.addMore ?
-                            <>
+                        {!this.state.addMore
+                            ? <>
                                 <br />
                                 <button onClick={this._handleClickingAdd}>Add diagnoses</button>
-                            </>
-                            :
-                            <>
+                              </>
+                            : <>
                                 <div className={style.newInterruption}>
-                                    <label>Diagnosis date: </label><PickDate startDate={this.state.diagnosisDate} handleChange={this._handleStartDateChange} /><br /><br />
+                                    <label>Diagnosis date: </label>
+                                    <PickDate startDate={this.state.diagnosisDate} handleChange={this._handleStartDateChange} />
+                                    <br />
+                                    <br />
                                     <label>Diagnosis: </label>
                                     <select value={this.state.diagnosis} onChange={this._handleDiagnosisChange}>
-                                        <option value='unselected'></option>
+                                        <option value="unselected"></option>
                                         {diagnoses.map(el => <option key={el.id} value={el.id}>{el.value}</option>)}
-                                    </select><br /><br />
+                                    </select>
+                                    <br />
+                                    <br />
                                 </div>
-                                {this.state.error ? <><div className={style.error}> {this.state.error} </div><br /></> : null}
-                                <button onClick={this._handleSubmit}>Submit</button><br /><br />
-                                <button onClick={this._handleClickingAdd}>Cancel</button><br />
-                            </>}
+                                {this.state.error
+                                    ? <>
+                                        <div className={style.error}>
+                                            {' '}
+                                            {this.state.error}
+                                            {' '}
+                                        </div>
+                                        <br />
+                                      </>
+                                    : null}
+                                <button onClick={this._handleSubmit}>Submit</button>
+                                <br />
+                                <br />
+                                <button onClick={this._handleClickingAdd}>Cancel</button>
+                                <br />
+                              </>}
                     </form>
                 </>
             );
-        } else {
-            return <div><Icon symbol='loading' /></div>;
+        }
+        else {
+            return <div><Icon symbol="loading" /></div>;
         }
     }
 }
@@ -158,7 +175,7 @@ class OneEditPrimaryDiagnoses extends Component {
         store.dispatch(addAlert({ alert: 'Do you want to delete this diagnosis record?', handler: this._deleteFunction(this.props.data.id) }));
     };
 
-    _deleteFunction = id => {
+    _deleteFunction = (id) => {
         const that = this;
         return () => {
             const { patientId } = that.props;
@@ -172,7 +189,7 @@ class OneEditPrimaryDiagnoses extends Component {
         };
     };
 
-    _handleSubmit = ev => {
+    _handleSubmit = (ev) => {
         ev.preventDefault();
         if (this.state.lastSubmit && (new Date()).getTime() - this.state.lastSubmit < 500 ? true : false)
             return;
@@ -205,7 +222,7 @@ class OneEditPrimaryDiagnoses extends Component {
         });
     };
 
-    _handleEditClick = ev => {
+    _handleEditClick = (ev) => {
         ev.preventDefault();
         this.setState(prevState => ({
             editing: !prevState.editing,
@@ -213,14 +230,14 @@ class OneEditPrimaryDiagnoses extends Component {
         }));
     };
 
-    _handleStartDateChange = date => {
+    _handleStartDateChange = (date) => {
         this.setState({
             diagnosisDate: date,
             error: false
         });
     };
 
-    _handleDiagnosisChange = ev => {
+    _handleDiagnosisChange = (ev) => {
         this.setState({
             diagnosis: ev.target.value,
             error: false
@@ -232,31 +249,57 @@ class OneEditPrimaryDiagnoses extends Component {
         const { data, diagnoses } = this.props;
 
         return (
-            <div className={style.interruption} style={{
-                overflow: editing ? 'visible' : 'hidden'
-            }}>
+            <div
+                className={style.interruption}
+                style={{
+                    overflow: editing ? 'visible' : 'hidden'
+                }}
+            >
                 {
-                    editing ?
-                        <>
+                    editing
+                        ? <>
                             <div className={style.editInterruption}>
-                                <label>Diagnosis date: </label><PickDate startDate={diagnosisDate} handleChange={this._handleStartDateChange} /><br /><br />
+                                <label>Diagnosis date: </label>
+                                <PickDate startDate={diagnosisDate} handleChange={this._handleStartDateChange} />
+                                <br />
+                                <br />
                                 <label>Diagnosis: </label>
                                 <select onChange={this._handleDiagnosisChange} value={diagnosis}>
-                                    <option value='unselected'></option>
+                                    <option value="unselected"></option>
                                     {diagnoses.map(el => <option key={el.id} value={el.id}>{el.value}</option>)}
-                                </select><br /><br />
+                                </select>
+                                <br />
+                                <br />
                             </div>
-                            {this.state.error ? <><div className={style.error}> {this.state.error} </div><br /></> : null}
-                            <button onClick={this._handleSubmit}>Confirm change</button><br /><br />
+                            {this.state.error
+                                ? <>
+                                    <div className={style.error}>
+                                        {' '}
+                                        {this.state.error}
+                                        {' '}
+                                    </div>
+                                    <br />
+                                  </>
+                                : null}
+                            <button onClick={this._handleSubmit}>Confirm change</button>
+                            <br />
+                            <br />
                             <button onClick={this._handleEditClick}>Cancel</button>
-                        </>
-                        :
-                        <>
-                            <label>Diagnosis date: </label> {diagnosisDate_original._d.toDateString()} <br />
-                            <label>Diagnosis: </label> {diagnoses.filter(ele => ele.id === diagnosis_original)[0].value} <br />
+                          </>
+                        : <>
+                            <label>Diagnosis date: </label>
+                            {' '}
+                            {diagnosisDate_original._d.toDateString()}
+                            {' '}
+                            <br />
+                            <label>Diagnosis: </label>
+                            {' '}
+                            {diagnoses.filter(ele => ele.id === diagnosis_original)[0].value}
+                            {' '}
+                            <br />
                             <DeleteButton clickhandler={() => this._handleClickDelete(data)} />
-                            <span title='Edit' onClick={this._handleEditClick} className={style.dataEdit}><Icon symbol='edit' /></span>
-                        </>
+                            <span title="Edit" onClick={this._handleEditClick} className={style.dataEdit}><Icon symbol="edit" /></span>
+                          </>
                 }
             </div>
         );

@@ -21,13 +21,18 @@ export class RenderTestWrapper extends PureComponent {
             <p>{title}</p>
             <table className={override_style.treatment_table}>
                 <thead>
-                    <tr><th></th><th>Type</th><th>Test date</th><th></th></tr>
+                    <tr>
+                        <th></th>
+                        <th>Type</th>
+                        <th>Test date</th>
+                        <th></th>
+                    </tr>
                 </thead>
                 <tbody>
-                    {labtests.map(el => <Test key={el.id} data={el} renderedInFrontPage={true} match={match}/>)}
+                    {labtests.map(el => <Test key={el.id} data={el} renderedInFrontPage={true} match={match} />)}
                 </tbody>
             </table>
-        </>;
+               </>;
     }
 }
 
@@ -36,7 +41,7 @@ export class EditTestDataWrapper extends PureComponent {
         return (
             <>
                 <h3>Enter result:</h3>
-                <TestData match={this.props.match} override_style={override_style} location={this.props.location}/>
+                <TestData match={this.props.match} override_style={override_style} location={this.props.location} />
             </>
         );
     }
@@ -49,7 +54,7 @@ export class CreateTestWrapper extends Component {
         return (
             <>
                 <h3>{title}</h3>
-                <CreateTest match={match} location={location} fixedTestType={fixedTestType} override_style={override_style} renderedInFrontPage={true}/>
+                <CreateTest match={match} location={location} fixedTestType={fixedTestType} override_style={override_style} renderedInFrontPage={true} />
             </>
         );
     }
@@ -60,7 +65,7 @@ export class EditTestWrapper extends Component {
         const { match, location, title } = this.props;
         return <>
             <h3>{title}</h3>
-            <EditTest match={match} override_style={override_style} renderedInFrontPage={true} location={location}/>
-        </>;
+            <EditTest match={match} override_style={override_style} renderedInFrontPage={true} location={location} />
+               </>;
     }
 }

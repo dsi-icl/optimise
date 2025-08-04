@@ -34,7 +34,8 @@ class FrontPageNavigationButton extends Component {
         const index = this.props.location.pathname.indexOf('yes_or_no');
         if (index === -1) {
             return false;
-        } else {
+        }
+        else {
             return true;
         }
     }
@@ -53,32 +54,41 @@ class FrontPageNavigationButton extends Component {
             return <Redirect to={`/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${calcNextPage(currentPage)}${this._nextPageAnsweredYes(currentPage) ? '' : '/yes_or_no'}${searchString}`} />;
         }
 
-        const backButtonWithoutDiv =
-            <NavLink
+        const backButtonWithoutDiv
+            = <NavLink
                 to={`/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${calcLastPage(currentPage)}${this._lastPageAnsweredYes(currentPage) ? '' : '/yes_or_no'}${searchString}`}
-            >
-                <button><b>&lt;&lt;</b>Go back</button>
-            </NavLink>;
+              >
+                <button>
+                    <b>&lt;&lt;</b>
+                    Go back
+                </button>
+              </NavLink>;
 
         const backButton = <div>{backButtonWithoutDiv}</div>;
 
-
-        const nextButton = this._isAYesOrNoPage() && !this._isCompulsoryPage(currentPage) ?
-            <div>
-                <button disabled style={{ visibility: 'hidden' }}>Continue<b>&gt;&gt;</b></button>
-            </div>
-            :
-            (
-                onClickNext ?
-                    <div>
-                        <button onClick={onClickNext}>Save and continue<b>&gt;&gt;</b></button>
-                    </div>
-                    :
-                    <div>
+        const nextButton = this._isAYesOrNoPage() && !this._isCompulsoryPage(currentPage)
+            ? <div>
+                <button disabled style={{ visibility: 'hidden' }}>
+                    Continue
+                    <b>&gt;&gt;</b>
+                </button>
+              </div>
+            : (
+                onClickNext
+                    ? <div>
+                        <button onClick={onClickNext}>
+                            Save and continue
+                            <b>&gt;&gt;</b>
+                        </button>
+                      </div>
+                    : <div>
                         <NavLink to={`/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${calcNextPage(currentPage)}${this._nextPageAnsweredYes(currentPage) ? '' : '/yes_or_no'}${searchString}`}>
-                            <button onClick={onClickNext}>Continue<b>&gt;&gt;</b></button>
+                            <button onClick={onClickNext}>
+                                Continue
+                                <b>&gt;&gt;</b>
+                            </button>
                         </NavLink>
-                    </div>
+                      </div>
             );
 
         const firstPageButton = <div>
@@ -86,14 +96,16 @@ class FrontPageNavigationButton extends Component {
                 to={`/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${calcNextPage(currentPage)}${this._nextPageAnsweredYes(currentPage) ? '' : '/yes_or_no'}${searchString}`}
             >
                 <button>Start</button>
-            </NavLink></div>;
+            </NavLink>
+                                </div>;
 
         const finishButton = <div>
             <NavLink
                 to={`/patientProfile/${patientId}`}
             >
                 <button className={style.finish_button}>Finish</button>
-            </NavLink></div>;
+            </NavLink>
+                             </div>;
 
         const femaleConsentingPatient = pregnancySubStudyConsent && this.props.data.demographicData.gender !== 1;
 
@@ -101,20 +113,21 @@ class FrontPageNavigationButton extends Component {
             return backButtonWithoutDiv;
         }
 
-
         return (
             <div className={style.page_navigation_buttons}>
                 {currentPage === '0' ? firstPageButton : null}
-                {((currentPage === '10' && !femaleConsentingPatient) || (currentPage === '11' && femaleConsentingPatient)) ? <>{backButton}{finishButton}</> : null}
+                {((currentPage === '10' && !femaleConsentingPatient) || (currentPage === '11' && femaleConsentingPatient))
+                    ? <>
+                        {backButton}
+                        {finishButton}
+                      </>
+                    : null}
                 {(((currentPage !== '10' && !femaleConsentingPatient) || (currentPage !== '11' && femaleConsentingPatient)) && currentPage !== '0')
-                    ?
-                    <>
+                    ? <>
                         {backButton}
                         {nextButton}
-                    </>
-                    :
-                    null
-                }
+                      </>
+                    : null}
             </div>
         );
     }

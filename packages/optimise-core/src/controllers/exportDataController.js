@@ -9,9 +9,7 @@ import path from 'path';
 require('express-zip');
 
 class ExportDataController {
-
     static createFile(filename, content) {
-
         if (!fs.existsSync(global.config.exportGenerationFolder)) {
             fs.mkdirSync(global.config.exportGenerationFolder);
         }
@@ -26,19 +24,14 @@ class ExportDataController {
     }
 
     static createErrorFile(errorMessage) {
-
         return ExportDataController.createFile('error.txt', errorMessage);
-
     }
 
     static createNoDataFile() {
-
         return ExportDataController.createFile('noData.txt', message.userError.NODATAAVAILABLE);
-
     }
 
     static createCsvDataFile(result) {
-
         const fileName = `${result[0]}.csv`;
         const keys = Object.keys(result[1][0]);
         let tempResult = `${keys.join(',')}\n`;
@@ -54,15 +47,12 @@ class ExportDataController {
     }
 
     static createJsonDataFile(result) {
-
         const fileName = `${result[0]}.json`;
         const fileContents = Buffer.from(JSON.stringify(result[1]));
         return ExportDataController.createFile(fileName, fileContents);
-
     }
 
     static exportDatabase({ query }, res) {
-
         const isPatientMappings = query.patientMappings !== undefined;
         const isCDISC = query.cdisc !== undefined;
         let queryfield = '';
@@ -77,7 +67,8 @@ class ExportDataController {
                 .then(result => result.length !== undefined ? [ExportDataController.createJsonDataFile(['patientMappings', result]), ExportDataController.createCsvDataFile(['patientMappings', result])] : [result])
                 .then(filesArray => res.status(200).zip(filesArray, `${attachmentName}.zip`))
                 .catch(error => res.status(404).zip([ExportDataController.createErrorFile(message.errorMessages.NOTFOUND.concat(` ${error}`))], `${attachmentName}.zip`));
-        } else {
+        }
+ else {
             if (typeof query.field === 'string')
                 queryfield = query.field;
             else if (query.field !== undefined)
@@ -101,7 +92,6 @@ class ExportDataController {
                 .then(matrixResults => matrixResults.length !== 0 ? matrixResults : [ExportDataController.createNoDataFile()])
                 .then(filesArray => res.status(200).zip(filesArray, `${attachmentName}.zip`))
                 .catch(error => res.status(404).zip([ExportDataController.createErrorFile(message.errorMessages.NOTFOUND.concat(` ${error}`))], `${attachmentName}.zip`));
-
         }
     }
 
@@ -127,7 +117,7 @@ class ExportDataController {
         let globalMaxRelapses = 1;
         const globalMaxDiagnosis = 1;
 
-        const unwindEntries = tree => {
+        const unwindEntries = (tree) => {
             const line = {
                 lineNum: globalLineCount++,
                 subjid: tree.subjid,
@@ -205,7 +195,7 @@ class ExportDataController {
         };
 
         /* transform test from sql to csv */
-        const fetchAssociatedDataForTestandTransform = async data => {
+        const fetchAssociatedDataForTestandTransform = async (data) => {
             let entry;
             const associatedData = await dbcon()('TEST_DATA')
                 .select('TEST_DATA.value as value', 'AVAILABLE_FIELDS_TESTS.definition as definition')
@@ -235,11 +225,8 @@ class ExportDataController {
             return entry;
         };
 
-
-
         /* transform pregnancy entry from sql to csv */
-        const fetchAssociatedDataForPregnancyEntryandTransform = async data => {
-
+        const fetchAssociatedDataForPregnancyEntryandTransform = async (data) => {
             const associatedData = await dbcon()('PREGNANCY_ENTRY_DATA')
                 .select('PREGNANCY_ENTRY_DATA.value as value', 'AVAILABLE_FIELDS_PREGNANCY_ENTRY.definition as definition', 'VISITS.visitDate as date')
                 .leftJoin('AVAILABLE_FIELDS_PREGNANCY_ENTRY', 'AVAILABLE_FIELDS_PREGNANCY_ENTRY.id', 'PREGNANCY_ENTRY_DATA.field')
@@ -269,7 +256,7 @@ class ExportDataController {
         };
 
         /* transform ce from sql to csv */
-        const fetchAssociatedDataForCEandTransform = async data => {
+        const fetchAssociatedDataForCEandTransform = async (data) => {
             let entry;
             let typeMap;
             const associatedData = await dbcon()('CLINICAL_EVENTS_DATA').select('*').where('deleted', '-').where('clinicalEvent', data.id);
@@ -400,7 +387,7 @@ class ExportDataController {
                 .whereBetween(dbcon().raw('CAST(dateStartDate as integer)'), [lastVisitDate, thisVisitDate])
                 .andWhere('deleted', '-')
                 .whereIn('recordedDuringVisit', patientToVisitsMap[visit.patientId]);
-            /* type 1 = relapse, 2 = infection, 3 = opportunisitic infection, 4 = Death, 5 = SAE realted to treatment , 6 = other SAE*/
+            /* type 1 = relapse, 2 = infection, 3 = opportunisitic infection, 4 = Death, 5 = SAE realted to treatment , 6 = other SAE */
             const all_ce_grouped = {};
             for (const e of all_ce) {
                 if (all_ce_grouped[e.type] === undefined) {
@@ -480,14 +467,15 @@ class ExportDataController {
                     .select('PATIENTS.id', 'PATIENTS.uuid')
                     .whereIn('PATIENTS.id', withoutVisitPatients);
 
-                noVisitPatients.forEach(patient => {
+                noVisitPatients.forEach((patient) => {
                     data.push({
                         subjid: patient.id,
                         aliasId: patient.uuid,
                         diagnoses: diagnosisMap[patient.id]
                     });
                 });
-            } catch (e) {
+            }
+ catch (e) {
                 console.error(e);
             }
         }
@@ -503,7 +491,6 @@ class ExportDataController {
     }
 
     static getPatientDataCDISC(patientList) {
-
         const dataPromises = [];
         const STUDYID = 'optimise';
 
@@ -787,7 +774,7 @@ class ExportDataController {
                 DOMAIN: 'FA'
             }))]));
 
-        /*Pregnancy entry data*/
+        /* Pregnancy entry data */
         dataPromises.push(dbcon()('PREGNANCY_ENTRY_DATA')
             .select('PATIENTS.uuid as USUBJID', 'AVAILABLE_FIELDS_PREGNANCY_ENTRY.idname as PEID', 'PREGNANCY_ENTRY_DATA.value as PEDATA', 'VISITS.visitDate as VD')
             .leftOuterJoin('PREGNANCY_ENTRY', 'PREGNANCY_ENTRY.id', 'PREGNANCY_ENTRY_DATA.pregnancyEntry')

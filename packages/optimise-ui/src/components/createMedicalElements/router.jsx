@@ -8,10 +8,10 @@ export class CreateElementRouter extends Component {
     render() {
         return (
             <Switch>
-                <Route path='/patientProfile/:patientId/create/test' render={({ match }) => <CreateTest match={match} />} />
-                <Route path='/patientProfile/:patientId/create/clinicalEvent' render={({ match }) => <CreateCE match={match} />} />
-                <Route path='/patientProfile/:patientId/create/treatment' render={({ match }) => <CreateTreatment match={match} />} />
-                <Route path='/' component={() => null} />
+                <Route path="/patientProfile/:patientId/create/test" render={({ match }) => <CreateTest match={match} />} />
+                <Route path="/patientProfile/:patientId/create/clinicalEvent" render={({ match }) => <CreateCE match={match} />} />
+                <Route path="/patientProfile/:patientId/create/treatment" render={({ match }) => <CreateTreatment match={match} />} />
+                <Route path="/" component={() => null} />
             </Switch>
         );
     }

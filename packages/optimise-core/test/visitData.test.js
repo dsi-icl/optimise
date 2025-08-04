@@ -5,12 +5,12 @@ import { connectAdmin, connectUser, disconnectAgent } from './connection';
 const admin = request.agent(global.optimiseRouter);
 const user = request.agent(global.optimiseRouter);
 
-beforeAll(async () => { //eslint-disable-line no-undef
+beforeAll(async () => {
     await connectAdmin(admin);
     await connectUser(user);
 });
 
-afterAll(async () => { //eslint-disable-line no-undef
+afterAll(async () => {
     await disconnectAgent(admin);
     await disconnectAgent(user);
 });
@@ -90,7 +90,6 @@ describe('Creating VISIT data', () => {
             expect(body.error).toBe(`${message.dataMessage.NUMBERFIELD}Systolic Blood Pressure`);
             return true;
         }));
-
 
     test('Request creation succesfull', () => user
         .post('/data/visit')

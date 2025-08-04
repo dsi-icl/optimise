@@ -51,7 +51,7 @@ function mapStateToProps(state) {
  *
  * /
 
-/* this component serves as a sieve for the data and pass the relevant one to the form as props*/
+/* this component serves as a sieve for the data and pass the relevant one to the form as props */
 @withRouter
 @connect(mapStateToProps)
 class PregnancyEntry extends Component {
@@ -87,7 +87,6 @@ class PregnancyEntry extends Component {
     }
 
     _handleFormInput() {
-
         const pregnancyEntry = this.state.pregnancyEntry;
         const possibleFields = this.props.fields.pregnancyEntryFields.filter(el => el.idname === 'number of offsprings' || el.idname === 'number of foetuses');
         let numberOffsprings = 0;
@@ -117,7 +116,6 @@ class PregnancyEntry extends Component {
     }
 
     static _getNewStateFromProps(props) {
-
         const { patientProfile, data, match } = props;
         const { params } = match;
 
@@ -127,17 +125,16 @@ class PregnancyEntry extends Component {
         let outcomeApplicable = 'no';
 
         if (!patientProfile.fetching) {
-
             const currentVisitId = parseInt(params.visitId);
-            const currentVisit = data.visits.filter((el) => parseInt(el.id) === currentVisitId);
+            const currentVisit = data.visits.filter(el => parseInt(el.id) === currentVisitId);
             const currentVisitDate = new Date(parseFloat(currentVisit[0].visitDate));
             const pregnancyStatus = PregnancyEntry._getPregnancyStatus(currentVisitDate, data.pregnancy);
 
             const selectedPreviousEntry = data.pregnancyEntries
-                .filter((el) => parseInt(el.pregnancyId) === parseInt(pregnancyStatus.pregnancyId))
+                .filter(el => parseInt(el.pregnancyId) === parseInt(pregnancyStatus.pregnancyId))
                 .sort((a, b) => {
-                    const visitA = data.visits.find((el) => parseInt(el.id) === parseInt(a.recordedDuringVisit));
-                    const visitB = data.visits.find((el) => parseInt(el.id) === parseInt(b.recordedDuringVisit));
+                    const visitA = data.visits.find(el => parseInt(el.id) === parseInt(a.recordedDuringVisit));
+                    const visitB = data.visits.find(el => parseInt(el.id) === parseInt(b.recordedDuringVisit));
                     return parseInt(visitB.visitDate) - parseInt(visitA.visitDate);
                 })[0];
 
@@ -146,12 +143,13 @@ class PregnancyEntry extends Component {
                 offsprings: JSON.parse(selectedPreviousEntry?.offsprings ?? '[]')
             };
 
-            const entriesFiltered = data.pregnancyEntries.filter((el) => parseInt(el.recordedDuringVisit) === parseInt(params.visitId));
+            const entriesFiltered = data.pregnancyEntries.filter(el => parseInt(el.recordedDuringVisit) === parseInt(params.visitId));
             if (!props.renderedInFrontPage && entriesFiltered.length > 0) {
                 Object.assign(matchedEntry, entriesFiltered[0], {
                     offsprings: JSON.parse(entriesFiltered[0].offsprings ?? '[]')
                 });
-            } else {
+            }
+            else {
                 matchedEntry = {
                     data: [],
                     type: pregnancyStatus.typeId,
@@ -162,7 +160,7 @@ class PregnancyEntry extends Component {
             }
         }
         if (matchedEntry.pregnancyId !== undefined) {
-            const pregnanciesFiltered = data.pregnancy.filter((el) => el.id === matchedEntry.pregnancyId);
+            const pregnanciesFiltered = data.pregnancy.filter(el => el.id === matchedEntry.pregnancyId);
 
             if (pregnanciesFiltered.length) {
                 Object.assign(matchedPregnancy, pregnanciesFiltered[0]);
@@ -172,12 +170,12 @@ class PregnancyEntry extends Component {
         const entryOrder = matchedEntry.pregnancyId ? PregnancyEntry._checkEntryOrder(matchedEntry, data) : null;
 
         if (matchedEntry.id !== undefined && matchedPregnancy.id !== undefined) {
-
             if (entryOrder === 'latest' && typeof matchedPregnancy.outcome === 'number' && matchedPregnancy.outcomeDate) {
                 outcomeApplicable = 'yes';
             }
-        } else if (!matchedEntry.id && matchedEntry.type === 2 && (entryOrder === 'first' || entryOrder === 'sole entry')) {
-            //pregnancy exists but associated baseline pregnancy entry has been deleted
+        }
+        else if (!matchedEntry.id && matchedEntry.type === 2 && (entryOrder === 'first' || entryOrder === 'sole entry')) {
+            // pregnancy exists but associated baseline pregnancy entry has been deleted
             matchedEntry.type = 1;
         }
 
@@ -201,7 +199,7 @@ class PregnancyEntry extends Component {
         let pregnancyId = pregnancyEntry.pregnancyId;
         const currentVisit = data.visits.find(el => parseInt(el.id) === parseInt(pregnancyEntry.recordedDuringVisit));
 
-        const allPregnancyEntries = data.pregnancyEntries.filter((el) => parseInt(el.pregnancyId) === parseInt(pregnancyId));
+        const allPregnancyEntries = data.pregnancyEntries.filter(el => parseInt(el.pregnancyId) === parseInt(pregnancyId));
 
         if (allPregnancyEntries.length === 1 && allPregnancyEntries[0].id === pregnancyEntry.id) {
             return 'sole entry';
@@ -230,10 +228,10 @@ class PregnancyEntry extends Component {
             }
         }
 
-
         if (latestEntry && (latestEntry.id === pregnancyEntry.id || latestVisitDate < new Date(parseInt(currentVisit.visitDate)))) {
             return 'latest';
-        } else if (earliestEntry && (earliestEntry.id === pregnancyEntry.id || earliestVisitDate > new Date(parseInt(currentVisit.visitDate)))) {
+        }
+        else if (earliestEntry && (earliestEntry.id === pregnancyEntry.id || earliestVisitDate > new Date(parseInt(currentVisit.visitDate)))) {
             return 'first';
         }
 
@@ -253,7 +251,6 @@ class PregnancyEntry extends Component {
             this.originalOffspringsValues = pregnancyEntry.offsprings;
 
             if (pregnancyEntry.type !== 1) {
-
                 let xId = `${relevantFields.find(el => el.idname === 'estimated date of delivery')?.id ?? 'noop'}`;
                 if (this.originalValues[xId] === undefined)
                     this.originalValues[xId] = newPregnancyState.previousPregnancyEntry?.data?.find(el => el.field_idname === 'estimated date of delivery')?.value;
@@ -280,16 +277,14 @@ class PregnancyEntry extends Component {
     }
 
     componentDidUpdate(prevProps) {
-
-        if (prevProps.match.params.visitId !== this.props.match.params.visitId ||
-            prevProps.patientProfile !== this.props.patientProfile) {
+        if (prevProps.match.params.visitId !== this.props.match.params.visitId
+            || prevProps.patientProfile !== this.props.patientProfile) {
             this.treatAsNewEntry = this.props.renderedInFrontPage || this.props.location.search === '?add';
             this.initializeComponent();
         }
     }
 
     _formatBody(update, add) {
-
         const { params } = this.props.match;
         const { outcomeApplicable, pregnancyEntry } = this.state;
         const entryType = pregnancyEntry.type === 1 ? 1 : (outcomeApplicable === 'yes' ? 3 : 2);
@@ -321,17 +316,19 @@ class PregnancyEntry extends Component {
         else {
             body.pregnancy.outcome = (entryType === 3 && this.state.pregnancyOutcome)
                 || (entryType === 2 && this.state.pregnancyOutcome && this.state.entryOrder !== 'sole entry' && this.state.entryOrder !== 'latest') // follow up entry added between term and baseline
-                ? parseInt(this.state.pregnancyOutcome, 10) : null;
+                ? parseInt(this.state.pregnancyOutcome, 10)
+                : null;
             body.pregnancy.outcomeDate = this.state.pregnancyOutcome && ((entryType === 3 && this.state.pregnancyOutcomeDate)
                 || (entryType === 2 && this.state.pregnancyOutcomeDate && this.state.entryOrder !== 'sole entry' && this.state.entryOrder !== 'latest'))
-                ? this.state.pregnancyOutcomeDate.toISOString() : null;
+                ? this.state.pregnancyOutcomeDate.toISOString()
+                : null;
         }
 
         body.pregnancyEntry = {
             id: pregnancyEntry.id,
             type: pregnancyEntry.type,
             visitId: parseInt(params.visitId),
-            pregnancyId: pregnancyEntry.pregnancyId, //if the entry type is baseline, no pregnancy will have been created yet
+            pregnancyId: pregnancyEntry.pregnancyId, // if the entry type is baseline, no pregnancy will have been created yet
             offsprings: JSON.stringify(pregnancyEntry.offsprings)
         };
 
@@ -339,7 +336,6 @@ class PregnancyEntry extends Component {
     }
 
     _composeSubmitBody() {
-
         if (this.state.lastSubmit && (new Date()).getTime() - this.state.lastSubmit < 500 ? true : false)
             return;
 
@@ -357,7 +353,7 @@ class PregnancyEntry extends Component {
 
         let update = {};
         const add = {};
-        Object.entries(references).forEach(el => {
+        Object.entries(references).forEach((el) => {
             const fieldId = el[0];
             const reference = el[1].ref;
             const type = el[1].type;
@@ -367,7 +363,8 @@ class PregnancyEntry extends Component {
                 if (originalValues[fieldId] !== undefined) {
                     if (originalValues[fieldId] !== reference.current.value)
                         update[fieldId] = reference.current.value;
-                } else if (reference.current.value !== 'unselected') {
+                }
+                else if (reference.current.value !== 'unselected') {
                     add[fieldId] = reference.current.value;
                 }
             }
@@ -375,7 +372,8 @@ class PregnancyEntry extends Component {
                 if (originalValues[fieldId] !== undefined) {
                     if (originalValues[fieldId] !== reference.current.value)
                         update[fieldId] = reference.current.value;
-                } else if (reference.current.value !== '') {
+                }
+                else if (reference.current.value !== '') {
                     add[fieldId] = reference.current.value;
                 }
             }
@@ -384,7 +382,8 @@ class PregnancyEntry extends Component {
                 if (originalValues[fieldId] !== undefined) {
                     if (originalValues[fieldId] !== bool)
                         update[fieldId] = bool;
-                } else if (bool !== '0') {
+                }
+                else if (bool !== '0') {
                     add[fieldId] = bool;
                 }
             }
@@ -393,7 +392,8 @@ class PregnancyEntry extends Component {
                 if (originalValues[fieldId] !== undefined) {
                     if (originalValues[fieldId] !== value)
                         update[fieldId] = value;
-                } else if (value !== '') {
+                }
+                else if (value !== '') {
                     add[fieldId] = value;
                 }
             }
@@ -412,7 +412,6 @@ class PregnancyEntry extends Component {
     }
 
     _handleSubmit(ev) {
-
         ev.preventDefault();
 
         const body = this._composeSubmitBody();
@@ -436,7 +435,6 @@ class PregnancyEntry extends Component {
     }
 
     _findDateRange(date, entryType) {
-
         let pregnancies = Array.from(this.props.data.pregnancy);
 
         let currentPregnancy;
@@ -459,9 +457,11 @@ class PregnancyEntry extends Component {
             }
         }
 
-        const relevantDate = mostRecentPregnancy ?
-            (mostRecentPregnancy.outcomeDate ? new Date(parseFloat(mostRecentPregnancy.outcomeDate)) :
-                new Date(parseFloat(mostRecentPregnancy.startDate))) : null;
+        const relevantDate = mostRecentPregnancy
+            ? (mostRecentPregnancy.outcomeDate
+                ? new Date(parseFloat(mostRecentPregnancy.outcomeDate))
+                : new Date(parseFloat(mostRecentPregnancy.startDate)))
+            : null;
 
         // maxDate is minimum of either the current date or the outcome date of the pregnancy if it exists
         if (entryType === 1) {
@@ -476,14 +476,11 @@ class PregnancyEntry extends Component {
             };
         }
         else {
-
             return {
                 minDate: this._getFirstMinuteOfDay(new Date(parseFloat(currentPregnancy.startDate))),
                 maxDate: this._getLastMinuteOfDay(date)
             };
         }
-
-
     }
 
     _getLastMinuteOfDay(date) {
@@ -499,7 +496,6 @@ class PregnancyEntry extends Component {
     }
 
     _validateFields() {
-
         const { visitId } = this.props.match.params;
         const { outcomeApplicable, pregnancyEntry } = this.state;
         const { data } = this.props;
@@ -516,16 +512,14 @@ class PregnancyEntry extends Component {
 
         const dateLimit = this._findDateRange(visitDate, entryType);
 
-
-
         const isValidDateRange = date => PregnancyEntry._isValidDate(date) && (
             date > dateLimit.maxDate || date < dateLimit.minDate
         );
 
         const formatDate = date => PregnancyEntry._isValidDate(date) ? date.toDateString() : 'No limit';
 
-        if ((entryType === 1 && this._getLastMinuteOfDay(visitDate) < this.state.pregnancyStartDate.toDate()) ||
-            (entryType === 3 && this._getLastMinuteOfDay(visitDate) < this.state.pregnancyOutcomeDate.toDate())) {
+        if ((entryType === 1 && this._getLastMinuteOfDay(visitDate) < this.state.pregnancyStartDate.toDate())
+            || (entryType === 3 && this._getLastMinuteOfDay(visitDate) < this.state.pregnancyOutcomeDate.toDate())) {
             return `Entered pregnancy date cannot come after visit date (Visit date is ${visitDate.toDateString()})`;
         }
 
@@ -538,7 +532,6 @@ class PregnancyEntry extends Component {
             return `Pregnancy end date conflicts with start date or existing pregnancies. Min viable date: 
             ${formatDate(dateLimit.minDate)} Max viable date: ${formatDate(dateLimit.maxDate)}`;
         }
-
 
         if (entryType === 3 && (!this.state.pregnancyOutcomeDate || !this.state.pregnancyOutcome || this.state.pregnancyOutcome === 'none')) {
             return 'Please enter both the outcome date and the outcome';
@@ -597,7 +590,6 @@ class PregnancyEntry extends Component {
     }
 
     _handleOffspringChange(offspringData) {
-
         this.setState(prevState => ({
             pregnancyEntry: {
                 ...prevState.pregnancyEntry,
@@ -613,12 +605,10 @@ class PregnancyEntry extends Component {
     }
 
     static _getPregnancyStatus(date, pregnancies) {
-
         const sortedPregnancies = pregnancies.sort((a, b) => {
             // Sort pregnancies in descending order based on startDate
             return parseFloat(b.startDate) - parseFloat(a.startDate);
         });
-
 
         for (const pregnancy of sortedPregnancies) {
             const startDate = new Date(parseFloat(pregnancy.startDate));
@@ -642,7 +632,6 @@ class PregnancyEntry extends Component {
                     entryType: 'baseline',
                     typeId: 1
                 };
-
             }
         }
 
@@ -654,7 +643,6 @@ class PregnancyEntry extends Component {
     }
 
     render() {
-
         const { patientProfile, match, fields: { pregnancyOutcomes = [] } } = this.props;
         const { params } = match;
         const isFromPregnancyView = window.location.search === '?fromPregnancy';
@@ -665,22 +653,19 @@ class PregnancyEntry extends Component {
         }
 
         if (!patientProfile.fetching && this.state.pregnancyEntry) {
-
             let pregnancyEntry = this.state.pregnancyEntry;
             if (!pregnancyEntry.id && !this.treatAsNewEntry) {
-
                 return <>
                     <div className={scaffold_style.ariane}>
                         <h2>EDIT PREGNANCY ENTRY</h2>
                         {isFromPregnancyView
                             ? <BackButton to={`/patientProfile/${match.params.patientId}/pregnancy`} />
-                            : <BackButton to={`/patientProfile/${match.params.patientId}`} />
-                        }
+                            : <BackButton to={`/patientProfile/${match.params.patientId}`} />}
                     </div>
                     <div className={_style.panel}>
                         <i>We could not find the entry that you are looking for.</i>
                     </div>
-                </>;
+                       </>;
             }
 
             if (!this.references) {
@@ -691,79 +676,107 @@ class PregnancyEntry extends Component {
 
             return (
                 <>
-                    {this.treatAsNewEntry ?
-                        <div className={scaffold_style.ariane}>
+                    {this.treatAsNewEntry
+                        ? <div className={scaffold_style.ariane}>
                             <h2>ADD PREGNANCY ENTRY</h2>
                             <BackButton to={`/patientProfile/${match.params.patientId}`} />
-                        </div>
+                          </div>
                         : <div className={scaffold_style.ariane}>
                             <h2>EDIT PREGNANCY ENTRY</h2>
                             {isFromPregnancyView
                                 ? <BackButton to={`/patientProfile/${match.params.patientId}/pregnancy`} />
-                                : <BackButton to={`/patientProfile/${match.params.patientId}`} />
-                            }
-                        </div>}
+                                : <BackButton to={`/patientProfile/${match.params.patientId}`} />}
+                          </div>}
                     <div className={`${scaffold_style.panel} ${style.topLevelPanel}`}>
                         <form className={style.form} onInput={this._handleFormInput}>
                             <div className={`${style.levelBody} ${pregnancy_style.panel}`}>
                                 {
-                                    this.treatAsNewEntry && this.state.pregnancyEntry.type === 1 ?
-                                        <>
-                                            <br /><br />
-                                            <p> Please enter details for a baseline pregnancy entry.</p><br /><br />
-                                        </>
+                                    this.treatAsNewEntry && this.state.pregnancyEntry.type === 1
+                                        ? <>
+                                            <br />
+                                            <br />
+                                            <p> Please enter details for a baseline pregnancy entry.</p>
+                                            <br />
+                                            <br />
+                                          </>
                                         : null
                                 }
                                 {
-                                    this.treatAsNewEntry && (this.state.pregnancyEntry.type === 2 || this.state.pregnancyEntry.type === 3) ?
-                                        <>
+                                    this.treatAsNewEntry && (this.state.pregnancyEntry.type === 2 || this.state.pregnancyEntry.type === 3)
+                                        ? <>
                                             <br />
-                                            <p>Ongoing pregnancy start date: {this.state.pregnancyStartDate && this.state.pregnancyStartDate.toString().slice(0, 10)}. Please enter details for a follow up pregnancy record.</p><br /><br />
-                                        </>
+                                            <p>
+                                                Ongoing pregnancy start date:
+                                                {this.state.pregnancyStartDate && this.state.pregnancyStartDate.toString().slice(0, 10)}
+                                                . Please enter details for a follow up pregnancy record.
+                                            </p>
+                                            <br />
+                                            <br />
+                                          </>
                                         : null
                                 }
-                                {this.state.pregnancyEntry.type === 1 ?
-                                    <div>
-                                        {!this.treatAsNewEntry ? <><br /><br /></> : null}
-                                        <label key="startDate">Pregnancy start date: <PickDate startDate={this.state.pregnancyStartDate} handleChange={(date) => this._handleStartDateChange(date)} /></label><br /><br />
-                                    </div>
-                                    : null
-                                }
-                                {this.treatAsNewEntry && (this.state.pregnancyEntry.type === 2 || this.state.pregnancyEntry.type === 3) ?
-                                    <div>
-                                        <label >Would you like to add an outcome for this pregnancy?:
-                                            <select name='outcomeApplicable'
+                                {this.state.pregnancyEntry.type === 1
+                                    ? <div>
+                                        {!this.treatAsNewEntry
+                                            ? <>
+                                                <br />
+                                                <br />
+                                              </>
+                                            : null}
+                                        <label key="startDate">
+                                            Pregnancy start date:
+                                            <PickDate startDate={this.state.pregnancyStartDate} handleChange={date => this._handleStartDateChange(date)} />
+                                        </label>
+                                        <br />
+                                        <br />
+                                      </div>
+                                    : null}
+                                {this.treatAsNewEntry && (this.state.pregnancyEntry.type === 2 || this.state.pregnancyEntry.type === 3)
+                                    ? <div>
+                                        <label>
+                                            Would you like to add an outcome for this pregnancy?:
+                                            <select
+                                                name="outcomeApplicable"
                                                 defaultValue={this.state.outcomeApplicable}
-                                                onChange={this._handleOutcomeApplicableChange}>
-                                                <option value='yes'>Yes</option>
-                                                <option value='no'>No</option>
+                                                onChange={this._handleOutcomeApplicableChange}
+                                            >
+                                                <option value="yes">Yes</option>
+                                                <option value="no">No</option>
                                             </select>
-                                        </label><br /> <br />
-                                    </div>
-                                    : null
-                                }
+                                        </label>
+                                        <br />
+                                        {' '}
+                                        <br />
+                                      </div>
+                                    : null}
                                 {
                                     this.state.outcomeApplicable === 'yes'
                                         && this.state.pregnancyEntry.type === 3
-                                        ?
-                                        <div>
+                                        ? <div>
                                             <br />
-                                            <label >Pregnancy end date:
-                                                <PickDate startDate={this.state.pregnancyOutcomeDate} handleChange={(date) =>
-                                                    this._handleOutcomeDateChange(date)
-                                                } />
-                                            </label><br /><br />
-                                            <label >Pregnancy outcome<br />
-                                                <select name='ero' defaultValue={this.state.pregnancyOutcome ?? 'unselected'} onChange={(event) => this._handleOutcomeChange(event)}>
-                                                    <option value='unselected'></option>
+                                            <label>
+                                                Pregnancy end date:
+                                                <PickDate
+                                                    startDate={this.state.pregnancyOutcomeDate}
+                                                    handleChange={date =>
+                                                        this._handleOutcomeDateChange(date)}
+                                                />
+                                            </label>
+                                            <br />
+                                            <br />
+                                            <label>
+                                                Pregnancy outcome
+                                                <br />
+                                                <select name="ero" defaultValue={this.state.pregnancyOutcome ?? 'unselected'} onChange={event => this._handleOutcomeChange(event)}>
+                                                    <option value="unselected"></option>
                                                     {pregnancyOutcomes.map(el => <option disabled={el.scope === 'main-only' && patientProfile.data?.pregnancySubStudyConsent} key={el.id} value={el.id}>{el.value}</option>)}
                                                 </select>
-                                            </label><br />
-                                        </div>
-                                        :
-                                        null
+                                            </label>
+                                            <br />
+                                          </div>
+                                        : null
                                 }
-                                <div className='protected'>
+                                <div className="protected">
                                     <MemoizedDataFields
                                         references={this.references}
                                         originalValues={this.originalValues}
@@ -775,19 +788,30 @@ class PregnancyEntry extends Component {
 
                                 {this.state.pregnancyEntry.id !== undefined
                                     ? <>
-                                        <PregnancyImageForm visitId={params.visitId} /><br /><br />
-                                    </>
+                                        <PregnancyImageForm visitId={params.visitId} />
+                                        <br />
+                                        <br />
+                                      </>
                                     : null}
 
                             </div>
-                            {this.state.saved ? <><button disabled style={{ cursor: 'default', backgroundColor: 'green' }}>Successfully saved!</button><br /><br /></> : null}
-                            {this.state.error ? <div className={style.levelBody}>
-                                <div className={profile_style.error}>{this.state.error}</div><br />
-                            </div> : null}
+                            {this.state.saved
+                                ? <>
+                                    <button disabled style={{ cursor: 'default', backgroundColor: 'green' }}>Successfully saved!</button>
+                                    <br />
+                                    <br />
+                                  </>
+                                : null}
+                            {this.state.error
+                                ? <div className={style.levelBody}>
+                                    <div className={profile_style.error}>{this.state.error}</div>
+                                    <br />
+                                  </div>
+                                : null}
                             {
                                 this.props.renderedInFrontPage
                                     ? null
-                                    : <button onClick={this._handleSubmit} onSubmit={this._handleSubmit} type='submit'>Save</button>
+                                    : <button onClick={this._handleSubmit} onSubmit={this._handleSubmit} type="submit">Save</button>
                             }
                             {this.treatAsNewEntry !== true
                                 ? <>
@@ -797,22 +821,35 @@ class PregnancyEntry extends Component {
                                     <br />
                                     <div className={`${style.levelBody} ${pregnancy_style.panel}`}>
                                         <label>Offspring data cards</label>
-                                        <i>We have records to {originalOffspringsAmount} offspring{originalOffspringsAmount > 1 ? 's' : ''} related to this pregancy. Click the button below to be redirected to the list of offsprings.</i>
+                                        <i>
+                                            We have records to
+                                            {originalOffspringsAmount}
+                                            {' '}
+                                            offspring
+                                            {originalOffspringsAmount > 1 ? 's' : ''}
+                                            {' '}
+                                            related to this pregancy. Click the button below to be redirected to the list of offsprings.
+                                        </i>
                                         <br />
                                         <br />
                                         {originalOffspringsAmount > 0
-                                            ? <button type='button' disabled={this.state.error} onClick={() => history.push(`/patientProfile/${this.props.data.patientId}/offsprings`)} className={style.piiUncover}>See offspring{originalOffspringsAmount > 1 ? 's' : ''} data</button>
-                                            : null
-                                        }
+                                            ? <button type="button" disabled={this.state.error} onClick={() => history.push(`/patientProfile/${this.props.data.patientId}/offsprings`)} className={style.piiUncover}>
+                                                See offspring
+                                                {originalOffspringsAmount > 1 ? 's' : ''}
+                                                {' '}
+                                                data
+                                              </button>
+                                            : null}
                                     </div>
-                                </>
+                                  </>
                                 : null}
                         </form>
-                    </div >
+                    </div>
                 </>
             );
-        } else {
-            return <div><Icon symbol='loading' /></div>;
+        }
+        else {
+            return <div><Icon symbol="loading" /></div>;
         }
     }
 }

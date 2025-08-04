@@ -20,7 +20,7 @@ class Meddra extends Component {
         this.hierRef = React.createRef();
     }
 
-    handleSelectChange = e => {
+    handleSelectChange = (e) => {
         this.setState({ lltFileExists: e.target.value, emptyFiles: false });
     };
 
@@ -50,28 +50,67 @@ class Meddra extends Component {
     render() {
         return (
             <>
-                If you have a subscription for MedDRA coding, you can load it so that it can be chosen in adverse events.<br /><br />
-                The coding is provided in multiple files. "mdhier.asc" contains the hierarchy for SOC, HLGT, HLT, and PT codings. "llt.asc" contains the coding for LLT. <br /><br /><br />
-
+                If you have a subscription for MedDRA coding, you can load it so that it can be chosen in adverse events.
+                <br />
+                <br />
+                The coding is provided in multiple files. &quot;mdhier.asc&quot; contains the hierarchy for SOC, HLGT, HLT, and PT codings. &quot;llt.asc&quot; contains the coding for LLT.
+                {' '}
+                <br />
+                <br />
+                <br />
                 {
-                    this.props.requesting ? <p>Loading...<br />Please do not leave this page. This will take about 2 minutes.</p> :
-                        <>
+                    this.props.requesting
+                        ? <p>
+                            Loading...
+                            <br />
+                            Please do not leave this page. This will take about 2 minutes.
+                        </p>
+                        : <>
                             Please select applicable:
                             <select onChange={this.handleSelectChange} value={this.state.lltFileExists}>
-                                <option value={'0'}>I only have mdhier.asc file</option>
-                                <option value={'1'}>I have both mdhier.asc and llt.asc</option>
+                                <option value="0">I only have mdhier.asc file</option>
+                                <option value="1">I have both mdhier.asc and llt.asc</option>
                             </select>
 
-                            <br /><br />
+                            <br />
+                            <br />
                             <form>
-                                Select <b>mdhier.asc</b> file:
-                                <input type='file' name='mdhierfile' accept='.asc' ref={this.hierRef} onChange={this.handleFileAdded} />
-                                {this.state.lltFileExists === '1' ? <><br /><br />Select <b>llt.asc</b> file<input type='file' name='lltfile' accept='.asc' ref={this.lltRef} onChange={this.handleFileAdded} /></> : null}
-                                <br /><br />
+                                Select
+                                {' '}
+                                <b>mdhier.asc</b>
+                                {' '}
+                                file:
+                                <input type="file" name="mdhierfile" accept=".asc" ref={this.hierRef} onChange={this.handleFileAdded} />
+                                {this.state.lltFileExists === '1'
+                                    ? <>
+                                        <br />
+                                        <br />
+                                        Select
+                                        <b>llt.asc</b>
+                                        {' '}
+                                        file
+                                        <input type="file" name="lltfile" accept=".asc" ref={this.lltRef} onChange={this.handleFileAdded} />
+                                    </>
+                                    : null}
+                                <br />
+                                <br />
                             </form>
-                            {this.state.emptyFiles ? <><div className={style.error}>One or more files are empty!</div><br /></> : null}
-                            {this.props.success ? <><div className={style.success}>Successfully uploaded!</div><br /></> : null}
-                            <button onClick={this.handleSubmit}>Upload file{this.state.lltFileExists === '1' ? 's' : ''}</button>
+                            {this.state.emptyFiles
+                                ? <>
+                                    <div className={style.error}>One or more files are empty!</div>
+                                    <br />
+                                </>
+                                : null}
+                            {this.props.success
+                                ? <>
+                                    <div className={style.success}>Successfully uploaded!</div>
+                                    <br />
+                                </>
+                                : null}
+                            <button onClick={this.handleSubmit}>
+                                Upload file
+                                {this.state.lltFileExists === '1' ? 's' : ''}
+                            </button>
                         </>
                 }
             </>
@@ -79,4 +118,4 @@ class Meddra extends Component {
     }
 }
 
-export {Meddra};
+export { Meddra };

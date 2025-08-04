@@ -1,12 +1,11 @@
 import dbcon from '../utils/db-connection';
 
 class SelectorUtils {
-
     getConcomitantMeds(patientId, deleted) {
         const whereObj = { patient: patientId };
         if (deleted !== true)
             whereObj.deleted = '-';
-        return dbcon()('VISITS').select({ id: 'id' }).where(whereObj).then(resu => {
+        return dbcon()('VISITS').select({ id: 'id' }).where(whereObj).then((resu) => {
             const ids = [];
             for (let i = 0; i < resu.length; i++) {
                 ids[i] = resu[i].id;
@@ -19,7 +18,7 @@ class SelectorUtils {
                 .leftJoin('AVAILABLE_CONCOMITANT_MED', 'AVAILABLE_CONCOMITANT_MED.id', 'CONCOMITANT_MED.concomitantMedId')
                 .whereIn('CONCOMITANT_MED.visit', ids)
                 .andWhere(innerWhereObj)
-                .then(result => {
+                .then((result) => {
                     const returnObj = { concomitantMeds: result };
                     return returnObj;
                 });
@@ -37,7 +36,7 @@ class SelectorUtils {
             .leftJoin('ETHNICITIES', 'ETHNICITIES.id', 'PATIENT_DEMOGRAPHIC.ethnicity')
             .leftJoin('COUNTRIES', 'COUNTRIES.id', 'PATIENT_DEMOGRAPHIC.countryOfOrigin')
             .where(whereObj)
-            .then(result => {
+            .then((result) => {
                 const returnObj = { demographicData: result[0] };
                 return returnObj;
             });
@@ -50,7 +49,7 @@ class SelectorUtils {
         return dbcon()('PATIENT_IMMUNISATION')
             .select('id', 'vaccineName', 'immunisationDate', 'deleted')
             .where({ patient: patientId, deleted: '-' })
-            .then(result => {
+            .then((result) => {
                 const returnObj = { immunisations: result };
                 return returnObj;
             });
@@ -65,7 +64,7 @@ class SelectorUtils {
             .leftJoin('RELATIONS', 'RELATIONS.id', 'MEDICAL_HISTORY.relation')
             .leftJoin('CONDITIONS', 'CONDITIONS.id', 'MEDICAL_HISTORY.conditionName')
             .where(whereObj)
-            .then(result => {
+            .then((result) => {
                 const returnObj = { medicalHistory: result };
                 return returnObj;
             });
@@ -79,7 +78,7 @@ class SelectorUtils {
             .select({ visitId: 'VISITS.id', visitDate: 'VISITS.visitDate', type: 'VISITS.type', type_name: 'AVAILABLE_VISIT_TYPES.name', type_module: 'AVAILABLE_VISIT_TYPES.module', communication: 'VISITS.communication', deleted: 'VISITS.deleted' })
             .leftJoin('AVAILABLE_VISIT_TYPES', 'AVAILABLE_VISIT_TYPES.id', 'VISITS.type')
             .where(whereObj)
-            .then(result => {
+            .then((result) => {
                 const returnObj = { visitsWithoutData: result };
                 return returnObj;
             });
@@ -94,14 +93,14 @@ class SelectorUtils {
             .select({ id: 'VISITS.id', visitDate: 'VISITS.visitDate', type: 'VISITS.type', type_name: 'AVAILABLE_VISIT_TYPES.name', type_module: 'AVAILABLE_VISIT_TYPES.module', communication: 'VISITS.communication', deleted: 'VISITS.deleted' })
             .leftJoin('AVAILABLE_VISIT_TYPES', 'AVAILABLE_VISIT_TYPES.id', 'VISITS.type')
             .where(whereObj)
-            .then(result => {
+            .then((result) => {
                 if (result.length >= 1) {
                     const promiseArr = [];
                     for (let i = 0; i < result.length; i++) {
                         promiseArr.push(_this._getVisitData(result[i].id, deleted));
                     }
                     const allPromisesResolving = Promise.all(promiseArr).then(
-                        data => {
+                        (data) => {
                             for (let i = 0; i < data.length; i++) {
                                 result[i].data = data[i];
                             }
@@ -110,7 +109,8 @@ class SelectorUtils {
                         }
                     );
                     return allPromisesResolving;
-                } else {
+                }
+ else {
                     const returnObj = { visits: result };
                     return returnObj;
                 }
@@ -121,7 +121,7 @@ class SelectorUtils {
         const whereObj = { patient: patientId };
         if (deleted !== true)
             whereObj.deleted = '-';
-        return dbcon()('VISITS').select({ id: 'id' }).where(whereObj).then(resu => {
+        return dbcon()('VISITS').select({ id: 'id' }).where(whereObj).then((resu) => {
             const ids = [];
             for (let i = 0; i < resu.length; i++) {
                 ids[i] = resu[i].id;
@@ -134,7 +134,7 @@ class SelectorUtils {
                 .leftJoin('AVAILABLE_TEST_TYPES', 'AVAILABLE_TEST_TYPES.id', 'ORDERED_TESTS.type')
                 .whereIn('ORDERED_TESTS.orderedDuringVisit', ids)
                 .andWhere(innerWhereObj)
-                .then(result => {
+                .then((result) => {
                     const returnObj = { testsWithoutData: result };
                     return returnObj;
                 });
@@ -149,7 +149,7 @@ class SelectorUtils {
             whereObj.deleted = '-';
             innerWhereObj['ORDERED_TESTS.deleted'] = '-';
         }
-        return dbcon()('VISITS').select('id').where(whereObj).then(resu => {
+        return dbcon()('VISITS').select('id').where(whereObj).then((resu) => {
             const ids = [];
             for (let i = 0; i < resu.length; i++) {
                 ids[i] = resu[i].id;
@@ -159,14 +159,14 @@ class SelectorUtils {
                 .leftJoin('AVAILABLE_TEST_TYPES', 'AVAILABLE_TEST_TYPES.id', 'ORDERED_TESTS.type')
                 .whereIn('ORDERED_TESTS.orderedDuringVisit', ids)
                 .andWhere(innerWhereObj)
-                .then(result => {
+                .then((result) => {
                     if (result.length >= 1) {
                         const promiseArr = [];
                         for (let i = 0; i < result.length; i++) {
                             promiseArr.push(_this._getTestData(result[i].id, deleted));
                         }
                         const allPromisesResolving = Promise.all(promiseArr).then(
-                            data => {
+                            (data) => {
                                 for (let i = 0; i < data.length; i++) {
                                     result[i].data = data[i];
                                 }
@@ -175,7 +175,8 @@ class SelectorUtils {
                             }
                         );
                         return allPromisesResolving;
-                    } else {
+                    }
+ else {
                         const returnObj = { tests: result };
                         return returnObj;
                     }
@@ -191,7 +192,7 @@ class SelectorUtils {
             whereObj.deleted = '-';
             innerWhereObj['TREATMENTS.deleted'] = '-';
         }
-        return dbcon()('VISITS').select({ id: 'id', visitDate: 'visitDate', type: 'type', deleted: 'deleted' }).where(whereObj).then(resu => {
+        return dbcon()('VISITS').select({ id: 'id', visitDate: 'visitDate', type: 'type', deleted: 'deleted' }).where(whereObj).then((resu) => {
             const ids = [];
             const dates = [];
             for (let i = 0; i < resu.length; i++) {
@@ -204,7 +205,7 @@ class SelectorUtils {
                 .leftJoin('REASONS', 'REASONS.id', 'TREATMENTS.terminatedReason')
                 .whereIn('TREATMENTS.orderedDuringVisit', ids)
                 .andWhere(innerWhereObj)
-                .then(result => {
+                .then((result) => {
                     for (let i = 0; i < result.length; i++) {
                         result[i].visitDate = dates[result[i].orderedDuringVisit];
                     }
@@ -214,7 +215,7 @@ class SelectorUtils {
                             promiseArr.push(_this._getTreatmentInterruptions(result[i].id, deleted));
                         }
                         const allPromisesResolving = Promise.all(promiseArr).then(
-                            interruptions => {
+                            (interruptions) => {
                                 for (let i = 0; i < interruptions.length; i++) {
                                     result[i].interruptions = interruptions[i];
                                 }
@@ -223,7 +224,8 @@ class SelectorUtils {
                             }
                         );
                         return allPromisesResolving;
-                    } else {
+                    }
+ else {
                         const returnObj = { treatments: result };
                         return returnObj;
                     }
@@ -238,7 +240,7 @@ class SelectorUtils {
         return dbcon()('OFFSPRINGS')
             .select({ id: 'OFFSPRINGS.id', pregnancyId: 'OFFSPRINGS.pregnancyId', data: 'OFFSPRINGS.data', deleted: 'OFFSPRINGS.deleted' })
             .where(whereObj)
-            .then(result => {
+            .then((result) => {
                 const returnObj = { offsprings: result };
                 return returnObj;
             });
@@ -253,7 +255,7 @@ class SelectorUtils {
             .leftJoin('PREGNANCY_OUTCOMES', 'PREGNANCY_OUTCOMES.id', 'PATIENT_PREGNANCY.outcome')
             .leftJoin('ADVERSE_EVENT_MEDDRA', 'ADVERSE_EVENT_MEDDRA.id', 'PATIENT_PREGNANCY.meddra')
             .where(whereObj)
-            .then(result => {
+            .then((result) => {
                 const returnObj = { pregnancy: result };
                 return returnObj;
             });
@@ -263,7 +265,7 @@ class SelectorUtils {
         const whereObj = { patient: patientId };
         if (deleted !== true)
             whereObj.deleted = '-';
-        return dbcon()('VISITS').select({ id: 'id' }).where(whereObj).then(resu => {
+        return dbcon()('VISITS').select({ id: 'id' }).where(whereObj).then((resu) => {
             const ids = [];
             for (let i = 0; i < resu.length; i++) {
                 ids[i] = resu[i].id;
@@ -276,7 +278,7 @@ class SelectorUtils {
                 .leftJoin('AVAILABLE_PREGNANCY_ENTRY_TYPES', 'AVAILABLE_PREGNANCY_ENTRY_TYPES.id', 'PREGNANCY_ENTRY.type')
                 .whereIn('PREGNANCY_ENTRY.recordedDuringVisit', ids)
                 .andWhere(innerWhereObj)
-                .then(result => {
+                .then((result) => {
                     const returnObj = { pregnancyEntriesWithoutData: result };
                     return returnObj;
                 });
@@ -291,7 +293,7 @@ class SelectorUtils {
             whereObj.deleted = '-';
             innerWhereObj['PREGNANCY_ENTRY.deleted'] = '-';
         }
-        return dbcon()('VISITS').select('id').where(whereObj).then(resu => {
+        return dbcon()('VISITS').select('id').where(whereObj).then((resu) => {
             const ids = [];
             for (let i = 0; i < resu.length; i++) {
                 ids[i] = resu[i].id;
@@ -301,7 +303,7 @@ class SelectorUtils {
                 .leftJoin('AVAILABLE_PREGNANCY_ENTRY_TYPES', 'AVAILABLE_PREGNANCY_ENTRY_TYPES.id', 'PREGNANCY_ENTRY.type')
                 .whereIn('PREGNANCY_ENTRY.recordedDuringVisit', ids)
                 .andWhere(innerWhereObj)
-                .then(result => {
+                .then((result) => {
                     if (result.length >= 1) {
                         const dataPromiseArr = [];
                         const offspringsPromiseArr = [];
@@ -310,14 +312,14 @@ class SelectorUtils {
                             offspringsPromiseArr.push(_this._getPregnancyOffspringsData(result[i].pregnancyId, deleted));
                         }
                         const allDataPromisesResolving = Promise.all(dataPromiseArr).then(
-                            data => {
+                            (data) => {
                                 for (let j = 0; j < data.length; j++) {
                                     result[j].data = data[j];
                                 }
                             }
                         );
                         const allOffspringsPromisesResolving = Promise.all(offspringsPromiseArr).then(
-                            data => {
+                            (data) => {
                                 for (let j = 0; j < data.length; j++) {
                                     const cleanOffspringsArray = data[j].map(offspring => ({
                                         id: offspring.id,
@@ -331,7 +333,8 @@ class SelectorUtils {
                             const returnObj = { pregnancyEntries: result };
                             return returnObj;
                         });
-                    } else {
+                    }
+ else {
                         const returnObj = { pregnancyEntries: result };
                         return returnObj;
                     }
@@ -360,9 +363,6 @@ class SelectorUtils {
 
         return { pregnancyImages: dataEntries };
     }
-
-
-
 
     _getVisitData(visitId, deleted) {
         const whereObj = { 'VISIT_DATA.visit': visitId };
@@ -431,7 +431,7 @@ class SelectorUtils {
             whereObj.deleted = '-';
             innerWhereObj['CLINICAL_EVENTS.deleted'] = '-';
         }
-        return dbcon()('VISITS').select('id', 'deleted').where(whereObj).then(resu => {
+        return dbcon()('VISITS').select('id', 'deleted').where(whereObj).then((resu) => {
             const ids = [];
             for (let i = 0; i < resu.length; i++) {
                 ids[i] = resu[i].id;
@@ -442,7 +442,7 @@ class SelectorUtils {
                 .leftJoin('ADVERSE_EVENT_MEDDRA', 'ADVERSE_EVENT_MEDDRA.id', 'CLINICAL_EVENTS.meddra')
                 .where(builder => builder.where('CLINICAL_EVENTS.patient', patientId).orWhere('CLINICAL_EVENTS.recordedDuringVisit', 'in', ids))
                 .andWhere(innerWhereObj)
-                .then(result => {
+                .then((result) => {
                     const returnObj = { clinicalEventsWithoutData: result };
                     return returnObj;
                 });
@@ -457,7 +457,7 @@ class SelectorUtils {
             whereObj.deleted = '-';
             innerWhereObj['CLINICAL_EVENTS.deleted'] = '-';
         }
-        return dbcon()('VISITS').select('id', 'deleted').where(whereObj).then(resu => {
+        return dbcon()('VISITS').select('id', 'deleted').where(whereObj).then((resu) => {
             const ids = [];
             for (let i = 0; i < resu.length; i++) {
                 ids[i] = resu[i].id;
@@ -468,14 +468,14 @@ class SelectorUtils {
                 .leftJoin('ADVERSE_EVENT_MEDDRA', 'ADVERSE_EVENT_MEDDRA.id', 'CLINICAL_EVENTS.meddra')
                 .where(builder => builder.where('CLINICAL_EVENTS.patient', patientId).orWhere('CLINICAL_EVENTS.recordedDuringVisit', 'in', ids))
                 .andWhere(innerWhereObj)
-                .then(result => {
+                .then((result) => {
                     if (result.length >= 1) {
                         const promiseArr = [];
                         for (let i = 0; i < result.length; i++) {
                             promiseArr.push(_this._getCeData(result[i].id, deleted));
                         }
                         const allPromisesResolving = Promise.all(promiseArr).then(
-                            data => {
+                            (data) => {
                                 for (let i = 0; i < data.length; i++) {
                                     result[i].data = data[i];
                                 }
@@ -484,7 +484,8 @@ class SelectorUtils {
                             }
                         );
                         return allPromisesResolving;
-                    } else {
+                    }
+ else {
                         const returnObj = { clinicalEvents: result };
                         return returnObj;
                     }
@@ -500,7 +501,7 @@ class SelectorUtils {
             .select({ id: 'PATIENT_DIAGNOSIS.id', diagnosis: 'PATIENT_DIAGNOSIS.diagnosis', diagnosis_value: 'AVAILABLE_DIAGNOSES.value', diagnosisDate: 'PATIENT_DIAGNOSIS.diagnosisDate', deleted: 'PATIENT_DIAGNOSIS.deleted' })
             .leftJoin('AVAILABLE_DIAGNOSES', 'AVAILABLE_DIAGNOSES.id', 'PATIENT_DIAGNOSIS.diagnosis')
             .where(whereObj)
-            .then(result => {
+            .then((result) => {
                 const returnObj = { diagnosis: result };
                 return returnObj;
             });
@@ -513,7 +514,7 @@ class SelectorUtils {
             whereObj.deleted = '-';
             innerWhereObj['COMORBIDITY.deleted'] = '-';
         }
-        return dbcon()('VISITS').select({ id: 'id', visitDate: 'visitDate', type: 'type', deleted: 'deleted' }).where(whereObj).then(resu => {
+        return dbcon()('VISITS').select({ id: 'id', visitDate: 'visitDate', type: 'type', deleted: 'deleted' }).where(whereObj).then((resu) => {
             const ids = [];
             const dates = [];
             for (let i = 0; i < resu.length; i++) {

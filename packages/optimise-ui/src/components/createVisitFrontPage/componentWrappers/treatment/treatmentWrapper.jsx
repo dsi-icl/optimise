@@ -22,8 +22,8 @@ class TreatmentWrapper extends Component {
         const { yesOrNoQuestion } = this.props;
         return <Switch>
             <Route
-                path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/yes_or_no'
-                render={({ match, location }) => <YesOrNo match={match} location={location} questionString={yesOrNoQuestion}/>}
+                path="/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/yes_or_no"
+                render={({ match, location }) => <YesOrNo match={match} location={location} questionString={yesOrNoQuestion} />}
             />
             <Route render={({ match, location }) =>
                 <>
@@ -31,27 +31,27 @@ class TreatmentWrapper extends Component {
                         <div className={scaffold_style.wrapper}>
                             <div className={scaffold_style.create_element_panel}>
                                 <Switch>
-                                    <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/edit/:elementId' render={({ match, location }) => <EditMedWrapper match={match} location={location}/>}/>
-                                    <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/interruptions/:elementId' render={({ match, location }) => <TreatmentCreatedMessage drugHash={this.props.drugHash} match={match} location={location} treatments={this.props.data.treatments}/>}/>
-                                    <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage' render={({ match, location }) => <CreateTreatmentsWrapper match={match} location={location}/>}/>
+                                    <Route path="/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/edit/:elementId" render={({ match, location }) => <EditMedWrapper match={match} location={location} />} />
+                                    <Route path="/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/interruptions/:elementId" render={({ match, location }) => <TreatmentCreatedMessage drugHash={this.props.drugHash} match={match} location={location} treatments={this.props.data.treatments} />} />
+                                    <Route path="/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage" render={({ match, location }) => <CreateTreatmentsWrapper match={match} location={location} />} />
                                 </Switch>
                             </div>
                             <div className={scaffold_style.list_element_panel}>
                                 <Switch>
-                                    <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/interruptions/:elementId' render={({ match, location }) => <TreatmentInterruptionWrapper match={match} location={location}/>}/>
-                                    <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage' render={({ match, location }) => <RenderTreatmentsWrapper match={match} location={location} treatments={this.props.data.treatments} baselineVisit={true}/>}/>
+                                    <Route path="/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/interruptions/:elementId" render={({ match, location }) => <TreatmentInterruptionWrapper match={match} location={location} />} />
+                                    <Route path="/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage" render={({ match, location }) => <RenderTreatmentsWrapper match={match} location={location} treatments={this.props.data.treatments} baselineVisit={true} />} />
                                 </Switch>
                             </div>
                         </div>
                     </div>
-                    <FrontPageNavigationButton match={match} location={location}/>
-                </>
-            }/>
-        </Switch>;
+                    <FrontPageNavigationButton match={match} location={location} />
+                </>}
+            />
+               </Switch>;
     }
 }
 
-export {TreatmentWrapper};
+export { TreatmentWrapper };
 
 class RenderTreatmentsWrapper extends PureComponent {
     render() {
@@ -66,13 +66,23 @@ class RenderTreatmentsWrapper extends PureComponent {
             <p>Here are the DMTs this patient has been on:</p>
             <table className={override_style.treatment_table}>
                 <thead>
-                    <tr><th></th><th>Treatment</th><th>Start date</th><th>End date</th><th>Dose</th><th>Form</th><th>Frequency</th><th>#interruptions</th><th></th></tr>
+                    <tr>
+                        <th></th>
+                        <th>Treatment</th>
+                        <th>Start date</th>
+                        <th>End date</th>
+                        <th>Dose</th>
+                        <th>Form</th>
+                        <th>Frequency</th>
+                        <th>#interruptions</th>
+                        <th></th>
+                    </tr>
                 </thead>
                 <tbody>
-                    {treatmentssorted.map(el => <Medication key={el.id} data={el} renderedInFrontPage={true} match={match}/>)}
+                    {treatmentssorted.map(el => <Medication key={el.id} data={el} renderedInFrontPage={true} match={match} />)}
                 </tbody>
             </table>
-        </>;
+               </>;
     }
 }
 
@@ -81,15 +91,15 @@ class EditMedWrapper extends PureComponent {
         const { match, location } = this.props;
         return <>
             <h3>Edit this DMT</h3>
-            <EditMed match={match} override_style={override_style} renderedInFrontPage={true} location={location}/>
-        </>;
+            <EditMed match={match} override_style={override_style} renderedInFrontPage={true} location={location} />
+               </>;
     }
 }
 
 class TreatmentInterruptionWrapper extends PureComponent {
     render() {
         const { match, location } = this.props;
-        return <TreatmentInterruption renderedInFrontPage={true} location={location} match={match} override_style={override_style}/>;
+        return <TreatmentInterruption renderedInFrontPage={true} location={location} match={match} override_style={override_style} />;
     }
 }
 
@@ -99,8 +109,8 @@ class CreateTreatmentsWrapper extends PureComponent {
 
         return <>
             <h3>Record a DMT</h3>
-            <CreateTreatment match={match} override_style={override_style} renderedInFrontPage={true} location={location}/>
-        </>;
+            <CreateTreatment match={match} override_style={override_style} renderedInFrontPage={true} location={location} />
+               </>;
     }
 }
 
@@ -120,13 +130,25 @@ class TreatmentCreatedMessage extends Component {
             <div>
                 <p>Record any interruptions to this treatment:</p>
 
-                <br/>
-                <p><b>Drug:</b> {drugHash[currentTreatment.drug] && drugHash[currentTreatment.drug].name}</p>
-                <p><b>Date:</b> {dateOccur}</p>
-                <br/><br/>
+                <br />
+                <p>
+                    <b>Drug:</b>
+                    {' '}
+                    {drugHash[currentTreatment.drug] && drugHash[currentTreatment.drug].name}
+                </p>
+                <p>
+                    <b>Date:</b>
+                    {' '}
+                    {dateOccur}
+                </p>
+                <br />
+                <br />
                 <p>You can also record another treatment:</p>
-                <br/>
-                <NavLink to={`/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${currentPage}${this.props.location.search}`}> <button>Record another treatment</button></NavLink>
+                <br />
+                <NavLink to={`/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${currentPage}${this.props.location.search}`}>
+                    {' '}
+                    <button>Record another treatment</button>
+                </NavLink>
             </div>
         );
     }
