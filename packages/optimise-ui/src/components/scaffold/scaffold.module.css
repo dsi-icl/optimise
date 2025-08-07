@@ -15,9 +15,8 @@
 
 .statusIcon {
     display: inline-block;
-    height: 90%;
-    width: 2em;
-    padding-right: 0.1em;
+    height: 100%;
+    width: 1.3em;
 }
 
 .statusIcon svg {
@@ -226,7 +225,7 @@
 }
 
 .syncActive {
-    transform-origin: 65% 50%;
+    transform-origin: 50% 50%;
     animation: rotating 2s linear infinite;
 
 }
