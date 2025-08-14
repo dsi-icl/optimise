@@ -1,6 +1,6 @@
 {
     "name": "optimise-core",
-    "version": "3.3.3",
+    "version": "3.4.0",
     "description": "Optimise:MS Backend",
     "keywords": [
         "ms"
@@ -40,14 +40,14 @@
             "<rootDir>/node_modules/",
             "<rootDir>/.stryker-tmp/"
         ],
+        "testSequencer": "<rootDir>/test/sequencer.js",
         "transform": {
             "^.+\\.(js|html|scss)$": "<rootDir>/test/preprocessor.js"
         }
     },
     "dependencies": {
-        "body-parser": "1.20.3",
         "bufferutil": "4.0.9",
-        "connect-session-knex": "3.0.1",
+        "connect-session-knex": "5.0.0",
         "csurf": "1.11.0",
         "csv-parse": "6.1.0",
         "express": "4.21.2",
@@ -73,14 +73,14 @@
         "@stryker-mutator/html-reporter": "3.1.0",
         "@stryker-mutator/javascript-mutator": "4.0.0",
         "@stryker-mutator/jest-runner": "9.0.1",
-        "cross-env": "7.0.3",
+        "cross-env": "10.0.0",
         "jest": "30.0.5",
         "native-ext-loader": "2.3.0",
         "rimraf": "6.0.1",
         "run-script-webpack-plugin": "0.2.3",
         "string-replace-loader": "3.2.0",
         "supertest": "7.1.4",
-        "webpack": "5.101.0",
+        "webpack": "5.101.1",
         "webpack-cli": "6.0.1",
         "webpack-node-externals": "3.0.0"
     },

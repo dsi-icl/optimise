@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import store from '../../redux/store';
@@ -86,59 +86,54 @@ class PregnancyImageForm extends Component {
     }
 
     render() {
-        return (
-            <>
-                <label>Please enter pregnancy image data, if any:</label>
-                <div className={pregnancy_style.pregnancy_image_div}>
-                    {
-                        this.state.addNewImageData_cache && this.state.addNewImageData_cache.map(el => (
-                            <div key={el.id} className={pregnancy_style.one_tentative_image}>
+        return <>
+            <label>Please enter pregnancy image data, if any:</label>
+            <div className={pregnancy_style.pregnancy_image_div}>
+                {
+                    this.state.addNewImageData_cache && this.state.addNewImageData_cache.map(el =>
+                        <div key={el.id} className={pregnancy_style.one_tentative_image}>
 
-                                <OnePregnancyImage data={el} patientId={this.props.data.patientId}></OnePregnancyImage>
-                            </div>
-                        ))
-                    }
-                    {
-                        this.state.showAddNewImageData
-                            ? (
-                                <div>
-                                    <label>
-                                        Image date:
-                                        <PickDate startDate={this.state.date} handleChange={this._handleDateChange} />
-                                    </label>
-                                    <br />
-                                    <br />
-                                    <label>
-                                        Mode:
-                                        <select defaultValue={this.state.mode} onChange={this._handleModeChange}>
-                                            <option value="USS">USS</option>
-                                            <option value="Other">Other</option>
-                                        </select>
-                                    </label>
-                                    <br />
-                                    <br />
-                                    <label>
-                                        Result:
-                                        <select defaultValue={this.state.result} onChange={this._handleResultChange}>
-                                            <option value="Result One">One</option>
-                                            <option value="Result Two">Two</option>
-                                            <option value="Other">Other</option>
-                                        </select>
-                                    </label>
+                            <OnePregnancyImage data={el} patientId={this.props.data.patientId}></OnePregnancyImage>
+                        </div>)
+                }
+                {
+                    this.state.showAddNewImageData
+                        ? <div>
+                            <label>
+                                Image date:
+                                <PickDate startDate={this.state.date} handleChange={this._handleDateChange} />
+                            </label>
+                            <br />
+                            <br />
+                            <label>
+                                Mode:
+                                <select defaultValue={this.state.mode} onChange={this._handleModeChange}>
+                                    <option value="USS">USS</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </label>
+                            <br />
+                            <br />
+                            <label>
+                                Result:
+                                <select defaultValue={this.state.result} onChange={this._handleResultChange}>
+                                    <option value="Result One">One</option>
+                                    <option value="Result Two">Two</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </label>
 
-                                    <button
-                                        onClick={this._handleSubmit}
-                                    >
-                                        Confirm
-                                    </button>
-                                    <button onClick={() => this.setState({ showAddNewImageData: false })}>Cancel</button>
-                                </div>
-                            )
-                            : <button onClick={() => this.setState({ showAddNewImageData: true })}>Add new image data</button>
-                    }
-                </div>
-            </>
-        );
+                            <button
+                                onClick={this._handleSubmit}
+                            >
+                                Confirm
+                            </button>
+                            <button onClick={() => this.setState({ showAddNewImageData: false })}>Cancel</button>
+                        </div>
+                        : <button onClick={() => this.setState({ showAddNewImageData: true })}>Add new image data</button>
+                }
+            </div>
+        </>;
     }
 }
 
@@ -258,69 +253,63 @@ class OnePregnancyImage extends Component {
             >
                 {
                     editing
-                        ? (
-                            <>
-                                <div className={style.editInterruption}>
-                                    <label>Date: </label>
-                                    <PickDate startDate={date} handleChange={this._handleDateChange} />
-                                    <br />
-                                    <label>
-                                        Mode:
-                                        <select defaultValue="other" onChange={this._handleModeChange}>
-                                            <option value="USS">USS</option>
-                                            <option value="Other">Other</option>
-                                        </select>
-                                    </label>
-                                    <br />
-                                    <br />
-
-                                    <label>
-                                        Result:
-                                        <select defaultValue="other" onChange={this._handleResultChange}>
-                                            <option value="Result One">One</option>
-                                            <option value="Result Two">Two</option>
-                                            <option value="Other">Other</option>
-                                        </select>
-                                    </label>
-                                    <br />
-                                    <br />
-
-                                </div>
-                                {this.state.error
-                                    ? (
-                                        <>
-                                            <div className={style.error}>{this.state.error}</div>
-                                            <br />
-                                        </>
-                                    )
-                                    : null}
-                                <button onClick={this._handleSubmit}>Confirm change</button>
-                                <br />
-                                <br />
-                                <button onClick={this._handleEditClick}>Cancel</button>
-                            </>
-                        )
-                        : (
-                            <>
+                        ? <>
+                            <div className={style.editInterruption}>
                                 <label>Date: </label>
-                                {' '}
-                                {date.toISOString().substring(0, 10)}
-                                {' '}
+                                <PickDate startDate={date} handleChange={this._handleDateChange} />
                                 <br />
-                                <label>Mode: </label>
-                                {' '}
-                                {mode}
-                                {' '}
+                                <label>
+                                    Mode:
+                                    <select defaultValue="other" onChange={this._handleModeChange}>
+                                        <option value="USS">USS</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </label>
                                 <br />
-                                <label>Result: </label>
-                                {' '}
-                                {result}
-                                {' '}
                                 <br />
-                                <DeleteButton clickhandler={() => this._handleClickDelete()} />
-                                <span title="Edit" onClick={this._handleEditClick} className={style.dataEdit}><Icon symbol="edit" /></span>
-                            </>
-                        )
+
+                                <label>
+                                    Result:
+                                    <select defaultValue="other" onChange={this._handleResultChange}>
+                                        <option value="Result One">One</option>
+                                        <option value="Result Two">Two</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </label>
+                                <br />
+                                <br />
+
+                            </div>
+                            {this.state.error
+                                ? <>
+                                    <div className={style.error}>{this.state.error}</div>
+                                    <br />
+                                </>
+                                : null}
+                            <button onClick={this._handleSubmit}>Confirm change</button>
+                            <br />
+                            <br />
+                            <button onClick={this._handleEditClick}>Cancel</button>
+                        </>
+                        : <>
+                            <label>Date: </label>
+                            {' '}
+                            {date.toISOString().substring(0, 10)}
+                            {' '}
+                            <br />
+                            <label>Mode: </label>
+                            {' '}
+                            {mode}
+                            {' '}
+                            <br />
+                            <label>Result: </label>
+                            {' '}
+                            {result}
+                            {' '}
+                            <br />
+                            <DeleteButton clickhandler={() => this._handleClickDelete()} />
+                            <span title="Edit" onClick={this._handleEditClick} className={style.dataEdit}><Icon symbol="edit" /></span>
+                        </>
                 }
             </div>
         );

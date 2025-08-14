@@ -1,4 +1,4 @@
-import { Component, createRef } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import store from '../../redux/store';
 import { uploadMeddraAPICall } from '../../redux/actions/admin';
@@ -16,8 +16,8 @@ class Meddra extends Component {
             lltFileExists: '0',
             emptyFiles: false
         };
-        this.lltRef = createRef();
-        this.hierRef = createRef();
+        this.lltRef = React.createRef();
+        this.hierRef = React.createRef();
     }
 
     handleSelectChange = (e) => {
@@ -58,71 +58,60 @@ class Meddra extends Component {
                 <br />
                 <br />
                 <br />
-
                 {
                     this.props.requesting
-                        ? (
-                            <p>
-                                Loading...
-                                <br />
-                                Please do not leave this page. This will take about 2 minutes.
-                            </p>
-                        )
-                        : (
-                            <>
-                                Please select applicable:
-                                <select onChange={this.handleSelectChange} value={this.state.lltFileExists}>
-                                    <option value="0">I only have mdhier.asc file</option>
-                                    <option value="1">I have both mdhier.asc and llt.asc</option>
-                                </select>
+                        ? <p>
+                            Loading...
+                            <br />
+                            Please do not leave this page. This will take about 2 minutes.
+                        </p>
+                        : <>
+                            Please select applicable:
+                            <select onChange={this.handleSelectChange} value={this.state.lltFileExists}>
+                                <option value="0">I only have mdhier.asc file</option>
+                                <option value="1">I have both mdhier.asc and llt.asc</option>
+                            </select>
 
+                            <br />
+                            <br />
+                            <form>
+                                Select
+                                {' '}
+                                <b>mdhier.asc</b>
+                                {' '}
+                                file:
+                                <input type="file" name="mdhierfile" accept=".asc" ref={this.hierRef} onChange={this.handleFileAdded} />
+                                {this.state.lltFileExists === '1'
+                                    ? <>
+                                        <br />
+                                        <br />
+                                        Select
+                                        <b>llt.asc</b>
+                                        {' '}
+                                        file
+                                        <input type="file" name="lltfile" accept=".asc" ref={this.lltRef} onChange={this.handleFileAdded} />
+                                    </>
+                                    : null}
                                 <br />
                                 <br />
-                                <form>
-                                    Select
-                                    {' '}
-                                    <b>mdhier.asc</b>
-                                    {' '}
-                                    file:
-                                    <input type="file" name="mdhierfile" accept=".asc" ref={this.hierRef} onChange={this.handleFileAdded} />
-                                    {this.state.lltFileExists === '1'
-                                        ? (
-                                            <>
-                                                <br />
-                                                <br />
-                                                Select
-                                                <b>llt.asc</b>
-                                                {' '}
-                                                file
-                                                <input type="file" name="lltfile" accept=".asc" ref={this.lltRef} onChange={this.handleFileAdded} />
-                                            </>
-                                        )
-                                        : null}
+                            </form>
+                            {this.state.emptyFiles
+                                ? <>
+                                    <div className={style.error}>One or more files are empty!</div>
                                     <br />
+                                </>
+                                : null}
+                            {this.props.success
+                                ? <>
+                                    <div className={style.success}>Successfully uploaded!</div>
                                     <br />
-                                </form>
-                                {this.state.emptyFiles
-                                    ? (
-                                        <>
-                                            <div className={style.error}>One or more files are empty!</div>
-                                            <br />
-                                        </>
-                                    )
-                                    : null}
-                                {this.props.success
-                                    ? (
-                                        <>
-                                            <div className={style.success}>Successfully uploaded!</div>
-                                            <br />
-                                        </>
-                                    )
-                                    : null}
-                                <button onClick={this.handleSubmit}>
-                                    Upload file
-                                    {this.state.lltFileExists === '1' ? 's' : ''}
-                                </button>
-                            </>
-                        )
+                                </>
+                                : null}
+                            <button onClick={this.handleSubmit}>
+                                Upload file
+                                {this.state.lltFileExists === '1' ? 's' : ''}
+                            </button>
+                        </>
                 }
             </>
         );

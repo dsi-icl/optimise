@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import moment from 'moment';
@@ -239,15 +239,13 @@ class CreatePatient extends Component { // get these props from state: this.prop
                             <br />
                             {
                                 this.state.showConsentDatePicker === 'Y'
-                                    ? (
-                                        <>
-                                            <label>Consent date:</label>
-                                            <PickDate startDate={this.state.optimiseConsentDate} handleChange={this._handleConsentDateChange} />
-                                            {' '}
-                                            <br />
-                                            <br />
-                                        </>
-                                    )
+                                    ? <>
+                                        <label>Consent date:</label>
+                                        <PickDate startDate={this.state.optimiseConsentDate} handleChange={this._handleConsentDateChange} />
+                                        {' '}
+                                        <br />
+                                        <br />
+                                    </>
                                     : null
                             }
                             <br />
@@ -269,33 +267,29 @@ class CreatePatient extends Component { // get these props from state: this.prop
                             <br />
                             {
                                 this.state.gender !== 0 && this.state.gender !== 1
-                                    ? (
-                                        <>
-                                            <h4>*Pregnancy sub study consent</h4>
-                                            <br />
-                                            <label htmlFor="showPregnancyConsentDatePicker">Does the patient give consent for sharing pregnancy data:</label>
-                                            <br />
-                                            <select name="showPregnancyConsentDatePicker" value={this.state.showPregnancyConsentDatePicker} onChange={this._handlePregnancyConsentChange} autoComplete="off">
-                                                <option value="Y">Yes</option>
-                                                <option value="N">No</option>
-                                            </select>
-                                            <br />
-                                            <br />
-                                            {
-                                                this.state.showPregnancyConsentDatePicker === 'Y'
-                                                    ? (
-                                                        <>
-                                                            <label>Consent date:</label>
-                                                            <PickDate startDate={this.state.pregnancyConsentDate} handleChange={this._handlePregnancyConsentDateChange} />
-                                                            {' '}
-                                                            <br />
-                                                            <br />
-                                                        </>
-                                                    )
-                                                    : null
-                                            }
-                                        </>
-                                    )
+                                    ? <>
+                                        <h4>*Pregnancy sub study consent</h4>
+                                        <br />
+                                        <label htmlFor="showPregnancyConsentDatePicker">Does the patient give consent for sharing pregnancy data:</label>
+                                        <br />
+                                        <select name="showPregnancyConsentDatePicker" value={this.state.showPregnancyConsentDatePicker} onChange={this._handlePregnancyConsentChange} autoComplete="off">
+                                            <option value="Y">Yes</option>
+                                            <option value="N">No</option>
+                                        </select>
+                                        <br />
+                                        <br />
+                                        {
+                                            this.state.showPregnancyConsentDatePicker === 'Y'
+                                                ? <>
+                                                    <label>Consent date:</label>
+                                                    <PickDate startDate={this.state.pregnancyConsentDate} handleChange={this._handlePregnancyConsentDateChange} />
+                                                    {' '}
+                                                    <br />
+                                                    <br />
+                                                </>
+                                                : null
+                                        }
+                                    </>
                                     : null
                             }
                             <label htmlFor="dominant_hand">Dominant hand:</label>
@@ -337,12 +331,10 @@ class CreatePatient extends Component { // get these props from state: this.prop
                             <br />
                             <br />
                             {this.state.error
-                                ? (
-                                    <>
-                                        <div className={style.error}>{this.state.error}</div>
-                                        <br />
-                                    </>
-                                )
+                                ? <>
+                                    <div className={style.error}>{this.state.error}</div>
+                                    <br />
+                                </>
                                 : null}
                             <button type="submit">Submit</button>
                         </form>

@@ -1,4 +1,4 @@
-import { Component, Fragment, createRef } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { BackButton } from '../medicalData/utils';
@@ -37,7 +37,7 @@ class EDSSCalculator extends Component {
             childRef(this);
         }
         this.state = { autoCalculatedScore: 0 };
-        this.freeinputref = createRef();
+        this.freeinputref = React.createRef();
         this._hoverType = this._hoverType.bind(this);
         this._handleClick = this._handleClick.bind(this);
         this._handleCancel = this._handleCancel.bind(this);
@@ -246,92 +246,84 @@ class EDSSCalculator extends Component {
                 </div>
                 <div className={_style.panel}>
                     {visitFiltered.length === 1
-                        ? (
-                            <form onSubmit={this._handleSubmit}>
-                                <span>
-                                    <i>
-                                        This is the EDSS performance score calculator for visit of the
-                                        {(new Date(parseInt(visitFiltered[0].visitDate))).toDateString()}
-                                    </i>
-                                    <br />
-                                    <br />
-                                    The helper calculator below will automatically compute a score for you. However, you are free to indicate a score without the use of this helper calculator.
-                                </span>
+                        ? <form onSubmit={this._handleSubmit}>
+                            <span>
+                                <i>
+                                    This is the EDSS performance score calculator for visit of the
+                                    {(new Date(parseInt(visitFiltered[0].visitDate))).toDateString()}
+                                </i>
                                 <br />
                                 <br />
-                                <div className={style.calculatorArea}>
-                                    {criteria.map(el => (
-                                        <div className={style.criterion} key={el.name} onMouseOver={() => this._hoverType(EDSSFields_Hash_reverse[el.idname])} onMouseLeave={() => this._hoverType(null)}>
-                                            <span>{`${el.name} :  `}</span>
-                                            <div>
-                                                {el.range.map(number => (
-                                                    <span key={number} className={style.radioButtonWrapper}>
-                                                        <button
-                                                            type="button"
-                                                            className={typeof originalValues[EDSSFields_Hash_reverse[el.idname]] !== 'undefined' && number === parseFloat(this.originalValues[this.EDSSFields_Hash_reverse[el.idname]]) ? [style.radioButton, style.radioClicked].join(' ') : style.radioButton}
-                                                            onClick={this._handleClick}
-                                                            onMouseOver={() => this._hoverType(null, number)}
-                                                            value={number}
-                                                        >
-                                                            {number}
-                                                        </button>
-                                                        <input type="radio" name={el.idname} value={number} defaultChecked={typeof originalValues[EDSSFields_Hash_reverse[el.idname]] !== 'undefined' && number === parseFloat(this.originalValues[this.EDSSFields_Hash_reverse[el.idname]]) ? true : false} />
-                                                    </span>
-                                                )
-                                                )}
-                                            </div>
-                                        </div>
-                                    )
-                                    )}
-                                </div>
-                                <div className={style.contextArea}>
-                                    {this.state.currentHoverMeasure
-                                        ? currentEDSSObject.labels.split('@').map((e, i) => (
-                                            <Fragment key={i}>
-                                                <span className={this.state.currentHoverPower === i ? style.currentHoverPower : ''}>
-                                                    {i}
-                                                    .
-                                                    {' '}
-                                                    {e}
+                                The helper calculator below will automatically compute a score for you. However, you are free to indicate a score without the use of this helper calculator.
+                            </span>
+                            <br />
+                            <br />
+                            <div className={style.calculatorArea}>
+                                {criteria.map(el =>
+                                    <div className={style.criterion} key={el.name} onMouseOver={() => this._hoverType(EDSSFields_Hash_reverse[el.idname])} onMouseLeave={() => this._hoverType(null)}>
+                                        <span>{`${el.name} :  `}</span>
+                                        <div>
+                                            {el.range.map(number =>
+                                                <span key={number} className={style.radioButtonWrapper}>
+                                                    <button
+                                                        type="button"
+                                                        className={typeof originalValues[EDSSFields_Hash_reverse[el.idname]] !== 'undefined' && number === parseFloat(this.originalValues[this.EDSSFields_Hash_reverse[el.idname]]) ? [style.radioButton, style.radioClicked].join(' ') : style.radioButton}
+                                                        onClick={this._handleClick}
+                                                        onMouseOver={() => this._hoverType(null, number)}
+                                                        value={number}
+                                                    >
+                                                        {number}
+                                                    </button>
+                                                    <input type="radio" name={el.idname} value={number} defaultChecked={typeof originalValues[EDSSFields_Hash_reverse[el.idname]] !== 'undefined' && number === parseFloat(this.originalValues[this.EDSSFields_Hash_reverse[el.idname]]) ? true : false} />
                                                 </span>
-                                                <br />
-                                            </Fragment>
-                                        ))
-                                        : null}
-                                </div>
-                                <br />
-                                <br />
-                                <label htmlFor="calcSocre">Computed total score (automatically generated): </label>
-                                <input type="text" name="calcSocre" value={this.state.autoCalculatedScore} readOnly />
-                                <br />
-                                <br />
-                                <label htmlFor="edss:expanded disability status scale - estimated total">Estimated total score (by the clinician): </label>
-                                <input type="text" ref={this.freeinputref} name="edss:expanded disability status scale - estimated total" defaultValue={originalValues[EDSSFields_Hash_reverse['edss:expanded disability status scale - estimated total']] ? originalValues[EDSSFields_Hash_reverse['edss:expanded disability status scale - estimated total']] : ''} />
-                                <br />
-                                <br />
-                                {this.state.saved
-                                    ? (
-                                        <>
-                                            <button disabled style={{ cursor: 'default', backgroundColor: 'green' }}>Successfully saved!</button>
-                                            <br />
-                                        </>
-                                    )
-                                    : null}
-                                {
-                                    this.props.renderedInFrontPage
-                                        ? null
-                                        : <button type="submit">Save</button>
-                                }
-                                <br />
-                                <br />
-                                <button className={_style.cancelButton} onClick={this._handleCancel}>Cancel</button>
-                            </form>
-                        )
-                        : (
-                            <div>
-                                <i>We could not find the visit you are looking for.</i>
+                                            )}
+                                        </div>
+                                    </div>
+                                )}
                             </div>
-                        )}
+                            <div className={style.contextArea}>
+                                {this.state.currentHoverMeasure
+                                    ? currentEDSSObject.labels.split('@').map((e, i) => (
+                                        <Fragment key={i}>
+                                            <span className={this.state.currentHoverPower === i ? style.currentHoverPower : ''}>
+                                                {i}
+                                                .
+                                                {' '}
+                                                {e}
+                                            </span>
+                                            <br />
+                                        </Fragment>
+                                    ))
+                                    : null}
+                            </div>
+                            <br />
+                            <br />
+                            <label htmlFor="calcSocre">Computed total score (automatically generated): </label>
+                            <input type="text" name="calcSocre" value={this.state.autoCalculatedScore} readOnly />
+                            <br />
+                            <br />
+                            <label htmlFor="edss:expanded disability status scale - estimated total">Estimated total score (by the clinician): </label>
+                            <input type="text" ref={this.freeinputref} name="edss:expanded disability status scale - estimated total" defaultValue={originalValues[EDSSFields_Hash_reverse['edss:expanded disability status scale - estimated total']] ? originalValues[EDSSFields_Hash_reverse['edss:expanded disability status scale - estimated total']] : ''} />
+                            <br />
+                            <br />
+                            {this.state.saved
+                                ? <>
+                                    <button disabled style={{ cursor: 'default', backgroundColor: 'green' }}>Successfully saved!</button>
+                                    <br />
+                                </>
+                                : null}
+                            {
+                                this.props.renderedInFrontPage
+                                    ? null
+                                    : <button type="submit">Save</button>
+                            }
+                            <br />
+                            <br />
+                            <button className={_style.cancelButton} onClick={this._handleCancel}>Cancel</button>
+                        </form>
+                        : <div>
+                            <i>We could not find the visit you are looking for.</i>
+                        </div>}
                 </div>
             </>
         );

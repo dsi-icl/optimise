@@ -1,4 +1,4 @@
-import { Component, createRef } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { BackButton } from '../medicalData/utils';
@@ -14,7 +14,7 @@ class EditPerformanceMesaure extends Component {
     constructor() {
         super();
         this.state = {};
-        this.freeinputref = createRef();
+        this.freeinputref = React.createRef();
         this._handleSubmit = this._handleSubmit.bind(this);
     }
 
@@ -91,39 +91,35 @@ class EditPerformanceMesaure extends Component {
                 </div>
                 <form className={style.panel} onSubmit={this._handleSubmit}>
                     {visitFiltered.length === 1
-                        ? (
-                            <>
-                                <span>
-                                    <i>
-                                        This is for the visit of the
-                                        {(new Date(parseInt(visitFiltered[0].visitDate))).toDateString()}
-                                    </i>
-                                </span>
-                                <br />
-                                <br />
-                                <div>
-                                    You can enter your EDSS score estimation in the following field.
-                                    <br />
-                                    <br />
-                                    <label htmlFor="edss:expanded disability status scale - estimated total">Estimated total score (by the clinician): </label>
-                                    <input key={Math.random()} type="text" ref={this.freeinputref} name="edss:expanded disability status scale - estimated total" defaultValue={originalValues[EDSSFields_Hash_reverse['edss:expanded disability status scale - estimated total']] ? originalValues[EDSSFields_Hash_reverse['edss:expanded disability status scale - estimated total']] : ''} />
-                                    <br />
-                                    <br />
-                                    <button type="submit">Save</button>
-                                    <br />
-                                    <br />
-                                    Or alternatively use the EDSS calculator as a guide by clicking on the following button.
-                                    <br />
-                                    <br />
-                                    <NavLink to={`/patientProfile/${params.patientId}/edit/msPerfMeas/${params.visitId}/edss`}><span className={style.openCalculator}>Open EDSS Calculator</span></NavLink>
-                                </div>
-                            </>
-                        )
-                        : (
+                        ? <>
+                            <span>
+                                <i>
+                                    This is for the visit of the
+                                    {(new Date(parseInt(visitFiltered[0].visitDate))).toDateString()}
+                                </i>
+                            </span>
+                            <br />
+                            <br />
                             <div>
-                                <i>We could not find the EDSS scores you are looking for.</i>
+                                You can enter your EDSS score estimation in the following field.
+                                <br />
+                                <br />
+                                <label htmlFor="edss:expanded disability status scale - estimated total">Estimated total score (by the clinician): </label>
+                                <input key={Math.random()} type="text" ref={this.freeinputref} name="edss:expanded disability status scale - estimated total" defaultValue={originalValues[EDSSFields_Hash_reverse['edss:expanded disability status scale - estimated total']] ? originalValues[EDSSFields_Hash_reverse['edss:expanded disability status scale - estimated total']] : ''} />
+                                <br />
+                                <br />
+                                <button type="submit">Save</button>
+                                <br />
+                                <br />
+                                Or alternatively use the EDSS calculator as a guide by clicking on the following button.
+                                <br />
+                                <br />
+                                <NavLink to={`/patientProfile/${params.patientId}/edit/msPerfMeas/${params.visitId}/edss`}><span className={style.openCalculator}>Open EDSS Calculator</span></NavLink>
                             </div>
-                        )}
+                        </>
+                        : <div>
+                            <i>We could not find the EDSS scores you are looking for.</i>
+                        </div>}
                 </form>
             </>
         );

@@ -1,4 +1,4 @@
-import { Component, Fragment } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
@@ -408,13 +408,11 @@ class FullTimeline extends Component {
                                 let point = <circle cx={x} cy={y} r={2} />;
                                 let text = <text x={x} y={y > 60 ? y - 8 : y + 15} textAnchor="middle">{this.state.edssPoints[k]}</text>;
                                 previous = [x, y];
-                                return (
-                                    <Fragment key={k}>
-                                        {text}
-                                        {point}
-                                        {line}
-                                    </Fragment>
-                                );
+                                return <Fragment key={k}>
+                                    {text}
+                                    {point}
+                                    {line}
+                                </Fragment>;
                             })}
                         </svg>
                     </div>

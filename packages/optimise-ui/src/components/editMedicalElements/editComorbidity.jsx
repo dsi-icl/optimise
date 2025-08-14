@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { BackButton } from '../medicalData/utils';
 import store from '../../redux/store';
@@ -86,7 +86,7 @@ class EditComorbidity extends Component {
                                 else
                                     return 0;
                             })
-                            .map(el => (
+                            .map(el =>
                                 <OneComorbidity
                                     key={Math.random()}
                                     data={el}
@@ -94,36 +94,29 @@ class EditComorbidity extends Component {
                                     _handleClickDelete={this._handleClickDelete}
                                     patientId={patientProfile.data.patientId}
                                 />
-                            )
                             )}
                         {!this.state.addMore
-                            ? (
-                                <>
-                                    <br />
-                                    <button onClick={this._handleClickingAdd}>Add comorbidities</button>
-                                </>
-                            )
-                            : (
-                                <>
-                                    <div className={_style.newInterruption}>
-                                        <label>ICD11: </label>
-                                        <ICD11Picker value={this.state.comorbidity} onChange={this._handleValueChange} />
-                                    </div>
-                                    {this.state.error
-                                        ? (
-                                            <>
-                                                <div className={_style.error}>{this.state.error}</div>
-                                                <br />
-                                            </>
-                                        )
-                                        : null}
-                                    <button onClick={this._handleSubmit}>Submit</button>
-                                    <br />
-                                    <br />
-                                    <button onClick={this._handleClickingAdd}>Cancel</button>
-                                    <br />
-                                </>
-                            )}
+                            ? <>
+                                <br />
+                                <button onClick={this._handleClickingAdd}>Add comorbidities</button>
+                            </>
+                            : <>
+                                <div className={_style.newInterruption}>
+                                    <label>ICD11: </label>
+                                    <ICD11Picker value={this.state.comorbidity} onChange={this._handleValueChange} />
+                                </div>
+                                {this.state.error
+                                    ? <>
+                                        <div className={_style.error}>{this.state.error}</div>
+                                        <br />
+                                    </>
+                                    : null}
+                                <button onClick={this._handleSubmit}>Submit</button>
+                                <br />
+                                <br />
+                                <button onClick={this._handleClickingAdd}>Cancel</button>
+                                <br />
+                            </>}
                     </form>
                 </>
             );
@@ -225,43 +218,35 @@ class OneComorbidity extends Component {
             >
                 {
                     editing
-                        ? (
-                            <>
-                                <div className={style.editInterruption}>
-                                    <label>ICD11: </label>
-                                    <ICD11Picker value={comorbidity} onChange={this._handleValueChange} />
-                                </div>
-                                {this.state.error
-                                    ? (
-                                        <>
-                                            <div className={style.error}>{this.state.error}</div>
-                                            <br />
-                                        </>
-                                    )
-                                    : null}
-                                <button onClick={this._handleSubmit}>Confirm change</button>
-                                <br />
-                                <br />
-                                <button onClick={this._handleEditClick}>Cancel</button>
-                            </>
-                        )
-                        : (
-                            <>
-                                {comorbidity_original
-                                    ? (
-                                        <>
-                                            <label alt={icd11_Hash[0][comorbidity_original].name}>ICD11: </label>
-                                            {' '}
-                                            {icd11_Hash[0][comorbidity_original].name}
-                                            {' '}
-                                            <br />
-                                        </>
-                                    )
-                                    : null}
-                                <DeleteButton clickhandler={() => this._handleClickDelete(data)} />
-                                <span title="Edit" onClick={this._handleEditClick} className={style.dataEdit}><Icon symbol="edit" /></span>
-                            </>
-                        )
+                        ? <>
+                            <div className={style.editInterruption}>
+                                <label>ICD11: </label>
+                                <ICD11Picker value={comorbidity} onChange={this._handleValueChange} />
+                            </div>
+                            {this.state.error
+                                ? <>
+                                    <div className={style.error}>{this.state.error}</div>
+                                    <br />
+                                </>
+                                : null}
+                            <button onClick={this._handleSubmit}>Confirm change</button>
+                            <br />
+                            <br />
+                            <button onClick={this._handleEditClick}>Cancel</button>
+                        </>
+                        : <>
+                            {comorbidity_original
+                                ? <>
+                                    <label alt={icd11_Hash[0][comorbidity_original].name}>ICD11: </label>
+                                    {' '}
+                                    {icd11_Hash[0][comorbidity_original].name}
+                                    {' '}
+                                    <br />
+                                </>
+                                : null}
+                            <DeleteButton clickhandler={() => this._handleClickDelete(data)} />
+                            <span title="Edit" onClick={this._handleEditClick} className={style.dataEdit}><Icon symbol="edit" /></span>
+                        </>
                 }
             </div>
         );

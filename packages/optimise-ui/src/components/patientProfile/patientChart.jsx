@@ -1,4 +1,4 @@
-import { Component, PureComponent, Fragment } from 'react';
+import React, { Component, PureComponent, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { NavLink, withRouter, Link } from 'react-router-dom';
 import { Timeline, TimelineEvent } from 'react-event-timeline';
@@ -62,6 +62,7 @@ class PatientChart extends Component {
                     <h2>
                         <Link to={`/patientProfile/${this.props.match.params.patientId}`}>
                             Patient
+                            {' '}
                             {this.props.fetching ? '' : `${this.props.data.patientId}`}
                         </Link>
                     </h2>
@@ -70,30 +71,26 @@ class PatientChart extends Component {
                 <div className={`${style.panel} ${style.patientHistory}`}>
                     {this.props.fetching
                         ? <div><Icon symbol="loading" /></div>
-                        : (
-                            <>
-                                <br />
-                                <span className={this.props.data.participation ? '' : style.noConsentAlert}>{`This patient ${this.props.data.participation ? 'is enrolled in' : 'has withdrawn from'} the study.`}</span>
-                                <br />
-                                <br />
-                                <span className={this.props.data.optimiseConsent ? '' : style.noConsentAlert}>{`This patient ${this.props.data.optimiseConsent ? 'consents' : 'does NOT consent'} to have their data shared for research purposes.`}</span>
-                                <br />
-                                <br />
-                                {
-                                    this.props.data.demographicData && this.props.data.demographicData.gender !== 1
-                                        ? (
-                                            <>
-                                                <span className={this.props.data.pregnancySubStudyConsent ? '' : style.noConsentAlert}>{`This patient ${this.props.data.pregnancySubStudyConsent ? 'consents' : 'does NOT consent'} to have their pregnancy data shared for research purposes.`}</span>
-                                                <br />
-                                                <br />
-                                            </>
-                                        )
-                                        : null
-                                }
-                                {this.props.data.visits.length > 0 ? <TimelineBox /> : null}
-                                <Charts match={this.props.match} />
-                            </>
-                        )}
+                        : <>
+                            <br />
+                            <span className={this.props.data.participation ? '' : style.noConsentAlert}>{`This patient ${this.props.data.participation ? 'is enrolled in' : 'has withdrawn from'} the study.`}</span>
+                            <br />
+                            <br />
+                            <span className={this.props.data.optimiseConsent ? '' : style.noConsentAlert}>{`This patient ${this.props.data.optimiseConsent ? 'consents' : 'does NOT consent'} to have their data shared for research purposes.`}</span>
+                            <br />
+                            <br />
+                            {
+                                this.props.data.demographicData && this.props.data.demographicData.gender !== 1
+                                    ? <>
+                                        <span className={this.props.data.pregnancySubStudyConsent ? '' : style.noConsentAlert}>{`This patient ${this.props.data.pregnancySubStudyConsent ? 'consents' : 'does NOT consent'} to have their pregnancy data shared for research purposes.`}</span>
+                                        <br />
+                                        <br />
+                                    </>
+                                    : null
+                            }
+                            {this.props.data.visits.length > 0 ? <TimelineBox /> : null}
+                            <Charts match={this.props.match} />
+                        </>}
                 </div>
             </>
         );
@@ -306,8 +303,8 @@ class OneVisit extends Component {
         //
         const pregnancyEntries = this.props.data.pregnancyEntries.filter(el => el['recordedDuringVisit'] === this.props.visitId);
         const pregnancyImages = this.props.data.pregnancyImages.filter(el => el.visitId === this.props.visitId);
-        const isLatestPregnancyEntry = this.props.data.pregnancyEntries.sort((a, b) => b.id - a.id)[0]?.id === pregnancyEntries[0]?.id;
-        const isLatestVisit = this.props.data.visits.sort((a, b) => b.id - a.id)[0]?.id === this.props.visitId;
+        const isLatestPregnancyEntry = pregnancyEntries.sort((a, b) => parseInt(a.startDate) - parseInt(b.startDate))[0]?.id === pregnancyEntries[0]?.id;
+        const isLatestVisit = this.props.data.visits.sort((a, b) => parseInt(a.visitDate) - parseInt(b.visitDate))[0]?.id === this.props.visitId;
 
         function isValidDateFormat(dateString) {
             const date = new Date(dateString);
@@ -320,8 +317,10 @@ class OneVisit extends Component {
         if (pregnancyEntries.length) {
             const entryOrder = PregnancyEntry._checkEntryOrder(pregnancyEntries[0], this.props.data);
             pregnancy = this.props.data.pregnancy.filter(el => el.id === pregnancyEntries[0].pregnancyId);
-            entryIsTerm = (entryOrder === 'latest' || entryOrder === 'sole entry') && typeof pregnancy[0].outcome === 'number' && pregnancy[0].outcomeDate !== null;
-            baselineDeleted = (entryOrder === 'first' || entryOrder === 'sole entry') && pregnancyEntries[0].type === 2;
+            if (pregnancy.length > 0) {
+                entryIsTerm = (entryOrder === 'latest' || entryOrder === 'sole entry') && typeof pregnancy[0].outcome === 'number' && pregnancy[0].outcomeDate !== null;
+                baselineDeleted = (entryOrder === 'first' || entryOrder === 'sole entry') && pregnancyEntries[0].type === 2;
+            }
         }
 
         const pregnancyOffspring = JSON.parse(pregnancyEntries[0]?.offsprings ?? '[]');
@@ -455,349 +454,328 @@ class OneVisit extends Component {
                     : null}
 
                 {this.props.visitType === 1
-                    ? (
-                        <>
-                            <NavLink to={`/patientProfile/${this.props.patientId}/edit/visit/${this.props.visitId}`} className={style.visitEditButton}>
-                                <span title="Edit visit date and reason" className={style.dataEdit}><Icon symbol="edit" /></span>
-                            </NavLink>
-                            <br />
-                            <h4>
-                                <Icon symbol="addVS" />
-                                &nbsp;PHYSICAL MEASURES, VITAL SIGNS
-                                {isMinor ? ', ' : ' AND'}
+                    ? <>
+                        <NavLink to={`/patientProfile/${this.props.patientId}/edit/visit/${this.props.visitId}`} className={style.visitEditButton}>
+                            <span title="Edit visit date and reason" className={style.dataEdit}><Icon symbol="edit" /></span>
+                        </NavLink>
+                        <br />
+                        <h4>
+                            <Icon symbol="addVS" />
+                            &nbsp;PHYSICAL MEASURES, VITAL SIGNS
+                            {isMinor ? ', ' : ' AND'}
+                            {' '}
+                            HABITS
+                            {isMinor ? ' AND ACADEMIC CONCERNS' : ''}
+                        </h4>
+                        {VSValueArray.length > 0
+                            ? (
+                                <div className={style.visitWrapper}>
+                                    <table>
+                                        <tbody>
+                                            {VSValueArray.length > 0
+                                                ? (
+                                                    <tr>
+                                                        <td>{VSValueArray[0] ? `${VSValueArray[0].name}: ${VSValueArray[0].value} ${VSValueArray[0].unit ? VSValueArray[0].unit : ''}` : ''}</td>
+                                                        <td>{VSValueArray[1] ? `${VSValueArray[1].name}: ${VSValueArray[1].value} ${VSValueArray[1].unit ? VSValueArray[1].unit : ''}` : ''}</td>
+                                                    </tr>
+                                                )
+                                                : null}
+                                            {VSValueArray.length > 2
+                                                ? (
+                                                    <tr>
+                                                        <td>{VSValueArray[2] ? `${VSValueArray[2].name}: ${VSValueArray[2].value} ${VSValueArray[2].unit ? VSValueArray[2].unit : ''}` : ''}</td>
+                                                        <td>{VSValueArray[3] ? `${VSValueArray[3].name}: ${VSValueArray[3].value} ${VSValueArray[3].unit ? VSValueArray[3].unit : ''}` : ''}</td>
+                                                    </tr>
+                                                )
+                                                : null}
+                                            {VSValueArray.length > 4
+                                                ? (
+                                                    <tr>
+                                                        <td>{VSValueArray[4] ? `${VSValueArray[4].name}: ${VSValueArray[4].value} ${VSValueArray[4].unit ? VSValueArray[4].unit : ''}` : ''}</td>
+                                                        <td>{VSValueArray[5] ? `${VSValueArray[5].name}: ${VSValueArray[5].value} ${VSValueArray[5].unit ? VSValueArray[5].unit : ''}` : ''}</td>
+                                                    </tr>
+                                                )
+                                                : null}
+                                            {VSValueArray.length > 6
+                                                ? (
+                                                    <tr>
+                                                        <td>{VSValueArray[6] ? `${VSValueArray[6].name}: ${VSValueArray[6].value} ${VSValueArray[6].unit ? VSValueArray[6].unit : ''}` : ''}</td>
+                                                        <td>{VSValueArray[7] ? `${VSValueArray[7].name}: ${VSValueArray[7].value} ${VSValueArray[7].unit ? VSValueArray[7].unit : ''}` : ''}</td>
+                                                    </tr>
+                                                )
+                                                : null}
+                                            {VSValueArray.length > 8
+                                                ? (
+                                                    <tr>
+                                                        <td>{VSValueArray[8] ? `${VSValueArray[8].name}: ${VSValueArray[8].value} ${VSValueArray[8].unit ? VSValueArray[8].unit : ''}` : ''}</td>
+                                                        <td>{VSValueArray[9] ? `${VSValueArray[9].name}: ${VSValueArray[9].value} ${VSValueArray[9].unit ? VSValueArray[9].unit : ''}` : ''}</td>
+                                                    </tr>
+                                                )
+                                                : null}
+                                        </tbody>
+                                    </table>
+                                    <br />
+                                </div>
+                            )
+                            : null}
+                        <NavLink to={`/patientProfile/${this.props.patientId}/data/visit/${this.props.visitId}/vitals`} activeClassName={style.activeNavLink}>
+                            <button>
+                                Edit physical measures
+                                {isMinor ? ', ' : ' and '}
+                                vital signs
+                                {isMinor ? ' and academic concerns' : ''}
                                 {' '}
-                                HABITS
-                                {isMinor ? ' AND ACADEMIC CONCERNS' : ''}
-                            </h4>
-                            {VSValueArray.length > 0
-                                ? (
-                                    <div className={style.visitWrapper}>
-                                        <table>
-                                            <tbody>
-                                                {VSValueArray.length > 0
-                                                    ? (
-                                                        <tr>
-                                                            <td>{VSValueArray[0] ? `${VSValueArray[0].name}: ${VSValueArray[0].value} ${VSValueArray[0].unit ? VSValueArray[0].unit : ''}` : ''}</td>
-                                                            <td>{VSValueArray[1] ? `${VSValueArray[1].name}: ${VSValueArray[1].value} ${VSValueArray[1].unit ? VSValueArray[1].unit : ''}` : ''}</td>
-                                                        </tr>
-                                                    )
-                                                    : null}
-                                                {VSValueArray.length > 2
-                                                    ? (
-                                                        <tr>
-                                                            <td>{VSValueArray[2] ? `${VSValueArray[2].name}: ${VSValueArray[2].value} ${VSValueArray[2].unit ? VSValueArray[2].unit : ''}` : ''}</td>
-                                                            <td>{VSValueArray[3] ? `${VSValueArray[3].name}: ${VSValueArray[3].value} ${VSValueArray[3].unit ? VSValueArray[3].unit : ''}` : ''}</td>
-                                                        </tr>
-                                                    )
-                                                    : null}
-                                                {VSValueArray.length > 4
-                                                    ? (
-                                                        <tr>
-                                                            <td>{VSValueArray[4] ? `${VSValueArray[4].name}: ${VSValueArray[4].value} ${VSValueArray[4].unit ? VSValueArray[4].unit : ''}` : ''}</td>
-                                                            <td>{VSValueArray[5] ? `${VSValueArray[5].name}: ${VSValueArray[5].value} ${VSValueArray[5].unit ? VSValueArray[5].unit : ''}` : ''}</td>
-                                                        </tr>
-                                                    )
-                                                    : null}
-                                                {VSValueArray.length > 6
-                                                    ? (
-                                                        <tr>
-                                                            <td>{VSValueArray[6] ? `${VSValueArray[6].name}: ${VSValueArray[6].value} ${VSValueArray[6].unit ? VSValueArray[6].unit : ''}` : ''}</td>
-                                                            <td>{VSValueArray[7] ? `${VSValueArray[7].name}: ${VSValueArray[7].value} ${VSValueArray[7].unit ? VSValueArray[7].unit : ''}` : ''}</td>
-                                                        </tr>
-                                                    )
-                                                    : null}
-                                                {VSValueArray.length > 8
-                                                    ? (
-                                                        <tr>
-                                                            <td>{VSValueArray[8] ? `${VSValueArray[8].name}: ${VSValueArray[8].value} ${VSValueArray[8].unit ? VSValueArray[8].unit : ''}` : ''}</td>
-                                                            <td>{VSValueArray[9] ? `${VSValueArray[9].name}: ${VSValueArray[9].value} ${VSValueArray[9].unit ? VSValueArray[9].unit : ''}` : ''}</td>
-                                                        </tr>
-                                                    )
-                                                    : null}
-                                            </tbody>
-                                        </table>
-                                        <br />
-                                    </div>
-                                )
-                                : null}
-                            <NavLink to={`/patientProfile/${this.props.patientId}/data/visit/${this.props.visitId}/vitals`} activeClassName={style.activeNavLink}>
-                                <button>
-                                    Edit physical measures
-                                    {isMinor ? ', ' : ' and '}
-                                    vital signs
-                                    {isMinor ? ' and academic concerns' : ''}
-                                    {' '}
-                                    data for this visit
-                                </button>
-                            </NavLink>
-                            <br />
-                            <br />
-                        </>
-                    )
+                                data for this visit
+                            </button>
+                        </NavLink>
+                        <br />
+                        <br />
+                    </>
                     : null}
 
                 {this.props.visitType === 1 || visitHasClinicalEvents
-                    ? (
-                        <>
-                            <h4>
-                                <Icon symbol="symptom" />
-                                &nbsp;
-                                {baselineVisit ? 'FIRST SYMPTOMS INDICATING MS' : 'SYMPTOMS'}
-                            </h4>
-                            {filteredSymptoms.length > 0
-                                ? (
-                                    <div className={style.visitWrapper}>
-                                        <table>
-                                            <thead>
-                                                <tr>
-                                                    <th>Recorded symptoms</th>
-                                                    <th>Value</th>
+                    ? <>
+                        <h4>
+                            <Icon symbol="symptom" />
+                            &nbsp;
+                            {baselineVisit ? 'FIRST SYMPTOMS INDICATING MS' : 'SYMPTOMS'}
+                        </h4>
+                        {filteredSymptoms.length > 0
+                            ? (
+                                <div className={style.visitWrapper}>
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>Recorded symptoms</th>
+                                                <th>Value</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {filteredSymptoms.map(el => (
+                                                <tr key={el.field}>
+                                                    <td>{el.name}</td>
+                                                    <td>{el.value}</td>
                                                 </tr>
-                                            </thead>
-                                            <tbody>
-                                                {filteredSymptoms.map(el => (
-                                                    <tr key={el.field}>
-                                                        <td>{el.name}</td>
-                                                        <td>{el.value}</td>
-                                                    </tr>
-                                                ))}
-                                            </tbody>
-                                        </table>
-                                        <br />
-                                    </div>
-                                )
-                                : null}
-                            <NavLink to={`/patientProfile/${this.props.data.patientId}/data/visit/${this.props.visitId}/symptoms`} activeClassName={style.activeNavLink}>
-                                <button>Edit symptoms data for this visit</button>
-                            </NavLink>
-                            <br />
-                            <br />
-                            <h4>
-                                <Icon symbol="symptom" />
-                                &nbsp;
-                                {baselineVisit ? 'FIRST SIGNS INDICATING MS' : 'SIGNS'}
-                            </h4>
-                            {filteredSigns.length !== 0
-                                ? (
-                                    <div className={style.visitWrapper}>
-                                        <table>
-                                            <thead>
-                                                <tr>
-                                                    <th>Recorded signs</th>
-                                                    <th>Value</th>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                    <br />
+                                </div>
+                            )
+                            : null}
+                        <NavLink to={`/patientProfile/${this.props.data.patientId}/data/visit/${this.props.visitId}/symptoms`} activeClassName={style.activeNavLink}>
+                            <button>Edit symptoms data for this visit</button>
+                        </NavLink>
+                        <br />
+                        <br />
+                        <h4>
+                            <Icon symbol="symptom" />
+                            &nbsp;
+                            {baselineVisit ? 'FIRST SIGNS INDICATING MS' : 'SIGNS'}
+                        </h4>
+                        {filteredSigns.length !== 0
+                            ? (
+                                <div className={style.visitWrapper}>
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>Recorded signs</th>
+                                                <th>Value</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {filteredSigns.map(el => (
+                                                <tr key={el.field}>
+                                                    <td>{el.name}</td>
+                                                    <td>{el.value}</td>
                                                 </tr>
-                                            </thead>
-                                            <tbody>
-                                                {filteredSigns.map(el => (
-                                                    <tr key={el.field}>
-                                                        <td>{el.name}</td>
-                                                        <td>{el.value}</td>
-                                                    </tr>
-                                                ))}
-                                            </tbody>
-                                        </table>
-                                        <br />
-                                    </div>
-                                )
-                                : null}
-                            <NavLink to={`/patientProfile/${this.props.data.patientId}/data/visit/${this.props.visitId}/signs`} activeClassName={style.activeNavLink}>
-                                <button>Edit signs data for this visit</button>
-                            </NavLink>
-                            <br />
-                            <br />
-                        </>
-                    )
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                    <br />
+                                </div>
+                            )
+                            : null}
+                        <NavLink to={`/patientProfile/${this.props.data.patientId}/data/visit/${this.props.visitId}/signs`} activeClassName={style.activeNavLink}>
+                            <button>Edit signs data for this visit</button>
+                        </NavLink>
+                        <br />
+                        <br />
+                    </>
                     : null}
 
                 {this.props.visitType === 1
-                    ? (
-                        <>
-                            <h4>
-                                <Icon symbol="symptom" />
-                                &nbsp;COMORBIDITIES
-                            </h4>
-                            {filteredComorbidities.length > 0
-                                ? (
-                                    <div className={style.visitWrapper}>
-                                        <table>
-                                            <tbody>
-                                                {filteredComorbidities.map(el =>
-                                                    this.props.icd11_Hash && this.props.icd11_Hash[el.comorbidity]
-                                                        ? (
-                                                            <tr key={el.id}>
-                                                                <td>{this.props.icd11_Hash[el.comorbidity].name}</td>
-                                                            </tr>
-                                                        )
-                                                        : null
-                                                )}
-                                            </tbody>
-                                        </table>
-                                        <br />
-                                    </div>
-                                )
-                                : null}
-                            <NavLink to={`/patientProfile/${this.props.data.patientId}/edit/comorbidity/${this.props.visitId}`} activeClassName={style.activeNavLink}>
-                                <button>Edit comorbidities</button>
-                            </NavLink>
-                            <br />
-                            <br />
-                        </>
-                    )
-                    : null}
-
-                {this.props.visitType === 1
-                    ? (
-                        <>
-                            <h4>
-                                <Icon symbol="addTreatment" />
-                                &nbsp;CONCOMITANT MEDICATIONS
-                            </h4>
-                            {concomitantMeds.length > 0
-                                ? (
-                                    <div className={style.visitWrapper}>
-                                        <table>
-                                            <thead>
-                                                <tr>
-                                                    <th>Name</th>
-                                                    <th>Indication</th>
-                                                    <th>Start date</th>
-                                                    <th>End date</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {concomitantMeds.map(el => <ConcomitantMed data={el} key={el.id} />)}
-                                            </tbody>
-                                        </table>
-                                        <br />
-                                    </div>
-                                )
-                                : null}
-                            <NavLink to={`/patientProfile/${this.props.data.patientId}/edit/concomitantMed/${this.props.visitId}`} activeClassName={style.activeNavLink}>
-                                <button>Edit concomitant medications</button>
-                            </NavLink>
-                            <br />
-                            <br />
-                        </>
-                    )
-                    : null}
-
-                {this.props.visitType === 1
-                    ? (
-                        <>
-                            <h4>
-                                <Icon symbol="measure" />
-                                &nbsp;PERFORMANCE MEASURES
-                            </h4>
-                            {filteredEDSS.length > 0
-                                ? (
-                                    <div className={style.visitWrapper}>
-                                        <table>
-                                            <thead>
-                                                <tr>
-                                                    <th>Recorded performance measures</th>
-                                                    <th>Value</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {filteredEDSS.filter(el => isNaN(parseFloat(el.value)) !== true).map((el) => {
-                                                    let isTotal = relevantEDSSFields.filter(f => f.id === el.field)[0].idname === 'edss:expanded disability status scale - estimated total';
-                                                    let EDSSComputed = edssAlgorithmFromProps(relevantEDSSFields, this.props.visitData);
-                                                    return (
-                                                        <Fragment key={el.field}>
-                                                            <tr className={isTotal ? style.performanceHighlight : ''}>
-                                                                <td>{el.name}</td>
-                                                                <td>{el.value}</td>
-                                                            </tr>
-                                                            {isTotal && EDSSComputed !== ''
-                                                                ? (
-                                                                    <tr className={style.performanceHighlight}>
-                                                                        <td>edss &gt; expanded disability status scale - computed total</td>
-                                                                        <td>{EDSSComputed}</td>
-                                                                    </tr>
-                                                                )
-                                                                : null}
-                                                        </Fragment>
-                                                    );
-                                                })}
-                                            </tbody>
-                                        </table>
-                                        <br />
-                                    </div>
-                                )
-                                : null}
-                            <NavLink to={`/patientProfile/${this.props.data.patientId}/edit/msPerfMeas/${this.props.visitId}`} activeClassName={style.activeNavLink}>
-                                <button>Edit performance measures data for this visit</button>
-                            </NavLink>
-                            <br />
-                            <br />
-                        </>
-                    )
-                    : null}
-                {this.props.data.demographicData && this.props.data.demographicData.gender !== 1
-                    ? (
-                        <>
-                            <h4>
-                                <Icon symbol="symptom" />
-                                &nbsp;PREGNANCY
-                            </h4>
-                            {pregnancyEntries.length && pregnancy.length && this.props.data.pregnancySubStudyConsent
-                                ? (
-                                    <>
-                                        This section only reflects the pregnancy entry related to this visit. To see all pregnancy information, please visit the pregnancy section.
-                                        <br />
-                                        <br />
-                                        <div className={style.visitWrapper}>
-                                            <table>
-                                                <thead>
-                                                    <tr>
-                                                        <th colSpan="2">{pregnancyEntries[0].type === 1 ? 'Baseline' : pregnancyEntries[0].type === 2 ? 'Follow up' : pregnancyEntries[0].type === 3 ? 'Term' : 'Unknown'}</th>
+                    ? <>
+                        <h4>
+                            <Icon symbol="symptom" />
+                            &nbsp;COMORBIDITIES
+                        </h4>
+                        {filteredComorbidities.length > 0
+                            ? (
+                                <div className={style.visitWrapper}>
+                                    <table>
+                                        <tbody>
+                                            {filteredComorbidities.map(el =>
+                                                this.props.icd11_Hash && this.props.icd11_Hash[el.comorbidity]
+                                                    ? <tr key={el.id}>
+                                                        <td>{this.props.icd11_Hash[el.comorbidity].name}</td>
                                                     </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {pregnancyEntries[0].type === 1
-                                                        ? (
-                                                            <tr>
-                                                                <td>Pregnancy start date</td>
-                                                                <td>{new Date(parseFloat(pregnancy[0].startDate)).toDateString()}</td>
-                                                            </tr>
-                                                        )
-                                                        : null}
+                                                    : null
+                                            )}
+                                        </tbody>
+                                    </table>
+                                    <br />
+                                </div>
+                            )
+                            : null}
+                        <NavLink to={`/patientProfile/${this.props.data.patientId}/edit/comorbidity/${this.props.visitId}`} activeClassName={style.activeNavLink}>
+                            <button>Edit comorbidities</button>
+                        </NavLink>
+                        <br />
+                        <br />
+                    </>
+                    : null}
 
-                                                    {baselineDeleted
-                                                        ? (
-                                                            <tr>
-                                                                <td style={{ color: 'red' }}>Pregnancy start date * Baseline entry error - please recreate</td>
-                                                                <td style={{ color: 'red' }}>{new Date(parseFloat(pregnancy[0].startDate)).toDateString()}</td>
-                                                            </tr>
-                                                        )
-                                                        : null}
+                {this.props.visitType === 1
+                    ? <>
+                        <h4>
+                            <Icon symbol="addTreatment" />
+                            &nbsp;CONCOMITANT MEDICATIONS
+                        </h4>
+                        {concomitantMeds.length > 0
+                            ? (
+                                <div className={style.visitWrapper}>
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Indication</th>
+                                                <th>Start date</th>
+                                                <th>End date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {concomitantMeds.map(el => <ConcomitantMed data={el} key={el.id} />)}
+                                        </tbody>
+                                    </table>
+                                    <br />
+                                </div>
+                            )
+                            : null}
+                        <NavLink to={`/patientProfile/${this.props.data.patientId}/edit/concomitantMed/${this.props.visitId}`} activeClassName={style.activeNavLink}>
+                            <button>Edit concomitant medications</button>
+                        </NavLink>
+                        <br />
+                        <br />
+                    </>
+                    : null}
 
-                                                    {pregnancy[0].outcomeDate !== null && entryIsTerm && pregnancyEntries[0].type === 2
-                                                        ? (
-                                                            <>
-                                                                <tr>
-                                                                    <td>Pregnancy end date</td>
-                                                                    <td>{new Date(parseFloat(pregnancy[0].outcomeDate)).toDateString()}</td>
-
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>Pregnancy outcome</td>
-                                                                    <td>{this.props.pregnancyOutcome_hash[pregnancy[0].outcome]}</td>
-                                                                </tr>
-                                                            </>
-                                                        )
-                                                        : null}
-
-                                                    {pregnancyEntries[0].data.map((el, index) => (
-                                                        <tr key={index}>
-                                                            <td>{this.props.pregnancyEntryFields_hash[el.field_idname].definition}</td>
-                                                            <td>{isValidDateFormat(el.value) ? el.value.slice(0, 10) : el.value}</td>
+                {this.props.visitType === 1
+                    ? <>
+                        <h4>
+                            <Icon symbol="measure" />
+                            &nbsp;PERFORMANCE MEASURES
+                        </h4>
+                        {filteredEDSS.length > 0
+                            ? (
+                                <div className={style.visitWrapper}>
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>Recorded performance measures</th>
+                                                <th>Value</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {filteredEDSS.filter(el => isNaN(parseFloat(el.value)) !== true).map((el) => {
+                                                let isTotal = relevantEDSSFields.filter(f => f.id === el.field)[0].idname === 'edss:expanded disability status scale - estimated total';
+                                                let EDSSComputed = edssAlgorithmFromProps(relevantEDSSFields, this.props.visitData);
+                                                return (
+                                                    <Fragment key={el.field}>
+                                                        <tr className={isTotal ? style.performanceHighlight : ''}>
+                                                            <td>{el.name}</td>
+                                                            <td>{el.value}</td>
                                                         </tr>
-                                                    ))}
-                                                </tbody>
-                                            </table>
+                                                        {isTotal && EDSSComputed !== ''
+                                                            ? (
+                                                                <tr className={style.performanceHighlight}>
+                                                                    <td>edss &gt; expanded disability status scale - computed total</td>
+                                                                    <td>{EDSSComputed}</td>
+                                                                </tr>
+                                                            )
+                                                            : null}
+                                                    </Fragment>
+                                                );
+                                            })}
+                                        </tbody>
+                                    </table>
+                                    <br />
+                                </div>
+                            )
+                            : null}
+                        <NavLink to={`/patientProfile/${this.props.data.patientId}/edit/msPerfMeas/${this.props.visitId}`} activeClassName={style.activeNavLink}>
+                            <button>Edit performance measures data for this visit</button>
+                        </NavLink>
+                        <br />
+                        <br />
+                    </>
+                    : null}
+                {this.props.visitType === 1 && this.props.data.demographicData && this.props.data.demographicData.gender !== 1
+                    ? <>
+                        <h4>
+                            <Icon symbol="symptom" />
+                            &nbsp;PREGNANCY
+                        </h4>
+                        {pregnancyEntries.length && pregnancy.length && this.props.data.pregnancySubStudyConsent
+                            ? <>
+                                This section only reflects the pregnancy entry related to this visit. To see all pregnancy information, please visit the pregnancy section.
+                                <br />
+                                <br />
+                                <div className={style.visitWrapper}>
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th colSpan="2">{pregnancyEntries[0].type === 1 ? 'Baseline' : pregnancyEntries[0].type === 2 ? 'Follow up' : pregnancyEntries[0].type === 3 ? 'Term' : 'Unknown'}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {pregnancyEntries[0].type === 1
+                                                ? <tr>
+                                                    <td>Pregnancy start date</td>
+                                                    <td>{new Date(parseFloat(pregnancy[0].startDate)).toDateString()}</td>
+                                                </tr>
+                                                : null}
 
-                                            {/* {pregnancyOffspring?.length
+                                            {baselineDeleted
+                                                ? <tr>
+                                                    <td style={{ color: 'red' }} colSpan={2}>We could not find a baseline entry, please check this is right</td>
+                                                </tr>
+                                                : null}
+
+                                            {pregnancy[0].outcomeDate !== null && entryIsTerm && pregnancyEntries[0].type === 2
+                                                ? <>
+                                                    <tr>
+                                                        <td>Pregnancy end date A</td>
+                                                        <td>{new Date(parseFloat(pregnancy[0].outcomeDate)).toDateString()}</td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Pregnancy outcome</td>
+                                                        <td>{this.props.pregnancyOutcome_hash[pregnancy[0].outcome]}</td>
+                                                    </tr>
+                                                </>
+                                                : null}
+
+                                            {pregnancyEntries[0].data.map((el, index) => (
+                                                <tr key={index}>
+                                                    <td>{this.props.pregnancyEntryFields_hash[el.field_idname].definition}</td>
+                                                    <td>{isValidDateFormat(el.value) ? el.value.slice(0, 10) : el.value}</td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+
+                                    {/* {pregnancyOffspring?.length
                                         ? pregnancyOffspring.map((el, index) => {
                                             const offspringValues = Object.entries(el);
                                             return (
@@ -806,7 +784,7 @@ class OneVisit extends Component {
                                                     <table>
                                                         <thead>
                                                             <tr>
-                                                                <th colSpan="2">Offspring ID{el.id}</th>
+                                                                <th colSpan="2">Offspring ID {el.id}</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -827,95 +805,85 @@ class OneVisit extends Component {
                                         : null
                                     } */}
 
-                                            {pregnancyImages.length
-                                                ? pregnancyImages.map((el, index) => {
-                                                    return (
-                                                        <Fragment key={index}>
-                                                            <br />
-                                                            <table>
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th colSpan="2">
-                                                                            Pregnancy Image
-                                                                            {el.id}
-                                                                        </th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    <tr>
-                                                                        <td>Date</td>
-                                                                        <td>{new Date(parseFloat(el.date)).toDateString()}</td>
-                                                                    </tr>
-                                                                </tbody>
-                                                                <tbody>
-                                                                    <tr>
-                                                                        <td>Mode</td>
-                                                                        <td>{el.mode}</td>
-                                                                    </tr>
-                                                                </tbody>
-                                                                <tbody>
-                                                                    <tr>
-                                                                        <td>Result</td>
-                                                                        <td>{el.result}</td>
-                                                                    </tr>
-                                                                </tbody>
-                                                            </table>
-                                                        </Fragment>
-                                                    );
-                                                })
-                                                : null}
+                                    {pregnancyImages.length
+                                        ? pregnancyImages.map((el, index) => {
+                                            return (
+                                                <Fragment key={index}>
+                                                    <br />
+                                                    <table>
+                                                        <thead>
+                                                            <tr>
+                                                                <th colSpan="2">
+                                                                    Pregnancy Image
+                                                                    {el.id}
+                                                                </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>Date</td>
+                                                                <td>{new Date(parseFloat(el.date)).toDateString()}</td>
+                                                            </tr>
+                                                        </tbody>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>Mode</td>
+                                                                <td>{el.mode}</td>
+                                                            </tr>
+                                                        </tbody>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>Result</td>
+                                                                <td>{el.result}</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </Fragment>
+                                            );
+                                        })
+                                        : null}
 
-                                            {pregnancyOffspring?.length
-                                                ? (
-                                                    <>
-                                                        <br />
-                                                        <NavLink to={`/patientProfile/${this.props.data.patientId}/pregnancy/${pregnancyEntries[0].pregnancyId}/offsprings`} activeClassName={style.activeNavLink}>
-                                                            <button>
-                                                                See offspring
-                                                                {pregnancyOffspring.length > 1 ? 's' : ''}
-                                                                {' '}
-                                                                data for this pregnancy
-                                                            </button>
-                                                        </NavLink>
-                                                        <br />
-                                                    </>
-                                                )
-                                                : null}
+                                    {pregnancyOffspring?.length
+                                        ? <>
                                             <br />
-                                        </div>
-                                        {isLatestPregnancyEntry
-                                            ? (
-                                                <>
-                                                    <NavLink to={`/patientProfile/${this.props.data.patientId}/data/visit/${this.props.visitId}/pregnancy`} activeClassName={style.activeNavLink}>
-                                                        <button id={`epe_v${this.props.visitId}`}>Edit pregnancy entry</button>
-                                                    </NavLink>
-                                                    <br />
+                                            <NavLink to={`/patientProfile/${this.props.data.patientId}/pregnancy/${pregnancyEntries[0].pregnancyId}/offsprings`} activeClassName={style.activeNavLink}>
+                                                <button>
+                                                    See offspring
+                                                    {pregnancyOffspring.length > 1 ? 's' : ''}
                                                     {' '}
-                                                    <br />
-                                                </>
-                                            )
-                                            : null}
-                                    </>
-                                )
-                                : isLatestVisit
-                                    ? (
-                                        <>
-                                            <NavLink to={`/patientProfile/${this.props.data.patientId}/data/visit/${this.props.visitId}/pregnancy?add`} activeClassName={style.activeNavLink}>
-                                                <button>Add pregnancy entry</button>
+                                                    data for this pregnancy
+                                                </button>
                                             </NavLink>
                                             <br />
-                                            <br />
                                         </>
-                                    )
-                                    : (
-                                        <>
-                                            You can only modify the last pregnancy information record to add more to the latest visit record.
-                                            <br />
-                                            <br />
-                                        </>
-                                    )}
-                        </>
-                    )
+                                        : null}
+                                    <br />
+                                </div>
+                                {isLatestPregnancyEntry
+                                    ? <>
+                                        <NavLink to={`/patientProfile/${this.props.data.patientId}/data/visit/${this.props.visitId}/pregnancy`} activeClassName={style.activeNavLink}>
+                                            <button id={`epe_v${this.props.visitId}`}>Edit pregnancy entry</button>
+                                        </NavLink>
+                                        <br />
+                                        {' '}
+                                        <br />
+                                    </>
+                                    : null}
+                            </>
+                            : isLatestVisit
+                                ? <>
+                                    <NavLink to={`/patientProfile/${this.props.data.patientId}/data/visit/${this.props.visitId}/pregnancy?add`} activeClassName={style.activeNavLink}>
+                                        <button>Add pregnancy entry</button>
+                                    </NavLink>
+                                    <br />
+                                    <br />
+                                </>
+                                : <>
+                                    You can only modify the last pregnancy information record to add more to the latest visit record.
+                                    <br />
+                                    <br />
+                                </>}
+                    </>
                     : null}
 
                 <>
@@ -1021,10 +989,11 @@ class Charts extends Component {
         }
         const { visits } = this.props.data;
         const { DOB } = this.props.data.demographicData;
+
         return (
             <PatientProfileSectionScaffold
                 sectionName="Medical History Summary"
-                header={(
+                header={
                     <div className={style.filterBox}>
                         Filter by
                         <span onClick={() => this._handleFilterSelection('visits')} className={this.state.filter.visits ? style.selected : ''}>
@@ -1047,7 +1016,7 @@ class Charts extends Component {
                         <br />
                         <br />
                     </div>
-                )}
+                }
             >
                 {visits.length !== 0
                     ? (
@@ -1075,22 +1044,20 @@ class Charts extends Component {
                                     const visitDate = new Date(parseInt(el.visitDate, 10));
                                     const reasonForVisit = el.data.filter(el => el.field === 0);
 
-                                    return (
-                                        <OneVisit
-                                            visitData={el.data}
-                                            patientId={this.props.match.params.patientId}
-                                            availableFields={this.props.availableFields}
-                                            key={el.id}
-                                            data={this.props.data}
-                                            visitId={el.id}
-                                            visitType={el.type}
-                                            isMinor={new Date().getTime() - parseInt(DOB) < 568025136000}
-                                            baselineVisit={baselineVisit}
-                                            filter={this.state.filter}
-                                            title={el.type === 1 ? (baselineVisit ? `Baseline visit (${el.historyInd}${suffix} visit)` : `${reasonForVisit ? reasonForVisit[0].value : 'Clinical'} visit (${el.historyInd}${suffix} visit)`) : 'Additional record'}
-                                            subtitle={`${el.type === 1 ? '' : 'Recorded on'} ${visitDate.toLocaleDateString('en-GB', dateOptions)}`}
-                                        />
-                                    );
+                                    return <OneVisit
+                                        visitData={el.data}
+                                        patientId={this.props.match.params.patientId}
+                                        availableFields={this.props.availableFields}
+                                        key={el.id}
+                                        data={this.props.data}
+                                        visitId={el.id}
+                                        visitType={el.type}
+                                        isMinor={new Date().getTime() - parseInt(DOB) < 568025136000}
+                                        baselineVisit={baselineVisit}
+                                        filter={this.state.filter}
+                                        title={el.type === 1 ? (baselineVisit ? `Baseline visit (${el.historyInd}${suffix} visit)` : `${reasonForVisit ? reasonForVisit[0].value : 'Clinical'} visit (${el.historyInd}${suffix} visit)`) : 'Additional record'}
+                                        subtitle={`${el.type === 1 ? '' : 'Recorded on'} ${visitDate.toLocaleDateString('en-GB', dateOptions)}`}
+                                    />;
                                 }
                             )}
                         </Timeline>

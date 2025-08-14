@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import TreePicker from '../treePicker';
 
@@ -11,15 +11,13 @@ class MeddraPicker extends Component {
         return (
             <TreePicker
                 {...this.props}
-                formatter={node => (
-                    <>
-                        <b>
-                            {node.code}
-                            &nbsp;
-                        </b>
-                        {node.name}
-                    </>
-                )}
+                formatter={node => <>
+                    <b>
+                        {node.code}
+                        &nbsp;
+                    </b>
+                    {node.name}
+                </>}
             />
         );
     }

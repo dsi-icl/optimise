@@ -1,4 +1,4 @@
-import { Component, createRef } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { NavLink } from 'react-router-dom';
@@ -77,46 +77,36 @@ class EditMed extends Component {
                 </div>
                 <form className={_style.panel}>
                     {treatment
-                        ? (
-                            <>
-                                {wannaUpdate ? <UpdateMedEntry location={this.props.location} renderedInFrontPage={this.props.renderedInFrontPage} data={treatment} /> : null}
-                                {wannaUpdate
-                                    ? (
-                                        <>
-                                            <button onClick={this._handleWannaUpdateClick}>Cancel</button>
-                                            <br />
-                                            <br />
-                                        </>
-                                    )
-                                    : (
-                                        <>
-                                            <button onClick={this._handleWannaUpdateClick}>Change treatment, dose, form or frequency</button>
-                                            {' '}
-                                            <br />
-                                            {' '}
-                                            <br />
-                                        </>
-                                    )}
-                                <button onClick={this._handleClick} className={style.deleteButton}>Delete this treatment</button>
-                                {
-                                    renderedInFrontPage
-                                        ? (
-                                            <>
-                                                <br />
-                                                <br />
-                                                <br />
-                                                <NavLink to={`/patientProfile/${params.patientId}/visitFrontPage/${params.visitId}/page/${params.currentPage}${this.props.location.search}`}><button>Back</button></NavLink>
-                                            </>
-                                        )
-                                        : null
-                                }
-                            </>
-                        )
-                        : (
-                            <div>
-                                <i>We could not find the treatment you are looking for.</i>
-                            </div>
-                        )}
+                        ? <>
+                            {wannaUpdate ? <UpdateMedEntry location={this.props.location} renderedInFrontPage={this.props.renderedInFrontPage} data={treatment} /> : null}
+                            {wannaUpdate
+                                ? <>
+                                    <button onClick={this._handleWannaUpdateClick}>Cancel</button>
+                                    <br />
+                                    <br />
+                                </>
+                                : <>
+                                    <button onClick={this._handleWannaUpdateClick}>Change treatment, dose, form or frequency</button>
+                                    {' '}
+                                    <br />
+                                    {' '}
+                                    <br />
+                                </>}
+                            <button onClick={this._handleClick} className={style.deleteButton}>Delete this treatment</button>
+                            {
+                                renderedInFrontPage
+                                    ? <>
+                                        <br />
+                                        <br />
+                                        <br />
+                                        <NavLink to={`/patientProfile/${params.patientId}/visitFrontPage/${params.visitId}/page/${params.currentPage}${this.props.location.search}`}><button>Back</button></NavLink>
+                                    </>
+                                    : null
+                            }
+                        </>
+                        : <div>
+                            <i>We could not find the treatment you are looking for.</i>
+                        </div>}
                 </form>
             </>
         );
@@ -146,7 +136,7 @@ class UpdateMedEntry extends Component {
             times: props.data.times ? props.data.times : undefined,
             intervalUnit: props.data.intervalUnit || ''
         };
-        this.reasonRef = createRef();
+        this.reasonRef = React.createRef();
         this._handleChange = this._handleChange.bind(this);
         this._handleSubmit = this._handleSubmit.bind(this);
         this._handleDateChange = this._handleDateChange.bind(this);
@@ -299,28 +289,24 @@ class UpdateMedEntry extends Component {
                 <br />
                 {this.state.noEndDate
                     ? null
-                    : (
-                        <>
-                            <label htmlFor="terminatedDate">End date: </label>
-                            <PickDate startDate={this.state.terminatedDate ? this.state.terminatedDate : moment()} handleChange={this._handleTerminatedDateChange} />
-                            <br />
-                            <br />
-                            <label>
-                                Reason for termination:
-                                <select name="terminatedReason" value={this.state.terminatedReason} onChange={this._handleChange}>
-                                    <option value="unselected"></option>
-                                    {this.props.interruptionReasons.map(el => <option key={el.id} value={el.id}>{el.value}</option>)}
-                                </select>
-                            </label>
-                        </>
-                    )}
+                    : (<>
+                        <label htmlFor="terminatedDate">End date: </label>
+                        <PickDate startDate={this.state.terminatedDate ? this.state.terminatedDate : moment()} handleChange={this._handleTerminatedDateChange} />
+                        <br />
+                        <br />
+                        <label>
+                            Reason for termination:
+                            <select name="terminatedReason" value={this.state.terminatedReason} onChange={this._handleChange}>
+                                <option value="unselected"></option>
+                                {this.props.interruptionReasons.map(el => <option key={el.id} value={el.id}>{el.value}</option>)}
+                            </select>
+                        </label>
+                    </>)}
                 {this.state.error
-                    ? (
-                        <>
-                            <div className={style.error}>{this.state.error}</div>
-                            <br />
-                        </>
-                    )
+                    ? <>
+                        <div className={style.error}>{this.state.error}</div>
+                        <br />
+                    </>
                     : null}
                 <button onClick={this._handleSubmit}>Submit</button>
                 <br />

@@ -388,3 +388,11 @@ button.noActive:hover {
     resize: none;
     overflow: hidden;
 }
+
+.offspringCardDeleteButton svg {
+    fill: hsl(var(--color-background-h), var(--color-background-s), 10%) !important;
+}
+
+.offspringCardDeleteButton:hover svg {
+    fill: var(--color-button-red) !important;
+}

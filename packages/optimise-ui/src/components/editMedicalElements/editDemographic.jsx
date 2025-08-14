@@ -1,4 +1,4 @@
-import { Component, createRef } from 'react';
+import React, { Component } from 'react';
 import moment from 'moment';
 import { connect } from 'react-redux';
 import { BackButton } from '../medicalData/utils';
@@ -43,10 +43,10 @@ class UpdateDemoEntry extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            countryOfOriginRef: createRef(),
-            dominantHandRef: createRef(),
-            ethnicityRef: createRef(),
-            genderRef: createRef(),
+            countryOfOriginRef: React.createRef(),
+            dominantHandRef: React.createRef(),
+            ethnicityRef: React.createRef(),
+            genderRef: React.createRef(),
             hasPII: false,
             showEditAliasId: false
         };
@@ -200,27 +200,23 @@ class UpdateDemoEntry extends Component {
                 <h4>Personal information</h4>
                 <br />
                 {showEditAliasId
-                    ? (
-                        <div className={style.editPatientIdDiv}>
-                            <b>Edit Patient ID</b>
-                            <br />
-                            <br />
-                            <input onChange={this._onChangeEditID} value={editAliasIdInput} />
-                            <br />
-                            <br />
-                            <button type="button" onClick={this._submitEditId}>Submit</button>
-                            <br />
-                            <br />
-                            <button type="button" onClick={this._hideEditId}>Cancel</button>
-                        </div>
-                    )
-                    : (
-                        <>
-                            <span onClick={this._showEditId} className={style.editAliasIdUncover}>Edit Patient ID</span>
-                            <br />
-                            <br />
-                        </>
-                    )}
+                    ? <div className={style.editPatientIdDiv}>
+                        <b>Edit Patient ID</b>
+                        <br />
+                        <br />
+                        <input onChange={this._onChangeEditID} value={editAliasIdInput} />
+                        <br />
+                        <br />
+                        <button type="button" onClick={this._submitEditId}>Submit</button>
+                        <br />
+                        <br />
+                        <button type="button" onClick={this._hideEditId}>Cancel</button>
+                    </div>
+                    : <>
+                        <span onClick={this._showEditId} className={style.editAliasIdUncover}>Edit Patient ID</span>
+                        <br />
+                        <br />
+                    </>}
                 <label htmlFor="givenName">Given name:</label>
                 <br />
                 {' '}

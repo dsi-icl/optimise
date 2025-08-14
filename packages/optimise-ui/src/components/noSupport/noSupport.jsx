@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import style from './noSupport.module.css';
 import firefoxImg from './firefox.png';
 import chromeImg from './chrome.png';

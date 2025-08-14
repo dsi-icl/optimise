@@ -3,7 +3,10 @@ import globals from 'globals';
 import tsParser from '@typescript-eslint/parser';
 import babelParser from '@babel/eslint-parser';
 import babelPlugin from '@babel/eslint-plugin';
+import pluginImport from 'eslint-plugin-import';
+import pluginJSXAccessibility from 'eslint-plugin-jsx-a11y';
 import pluginReact from 'eslint-plugin-react';
+import pluginReactHook from 'eslint-plugin-react-hooks';
 import reactCompiler from 'eslint-plugin-react-compiler';
 import testingLibrary from 'eslint-plugin-testing-library';
 import stylistic from '@stylistic/eslint-plugin';
@@ -69,6 +72,12 @@ export default defineConfig([
         }
     },
     {
+        name: 'Imports',
+        files: ['**/ts,mts,cts,tsx}'],
+        plugins: { import: pluginImport },
+        rules: pluginImport.configs.recommended.rules
+    },
+    {
         name: 'JavaScript recommended',
         files: ['**/*.{js,mjs,cjs,jsx,ts,mts,cts,tsx}'],
         ignores: ['**/jquery.min.js', '**/bootstrap.min.js'],
@@ -80,7 +89,7 @@ export default defineConfig([
         rules: {
             'no-unused-vars': ['error', {
                 args: 'after-used',
-                varsIgnorePattern: '^__unused',
+                varsIgnorePattern: '(React|^__unused)',
                 argsIgnorePattern: '^__unused',
                 destructuredArrayIgnorePattern: '^__unused',
                 caughtErrorsIgnorePattern: '^__unused'
@@ -119,12 +128,40 @@ export default defineConfig([
         }
     },
     {
+        name: 'React Hooks',
+        files: ['**/*.{js,mjs,cjs,jsx,ts,mts,cts,tsx}'],
+        plugins: {
+            'react-hooks': pluginReactHook
+        },
+        rules: pluginReactHook.configs.recommended.rules
+    },
+    {
         name: 'React Compiler',
         ...reactCompiler.configs.recommended
     },
     {
         name: 'JSX Runtime',
         ...pluginReact.configs.flat['jsx-runtime']
+    },
+    {
+        name: 'JSX Accessibility',
+        files: ['**/*.{js,mjs,cjs,jsx,ts,mts,cts,tsx}'],
+        // @ts-ignore
+        plugins: { 'jsx-a11y': pluginJSXAccessibility },
+        languageOptions: {
+            parserOptions: {
+                ecmaFeatures: {
+                    jsx: true
+                }
+            }
+        },
+        rules: {
+            ...pluginJSXAccessibility.configs.recommended.rules,
+            'jsx-a11y/label-has-associated-control': 'warn',
+            'jsx-a11y/mouse-events-have-key-events': 'warn',
+            'jsx-a11y/no-static-element-interactions': 'warn',
+            'jsx-a11y/click-events-have-key-events': 'warn'
+        }
     },
     {
         name: 'Testing Library',
@@ -176,6 +213,8 @@ export default defineConfig([
             '@stylistic/indent': 'off',
             '@stylistic/indent-binary-ops': 'off',
             '@stylistic/jsx-indent-props': 'off',
+            '@stylistic/jsx-closing-tag-location': ['warn', 'line-aligned'],
+            '@stylistic/jsx-closing-bracket-location': ['warn', 'line-aligned'],
             '@stylistic/semi': ['error', 'always'],
             '@stylistic/semi-style': ['error', 'last'],
             '@stylistic/comma-style': ['error', 'last'],

@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import store from '../../redux/store';
 import { clearAlert } from '../../redux/actions/alert';

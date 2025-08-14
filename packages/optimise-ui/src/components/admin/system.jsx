@@ -1,4 +1,4 @@
-import { PureComponent } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import uiPackageInfo from '../../../package.json';
 import style from './admin.module.css';

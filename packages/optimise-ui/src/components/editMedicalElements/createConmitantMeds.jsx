@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { BackButton } from '../medicalData/utils';
 import store from '../../redux/store';
@@ -50,7 +50,7 @@ class EditConcomitantMeds extends Component {
                                 : patientProfile.data.concomitantMeds
                                     /* if rendered in front page then show all visits; if not then, only the visit in the page */
                                     .filter(el => renderedInFrontPage ? true : parseInt(el.visit) === parseInt(this.props.match.params.visitId))
-                                    .map(el => (
+                                    .map(el =>
                                         <OneComorbidity
                                             key={el.id}
                                             data={el}
@@ -58,21 +58,16 @@ class EditConcomitantMeds extends Component {
                                             patientId={patientProfile.data.patientId}
                                         />
                                     )
-                                    )
                         }
                         {!this.state.addMore
-                            ? (
-                                <>
-                                    <br />
-                                    <button onClick={this._handleClickingAdd}>Record more concomitant medication</button>
-                                </>
-                            )
-                            : (
-                                <div className={_style.newInterruption}>
-                                    <label>Record new concomitant medication: </label>
-                                    <CreateConcomitantMed match={match} location={location} onChange={this._handleValueChange} />
-                                </div>
-                            )}
+                            ? <>
+                                <br />
+                                <button onClick={this._handleClickingAdd}>Record more concomitant medication</button>
+                            </>
+                            : <div className={_style.newInterruption}>
+                                <label>Record new concomitant medication: </label>
+                                <CreateConcomitantMed match={match} location={location} onChange={this._handleValueChange} />
+                            </div>}
                     </form>
                 </>
             );
@@ -239,86 +234,76 @@ class OneComorbidity extends Component {
             >
                 {
                     editing
-                        ? (
-                            <>
-                                <label htmlFor="event">What medication is it?</label>
-                                <br />
-                                <select name="event" value={this.state.type_new} onChange={this._handleTypeChange} autoComplete="off">
-                                    {this.props.types.map(type => <option key={type.id} value={type.id}>{type.name}</option>)}
-                                </select>
+                        ? <>
+                            <label htmlFor="event">What medication is it?</label>
+                            <br />
+                            <select name="event" value={this.state.type_new} onChange={this._handleTypeChange} autoComplete="off">
+                                {this.props.types.map(type => <option key={type.id} value={type.id}>{type.name}</option>)}
+                            </select>
+                            {' '}
+                            <br />
+                            <br />
+                            <label>
+                                Indication:
+                                <input type="text" value={this.state.indication_new} onChange={this._handleIndicationChange} />
+                            </label>
+                            {' '}
+                            <br />
+                            <br />
+                            <label htmlFor="">Start date:</label>
+                            <br />
+                            <PickDate startDate={this.state.startDate_new} handleChange={this._handleStartDateChange} />
+                            <br />
+                            <br />
+                            <label htmlFor="noEndDate">The medication is ongoing: </label>
+                            <input type="checkbox" name="noEndDate" onChange={this._handleToggleEndDate} checked={this.state.noEndDate_new} />
+                            <br />
+                            {this.state.noEndDate_new
+                                ? null
+                                : (<>
+                                    <label htmlFor="endDate">End date: </label>
+                                    <PickDate startDate={this.state.endDate_new ? this.state.endDate_new : moment()} handleChange={this._handleEndDateChange} />
+                                    <br />
+                                </>)}
+                            <br />
+                            {this.state.error
+                                ? <>
+                                    <div className={style.error}>{this.state.error}</div>
+                                    <br />
+                                </>
+                                : null}
+                            <button onClick={this._handleSubmit}>Confirm change</button>
+                            <br />
+                            <br />
+                            <button onClick={this._handleCancelClick}>Cancel</button>
+                        </>
+                        : <>
+                            <p>
+                                <b>Drug:</b>
                                 {' '}
-                                <br />
-                                <br />
-                                <label>
-                                    Indication:
-                                    <input type="text" value={this.state.indication_new} onChange={this._handleIndicationChange} />
-                                </label>
+                                {typedict[data.concomitantMedId].name}
+                            </p>
+                            <p>
+                                <b>Indication:</b>
                                 {' '}
-                                <br />
-                                <br />
-                                <label htmlFor="">Start date:</label>
-                                <br />
-                                <PickDate startDate={this.state.startDate_new} handleChange={this._handleStartDateChange} />
-                                <br />
-                                <br />
-                                <label htmlFor="noEndDate">The medication is ongoing: </label>
-                                <input type="checkbox" name="noEndDate" onChange={this._handleToggleEndDate} checked={this.state.noEndDate_new} />
-                                <br />
-                                {this.state.noEndDate_new
-                                    ? null
-                                    : (
-                                        <>
-                                            <label htmlFor="endDate">End date: </label>
-                                            <PickDate startDate={this.state.endDate_new ? this.state.endDate_new : moment()} handleChange={this._handleEndDateChange} />
-                                            <br />
-                                        </>
-                                    )}
-                                <br />
-                                {this.state.error
-                                    ? (
-                                        <>
-                                            <div className={style.error}>{this.state.error}</div>
-                                            <br />
-                                        </>
-                                    )
-                                    : null}
-                                <button onClick={this._handleSubmit}>Confirm change</button>
-                                <br />
-                                <br />
-                                <button onClick={this._handleCancelClick}>Cancel</button>
-                            </>
-                        )
-                        : (
-                            <>
-                                <p>
-                                    <b>Drug:</b>
+                                {data.indication}
+                            </p>
+                            <p>
+                                <b>Start date:</b>
+                                {' '}
+                                {new Date(parseInt(data.startDate, 10)).toDateString()}
+                            </p>
+                            {data.endDate
+                                ? <p>
+                                    <b>End date:</b>
                                     {' '}
-                                    {typedict[data.concomitantMedId].name}
+                                    {new Date(parseInt(data.endDate, 10)).toDateString()}
                                 </p>
-                                <p>
-                                    <b>Indication:</b>
-                                    {' '}
-                                    {data.indication}
-                                </p>
-                                <p>
-                                    <b>Start date:</b>
-                                    {' '}
-                                    {new Date(parseInt(data.startDate, 10)).toDateString()}
-                                </p>
-                                {data.endDate
-                                    ? (
-                                        <p>
-                                            <b>End date:</b>
-                                            {' '}
-                                            {new Date(parseInt(data.endDate, 10)).toDateString()}
-                                        </p>
-                                    )
-                                    : <p>Patient is still taking this medication</p>}
-                                <br />
-                                <DeleteButton clickhandler={() => this._handleClickDelete(data)} />
-                                <span title="Edit" onClick={this._handleEditClick} className={style.dataEdit}><Icon symbol="edit" /></span>
-                            </>
-                        )
+                                : <p>Patient is still taking this medication</p>}
+                            <br />
+                            <DeleteButton clickhandler={() => this._handleClickDelete(data)} />
+                            <span title="Edit" onClick={this._handleEditClick} className={style.dataEdit}><Icon symbol="edit" /></span>
+                        </>
                 }
             </div>
         );
@@ -451,21 +436,17 @@ class CreateConcomitantMed extends Component {
                 <br />
                 {this.state.noEndDate
                     ? null
-                    : (
-                        <>
-                            <label htmlFor="endDate">End date: </label>
-                            <PickDate startDate={this.state.endDate ? this.state.endDate : moment()} handleChange={this._handleEndDateChange} />
-                            <br />
-                        </>
-                    )}
+                    : (<>
+                        <label htmlFor="endDate">End date: </label>
+                        <PickDate startDate={this.state.endDate ? this.state.endDate : moment()} handleChange={this._handleEndDateChange} />
+                        <br />
+                    </>)}
                 <br />
                 {this.state.error
-                    ? (
-                        <>
-                            <div className={style.error}>{this.state.error}</div>
-                            <br />
-                        </>
-                    )
+                    ? <>
+                        <div className={style.error}>{this.state.error}</div>
+                        <br />
+                    </>
                     : null}
                 <button onClick={this._handleSubmitClick}>Submit</button>
             </div>

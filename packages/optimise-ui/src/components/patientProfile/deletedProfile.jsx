@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import { BackButton } from '../medicalData/utils';
 import style from './patientProfile.module.css';
 

@@ -1,4 +1,4 @@
-import { Component, createRef } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { PickDate } from './datepicker';
@@ -30,7 +30,7 @@ class CreateTreatment extends Component {
             intervalUnit: 'unselected',
             noEndDate: true
         };
-        this.reasonRef = createRef();
+        this.reasonRef = React.createRef();
         this._handleSubmitClick = this._handleSubmitClick.bind(this);
         this._handleDateChange = this._handleDateChange.bind(this);
         this._handleTerminatedDateChange = this._handleTerminatedDateChange.bind(this);
@@ -154,15 +154,13 @@ class CreateTreatment extends Component {
                         <br />
                         <br />
                         {this.state.drugType !== 'unselected'
-                            ? (
-                                <span>
-                                    <i>
-                                        {`You have selected a treatment of type '${this.state.drugModule}'`}
-                                        <br />
-                                        <br />
-                                    </i>
-                                </span>
-                            )
+                            ? <span>
+                                <i>
+                                    {`You have selected a treatment of type '${this.state.drugModule}'`}
+                                    <br />
+                                    <br />
+                                </i>
+                            </span>
                             : null}
 
                         <label htmlFor="startDate">Start date: </label>
@@ -226,28 +224,24 @@ class CreateTreatment extends Component {
                         <br />
                         {this.state.noEndDate
                             ? null
-                            : (
-                                <>
-                                    <label htmlFor="terminatedDate">End date: </label>
-                                    <PickDate startDate={this.state.terminatedDate ? this.state.terminatedDate : moment()} handleChange={this._handleTerminatedDateChange} />
-                                    <br />
-                                    <br />
-                                    <label>
-                                        Reason for termination:
-                                        <select name="terminatedReason" value={this.state.terminatedReason} onChange={this._handleInputChange}>
-                                            <option value="unselected"></option>
-                                            {this.props.interruptionReasons.map(el => <option key={el.id} value={el.id}>{el.value}</option>)}
-                                        </select>
-                                    </label>
-                                </>
-                            )}
+                            : (<>
+                                <label htmlFor="terminatedDate">End date: </label>
+                                <PickDate startDate={this.state.terminatedDate ? this.state.terminatedDate : moment()} handleChange={this._handleTerminatedDateChange} />
+                                <br />
+                                <br />
+                                <label>
+                                    Reason for termination:
+                                    <select name="terminatedReason" value={this.state.terminatedReason} onChange={this._handleInputChange}>
+                                        <option value="unselected"></option>
+                                        {this.props.interruptionReasons.map(el => <option key={el.id} value={el.id}>{el.value}</option>)}
+                                    </select>
+                                </label>
+                            </>)}
                         {this.state.error
-                            ? (
-                                <>
-                                    <div className={style.error}>{this.state.error}</div>
-                                    <br />
-                                </>
-                            )
+                            ? <>
+                                <div className={style.error}>{this.state.error}</div>
+                                <br />
+                            </>
                             : null}
                         <button onClick={this._handleSubmitClick}>Submit</button>
                     </form>

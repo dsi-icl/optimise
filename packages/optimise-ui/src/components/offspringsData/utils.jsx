@@ -1,4 +1,4 @@
-import { Component, Fragment, createRef } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import merge from 'deepmerge';
 import moment from 'moment';
@@ -31,15 +31,15 @@ export function checkIfObjIsEmpty(...objs) {
 export class SelectField extends Component {
     constructor() {
         super();
-        this.leftButton = createRef();
-        this.rightButton = createRef();
-        this.bothButton = createRef();
-        this.oneButton = createRef();
-        this.twoButton = createRef();
-        this.threeButton = createRef();
-        this.fourButton = createRef();
-        this.normalButton = createRef();
-        this.abnormalButton = createRef();
+        this.leftButton = React.createRef();
+        this.rightButton = React.createRef();
+        this.bothButton = React.createRef();
+        this.oneButton = React.createRef();
+        this.twoButton = React.createRef();
+        this.threeButton = React.createRef();
+        this.fourButton = React.createRef();
+        this.normalButton = React.createRef();
+        this.abnormalButton = React.createRef();
         this._handleLeftRightClick = this._handleLeftRightClick.bind(this);
         this._handleOneTwoClick = this._handleOneTwoClick.bind(this);
         this._handleThreeFourClick = this._handleThreeFourClick.bind(this);
@@ -383,13 +383,11 @@ export const mappingFields = (typeHash, references, originalValues, transformer)
                             <label>
                                 {content.definition}
                                 {content.unit
-                                    ? (
-                                        <em>
-                                            {' '}
-                                            in
-                                            {content.unit}
-                                        </em>
-                                    )
+                                    ? <em>
+                                        {' '}
+                                        in
+                                        {content.unit}
+                                    </em>
                                     : ''}
                             </label>
                             <AntibodyField origVal={origVal ? origVal : null} reference={references[content.id].ref} />
@@ -403,13 +401,11 @@ export const mappingFields = (typeHash, references, originalValues, transformer)
                             <label>
                                 {content.definition}
                                 {content.unit
-                                    ? (
-                                        <em>
-                                            {' '}
-                                            in
-                                            {content.unit}
-                                        </em>
-                                    )
+                                    ? <em>
+                                        {' '}
+                                        in
+                                        {content.unit}
+                                    </em>
                                     : ''}
                             </label>
                             <TextField origVal={origVal ? origVal : null} reference={references[content.id].ref} />

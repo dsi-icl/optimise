@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import { Helmet } from 'react-helmet-async';
 import appInfo from '../../../package.json';
 

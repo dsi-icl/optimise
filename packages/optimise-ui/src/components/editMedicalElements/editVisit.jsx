@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { BackButton } from '../medicalData/utils';
@@ -186,12 +186,10 @@ class EditVisit extends Component {
                                 <br />
                                 <br />
                                 {error
-                                    ? (
-                                        <>
-                                            <div className={style.error}>{error}</div>
-                                            <br />
-                                        </>
-                                    )
+                                    ? <>
+                                        <div className={style.error}>{error}</div>
+                                        <br />
+                                    </>
                                     : null}
                                 <button onClick={this._handleSubmitClick}>Submit</button>
                                 <br />
@@ -200,20 +198,16 @@ class EditVisit extends Component {
                         )
                         : null}
                     {wannaUpdate
-                        ? (
-                            <>
-                                <button onClick={this._handleWannaUpdateClick}>Cancel</button>
-                                <br />
-                                <br />
-                            </>
-                        )
-                        : (
-                            <>
-                                <button onClick={this._handleWannaUpdateClick}>Change visit properties</button>
-                                <br />
-                                <br />
-                            </>
-                        )}
+                        ? <>
+                            <button onClick={this._handleWannaUpdateClick}>Cancel</button>
+                            <br />
+                            <br />
+                        </>
+                        : <>
+                            <button onClick={this._handleWannaUpdateClick}>Change visit properties</button>
+                            <br />
+                            <br />
+                        </>}
                     <button onClick={this._handleClick} className={style.deleteButton}>Delete this visit</button>
                 </form>
             </>

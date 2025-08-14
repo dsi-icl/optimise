@@ -66,6 +66,9 @@ export default defineConfig({
         sourcemap: true,
         minify: process.env.NODE_ENV === 'production'
     },
+    optimizeDeps: {
+        include: ['react', 'react-dom']
+    },
     define: {
         global: {},
         process

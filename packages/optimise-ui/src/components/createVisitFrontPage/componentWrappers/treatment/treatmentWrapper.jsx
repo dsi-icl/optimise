@@ -1,4 +1,4 @@
-import { Component, PureComponent } from 'react';
+import React, { Component, PureComponent } from 'react';
 import override_style from '../overrideStyle.module.css';
 import scaffold_style from '../scaffoldStyle.module.css';
 import { CreateTreatment } from '../../../createMedicalElements/createTreatment';
@@ -20,37 +20,34 @@ import { FrontPageNavigationButton } from '../navigationButtons/navigationButton
 class TreatmentWrapper extends Component {
     render() {
         const { yesOrNoQuestion } = this.props;
-        return (
-            <Switch>
-                <Route
-                    path="/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/yes_or_no"
-                    render={({ match, location }) => <YesOrNo match={match} location={location} questionString={yesOrNoQuestion} />}
-                />
-                <Route render={({ match, location }) => (
-                    <>
-                        <div className={style.page}>
-                            <div className={scaffold_style.wrapper}>
-                                <div className={scaffold_style.create_element_panel}>
-                                    <Switch>
-                                        <Route path="/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/edit/:elementId" render={({ match, location }) => <EditMedWrapper match={match} location={location} />} />
-                                        <Route path="/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/interruptions/:elementId" render={({ match, location }) => <TreatmentCreatedMessage drugHash={this.props.drugHash} match={match} location={location} treatments={this.props.data.treatments} />} />
-                                        <Route path="/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage" render={({ match, location }) => <CreateTreatmentsWrapper match={match} location={location} />} />
-                                    </Switch>
-                                </div>
-                                <div className={scaffold_style.list_element_panel}>
-                                    <Switch>
-                                        <Route path="/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/interruptions/:elementId" render={({ match, location }) => <TreatmentInterruptionWrapper match={match} location={location} />} />
-                                        <Route path="/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage" render={({ match, location }) => <RenderTreatmentsWrapper match={match} location={location} treatments={this.props.data.treatments} baselineVisit={true} />} />
-                                    </Switch>
-                                </div>
+        return <Switch>
+            <Route
+                path="/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/yes_or_no"
+                render={({ match, location }) => <YesOrNo match={match} location={location} questionString={yesOrNoQuestion} />}
+            />
+            <Route render={({ match, location }) =>
+                <>
+                    <div className={style.page}>
+                        <div className={scaffold_style.wrapper}>
+                            <div className={scaffold_style.create_element_panel}>
+                                <Switch>
+                                    <Route path="/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/edit/:elementId" render={({ match, location }) => <EditMedWrapper match={match} location={location} />} />
+                                    <Route path="/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/interruptions/:elementId" render={({ match, location }) => <TreatmentCreatedMessage drugHash={this.props.drugHash} match={match} location={location} treatments={this.props.data.treatments} />} />
+                                    <Route path="/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage" render={({ match, location }) => <CreateTreatmentsWrapper match={match} location={location} />} />
+                                </Switch>
+                            </div>
+                            <div className={scaffold_style.list_element_panel}>
+                                <Switch>
+                                    <Route path="/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/interruptions/:elementId" render={({ match, location }) => <TreatmentInterruptionWrapper match={match} location={location} />} />
+                                    <Route path="/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage" render={({ match, location }) => <RenderTreatmentsWrapper match={match} location={location} treatments={this.props.data.treatments} baselineVisit={true} />} />
+                                </Switch>
                             </div>
                         </div>
-                        <FrontPageNavigationButton match={match} location={location} />
-                    </>
-                )}
-                />
-            </Switch>
-        );
+                    </div>
+                    <FrontPageNavigationButton match={match} location={location} />
+                </>}
+            />
+        </Switch>;
     }
 }
 
@@ -65,41 +62,37 @@ class RenderTreatmentsWrapper extends PureComponent {
 
         const treatmentssorted = [...treatments].sort((a, b) => parseInt(a.startDate) - parseInt(b.startDate));
 
-        return (
-            <>
-                <p>Here are the DMTs this patient has been on:</p>
-                <table className={override_style.treatment_table}>
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>Treatment</th>
-                            <th>Start date</th>
-                            <th>End date</th>
-                            <th>Dose</th>
-                            <th>Form</th>
-                            <th>Frequency</th>
-                            <th>#interruptions</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {treatmentssorted.map(el => <Medication key={el.id} data={el} renderedInFrontPage={true} match={match} />)}
-                    </tbody>
-                </table>
-            </>
-        );
+        return <>
+            <p>Here are the DMTs this patient has been on:</p>
+            <table className={override_style.treatment_table}>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Treatment</th>
+                        <th>Start date</th>
+                        <th>End date</th>
+                        <th>Dose</th>
+                        <th>Form</th>
+                        <th>Frequency</th>
+                        <th>#interruptions</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {treatmentssorted.map(el => <Medication key={el.id} data={el} renderedInFrontPage={true} match={match} />)}
+                </tbody>
+            </table>
+        </>;
     }
 }
 
 class EditMedWrapper extends PureComponent {
     render() {
         const { match, location } = this.props;
-        return (
-            <>
-                <h3>Edit this DMT</h3>
-                <EditMed match={match} override_style={override_style} renderedInFrontPage={true} location={location} />
-            </>
-        );
+        return <>
+            <h3>Edit this DMT</h3>
+            <EditMed match={match} override_style={override_style} renderedInFrontPage={true} location={location} />
+        </>;
     }
 }
 
@@ -114,12 +107,10 @@ class CreateTreatmentsWrapper extends PureComponent {
     render() {
         const { match, location } = this.props;
 
-        return (
-            <>
-                <h3>Record a DMT</h3>
-                <CreateTreatment match={match} override_style={override_style} renderedInFrontPage={true} location={location} />
-            </>
-        );
+        return <>
+            <h3>Record a DMT</h3>
+            <CreateTreatment match={match} override_style={override_style} renderedInFrontPage={true} location={location} />
+        </>;
     }
 }
 

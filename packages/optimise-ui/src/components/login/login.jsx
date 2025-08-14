@@ -1,4 +1,4 @@
-import { Component, createRef } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect, withRouter } from 'react-router-dom';
 import { loginAPICall } from '../../redux/actions/login';
@@ -30,8 +30,8 @@ class Login extends Component {
 
     constructor(props) {
         super(props);
-        this.usernameFieldRef = createRef();
-        this.passwordFieldRef = createRef();
+        this.usernameFieldRef = React.createRef();
+        this.passwordFieldRef = React.createRef();
     }
 
     componentWillUnmount() {

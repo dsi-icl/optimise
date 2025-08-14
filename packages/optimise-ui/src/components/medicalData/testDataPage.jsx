@@ -1,4 +1,4 @@
-import { Component, createRef } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { alterDataCall } from '../../redux/actions/addOrUpdateData';
@@ -130,17 +130,15 @@ class TestData extends Component {
         if (!patientProfile.fetching) {
             const visitsMatched = patientProfile.data.tests.filter(visit => visit.id === parseInt(params.testId, 10));
             if (visitsMatched.length !== 1) {
-                return (
-                    <>
-                        <div className={_style.ariane}>
-                            <h2>TEST RESULTS</h2>
-                            <BackButton to={`/patientProfile/${match.params.patientId}`} />
-                        </div>
-                        <div className={_style.panel}>
-                            <i>We could not find the test that you are looking for.</i>
-                        </div>
-                    </>
-                );
+                return <>
+                    <div className={_style.ariane}>
+                        <h2>TEST RESULTS</h2>
+                        <BackButton to={`/patientProfile/${match.params.patientId}`} />
+                    </div>
+                    <div className={_style.panel}>
+                        <i>We could not find the test that you are looking for.</i>
+                    </div>
+                </>;
             }
             const { fields } = this.props;
             const relevantFields = fields.testFields.filter(el => (el.referenceType === visitsMatched[0].type));
@@ -150,7 +148,7 @@ class TestData extends Component {
             if (this.references !== null && this.state.refreshReferences === true)
                 return null;
             if (this.references === null)
-                this.references = relevantFields.reduce((a, el) => { a[el.id] = { ref: createRef(), type: inputTypeHash[el.type] }; return a; }, {});
+                this.references = relevantFields.reduce((a, el) => { a[el.id] = { ref: React.createRef(), type: inputTypeHash[el.type] }; return a; }, {});
             return (
                 <>
                     <div className={_style.ariane}>
@@ -168,12 +166,10 @@ class TestData extends Component {
                                 }))}
                             </div>
                             {this.state.saved
-                                ? (
-                                    <>
-                                        <button disabled style={{ cursor: 'default', backgroundColor: 'green' }}>Successfully saved!</button>
-                                        <br />
-                                    </>
-                                )
+                                ? <>
+                                    <button disabled style={{ cursor: 'default', backgroundColor: 'green' }}>Successfully saved!</button>
+                                    <br />
+                                </>
                                 : null}
                             <button type="submit">Save</button>
                         </form>

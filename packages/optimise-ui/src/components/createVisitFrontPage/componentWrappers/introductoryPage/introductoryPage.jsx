@@ -1,4 +1,4 @@
-import { PureComponent } from 'react';
+import React, { PureComponent } from 'react';
 import scaffold_style from '../scaffoldStyle.module.css';
 import { FrontPageNavigationButton } from '../navigationButtons/navigationButtons';
 

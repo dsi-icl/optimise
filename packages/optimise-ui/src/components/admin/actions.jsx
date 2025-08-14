@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import Helmet from '../scaffold/helmet';
 import style from './admin.module.css';

@@ -1,4 +1,4 @@
-import { Component, PureComponent } from 'react';
+import React, { Component, PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import store from '../../redux/store';

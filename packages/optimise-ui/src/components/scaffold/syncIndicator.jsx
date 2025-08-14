@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getSyncOptionsAPICall, getSyncStatusAPICall, syncNowAPICall } from '../../redux/actions/syncInfo';
 import Icon from '../icon';
@@ -149,20 +149,18 @@ class SyncIndicator extends Component {
             );
         }
         else if (status.syncing === true) {
-            return (
-                <span title={`${status.status}: ${status.step}`}>
-                    <strong className={`${style.statusIcon} ${style.syncActive}`}><Icon symbol="sync"></Icon></strong>
-                    {
-                        status.status === 'scheduling'
-                            ? 'Preparing synchronisation'
-                            : status.step === 'linking'
-                                ? 'Linking'
-                                : 'Synching'
-                    }
-                    {' '}
-                    ...
-                </span>
-            );
+            return <span title={`${status.status}: ${status.step}`}>
+                <strong className={`${style.statusIcon} ${style.syncActive}`}><Icon symbol="sync"></Icon></strong>
+                {
+                    status.status === 'scheduling'
+                        ? 'Preparing synchronisation'
+                        : status.step === 'linking'
+                            ? 'Linking'
+                            : 'Synching'
+                }
+                {' '}
+                ...
+            </span>;
         }
         else if (lastSuccess !== undefined)
             return (

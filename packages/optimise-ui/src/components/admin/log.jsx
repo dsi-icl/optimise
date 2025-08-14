@@ -1,4 +1,4 @@
-import { Component, PureComponent } from 'react';
+import React, { Component, PureComponent } from 'react';
 import { connect } from 'react-redux';
 import store from '../../redux/store';
 import { getLogAPICall } from '../../redux/actions/admin';
@@ -83,12 +83,10 @@ export class LogEntry extends PureComponent { /* consider mapping the endpoints 
                 <pre className={style.actionOther}>{`${el.method} ${el.router}`}</pre>
                 <br />
                 {Object.keys(JSON.parse(el.body)).length > 0
-                    ? (
-                        <>
-                            <b>Body: </b>
-                            <pre className={style.actionBody}>{JSON.stringify(JSON.parse(el.body), null, 2)}</pre>
-                        </>
-                    )
+                    ? <>
+                        <b>Body: </b>
+                        <pre className={style.actionBody}>{JSON.stringify(JSON.parse(el.body), null, 2)}</pre>
+                    </>
                     : null}
             </div>
         );

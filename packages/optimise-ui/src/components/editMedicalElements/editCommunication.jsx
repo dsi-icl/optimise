@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { Editor, EditorState, RichUtils, convertToRaw, convertFromRaw } from 'draft-js';
@@ -36,19 +36,17 @@ class EditCommunication extends Component {
         const signsFieldsHash = signsFields.reduce((a, el) => { a[el.id] = el; return a; }, {});
         visits = visits.filter(el => el.id === parseInt(params.visitId));
         if (visits.length !== 1) {
-            return (
-                <>
-                    <div className={_style.ariane}>
-                        <h2>Communication</h2>
-                        <BackButton to={`/patientProfile/${params.patientId}`} />
+            return <>
+                <div className={_style.ariane}>
+                    <h2>Communication</h2>
+                    <BackButton to={`/patientProfile/${params.patientId}`} />
+                </div>
+                <form className={_style.panel}>
+                    <div>
+                        <i>We could not find the communication you are looking for.</i>
                     </div>
-                    <form className={_style.panel}>
-                        <div>
-                            <i>We could not find the communication you are looking for.</i>
-                        </div>
-                    </form>
-                </>
-            );
+                </form>
+            </>;
         }
         const edssHash = visitFields.filter(el => /^edss:(.*)/.test(el.idname)).reduce((a, el) => { a[el.id] = el; return a; }, {});
         const VSBlock = formatVS(visits[0].data || [], VSFields_Hash[0]);

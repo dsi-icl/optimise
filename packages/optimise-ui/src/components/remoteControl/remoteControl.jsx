@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import style from './remoteControl.module.css';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';

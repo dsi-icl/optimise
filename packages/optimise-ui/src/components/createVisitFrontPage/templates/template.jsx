@@ -1,4 +1,4 @@
-import { Component, PureComponent } from 'react';
+import React, { Component, PureComponent } from 'react';
 import { connect } from 'react-redux';
 import style from '../frontpage.module.css';
 
@@ -40,18 +40,14 @@ class VisitFrontPageTemplate extends Component {
                 </div>
                 <div className={style.panel}>
                     {visitFiltered.length === 1
-                        ? (
-                            <RenderCurrentPage
-                                match={this.props.match}
-                                location={this.props.location}
-                                pageNumberToElementMap={pageNumberToElementMap}
-                            />
-                        )
-                        : (
-                            <div>
-                                <i>We could not find the visit you are looking for.</i>
-                            </div>
-                        )}
+                        ? <RenderCurrentPage
+                            match={this.props.match}
+                            location={this.props.location}
+                            pageNumberToElementMap={pageNumberToElementMap}
+                        />
+                        : <div>
+                            <i>We could not find the visit you are looking for.</i>
+                        </div>}
                 </div>
             </>
         );

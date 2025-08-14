@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { EditVisit, EditTest, EditCE, EditMed, EditDemo, EditDiagnoses, EditPregnancies, EditCommunication, EditPerformanceMesaure, EditComorbidities } from './index';
 import { PregnancyEntry } from '../pregnancyForms/pregnancyEntry';

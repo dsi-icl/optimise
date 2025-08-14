@@ -383,3 +383,11 @@ button.noActive:hover {
 .antibodyContainer input {
     width: calc(100% - 11em);
 }
+
+.pregCardDeleteButton svg {
+    fill: hsl(var(--color-background-h), var(--color-background-s), 10%) !important;
+}
+
+.pregCardDeleteButton:hover svg {
+    fill: var(--color-button-red) !important;
+}

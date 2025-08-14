@@ -1,4 +1,4 @@
-import { Component, createRef } from 'react';
+import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import store from '../../redux/store';
 import { BackButton } from '../medicalData/utils';
@@ -12,12 +12,12 @@ export class UserCreate extends Component {
     constructor() {
         super();
         this.state = { error: false, dispatched: false };
-        this.usernameRef = createRef();
-        this.realnameRef = createRef();
-        this.isAdminRef = createRef();
-        this.emailRef = createRef();
-        this.pwRef = createRef();
-        this.pwConRef = createRef();
+        this.usernameRef = React.createRef();
+        this.realnameRef = React.createRef();
+        this.isAdminRef = React.createRef();
+        this.emailRef = React.createRef();
+        this.pwRef = React.createRef();
+        this.pwConRef = React.createRef();
         this._handleSubmit = this._handleSubmit.bind(this);
     }
 
@@ -87,13 +87,11 @@ export class UserCreate extends Component {
                             <br />
                             <br />
                             {this.state.error
-                                ? (
-                                    <>
-                                        <div className={style.error}>None of the fields can be empty!</div>
-                                        <br />
-                                        <br />
-                                    </>
-                                )
+                                ? <>
+                                    <div className={style.error}>None of the fields can be empty!</div>
+                                    <br />
+                                    <br />
+                                </>
                                 : null}
                             <button onClick={this._handleSubmit}>Create</button>
                             <br />

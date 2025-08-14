@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { PickDate } from './datepicker';
@@ -143,13 +143,11 @@ class CreateCE extends Component {
                         <br />
                         {this.state.noEndDate
                             ? null
-                            : (
-                                <>
-                                    <label htmlFor="endDate">End date: </label>
-                                    <PickDate startDate={this.state.endDate ? this.state.endDate : moment()} handleChange={this._handleEndDateChange} />
-                                    <br />
-                                </>
-                            )}
+                            : (<>
+                                <label htmlFor="endDate">End date: </label>
+                                <PickDate startDate={this.state.endDate ? this.state.endDate : moment()} handleChange={this._handleEndDateChange} />
+                                <br />
+                            </>)}
                         <br />
                         <label className={fixedCeTypes && fixedCeTypes.length === 1 ? _style.test_type_hidden : ''} htmlFor="event">What type of event is it?</label>
                         <br />
@@ -168,12 +166,10 @@ class CreateCE extends Component {
                         <br />
                         <br />
                         {this.state.error
-                            ? (
-                                <>
-                                    <div className={style.error}>{this.state.error}</div>
-                                    <br />
-                                </>
-                            )
+                            ? <>
+                                <div className={style.error}>{this.state.error}</div>
+                                <br />
+                            </>
                             : null}
                         <button onClick={this._handleSubmitClick}>Submit</button>
                     </div>

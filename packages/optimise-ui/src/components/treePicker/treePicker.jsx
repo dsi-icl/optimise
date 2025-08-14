@@ -1,4 +1,4 @@
-import { Children, Component, cloneElement } from 'react';
+import React, { Component } from 'react';
 import Tree, { renderers } from 'react-virtualized-tree';
 import wideStyle from './treePicker.module.css';
 
@@ -156,7 +156,7 @@ export default class TreePicker extends Component {
 
     searchHighlighter(htmlText) {
         const searchString = this.state.filterText;
-        return Children.map(htmlText, (child) => {
+        return React.Children.map(htmlText, (child) => {
             if (typeof child === 'string') {
                 const ind = child.toLowerCase().indexOf(searchString.toLowerCase());
                 if (ind >= 0)
@@ -173,7 +173,7 @@ export default class TreePicker extends Component {
                     return child;
             }
             else
-                return child.props && child.props.children ? cloneElement(child, {}, this.searchHighlighter(child.props.children)) : child;
+                return child.props && child.props.children ? React.cloneElement(child, {}, this.searchHighlighter(child.props.children)) : child;
         });
     }
 

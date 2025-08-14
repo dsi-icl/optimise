@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import moment from 'moment';
 import DatePicker from 'react-datepicker';
 
@@ -40,8 +40,7 @@ export class PickDate extends Component {
                             value={this.state.selected ? this.state.selected.toISOString() : ''}
                             ref={this.props.reference}
                             readOnly
-                        />
-                    )
+                        />)
                     : null}
             </>
         );

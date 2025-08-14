@@ -1,4 +1,4 @@
-import { PureComponent } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import store from '../../redux/store';
 import { clearError } from '../../redux/actions/error';

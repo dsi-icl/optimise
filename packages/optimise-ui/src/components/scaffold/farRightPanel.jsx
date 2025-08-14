@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { CreatePatient } from '../createPatient';
 import { Section } from '../patientProfile/patientProfile';

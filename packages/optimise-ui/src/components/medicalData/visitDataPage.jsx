@@ -1,4 +1,4 @@
-import { Component, createRef } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { alterDataCall } from '../../redux/actions/addOrUpdateData';
@@ -134,20 +134,18 @@ class VisitData extends Component {
         if (!patientProfile.fetching) {
             const visitsMatched = patientProfile.data.visits.filter(visit => visit.id === parseInt(params.visitId, 10));
             if (visitsMatched.length !== 1) {
-                return (
-                    <>
-                        <div className={scaffold_style.ariane}>
-                            <h2>
-                                Edit
-                                {this.props.category.toUpperCase()}
-                            </h2>
-                            <BackButton to={`/patientProfile/${match.params.patientId}`} />
-                        </div>
-                        <div className={scaffold_style.panel}>
-                            <i>We could not find the visit that you are looking for.</i>
-                        </div>
-                    </>
-                );
+                return <>
+                    <div className={scaffold_style.ariane}>
+                        <h2>
+                            Edit
+                            {this.props.category.toUpperCase()}
+                        </h2>
+                        <BackButton to={`/patientProfile/${match.params.patientId}`} />
+                    </div>
+                    <div className={scaffold_style.panel}>
+                        <i>We could not find the visit that you are looking for.</i>
+                    </div>
+                </>;
             }
             const { fields } = this.props;
             const category = this.props.category === 'symptoms' ? 2 : this.props.category === 'signs' ? 3 : 1;
@@ -165,7 +163,7 @@ class VisitData extends Component {
             if (this.references !== null && this.state.refreshReferences === true)
                 return null;
             if (this.references === null)
-                this.references = relevantFields.reduce((a, el) => { a[el.id] = { ref: createRef(), type: inputTypeHash[el.type] }; return a; }, {});
+                this.references = relevantFields.reduce((a, el) => { a[el.id] = { ref: React.createRef(), type: inputTypeHash[el.type] }; return a; }, {});
             return (
                 <>
                     <div className={scaffold_style.ariane}>
@@ -181,12 +179,10 @@ class VisitData extends Component {
                                 {Object.entries(fieldTree).map(mappingFields(inputTypeHash, this.references, this.originalValues))}
                             </div>
                             {this.state.saved
-                                ? (
-                                    <>
-                                        <button disabled style={{ cursor: 'default', backgroundColor: 'green' }}>Successfully saved!</button>
-                                        <br />
-                                    </>
-                                )
+                                ? <>
+                                    <button disabled style={{ cursor: 'default', backgroundColor: 'green' }}>Successfully saved!</button>
+                                    <br />
+                                </>
                                 : null}
                             {
                                 this.props.renderedInFrontPage

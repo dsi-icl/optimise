@@ -1,4 +1,4 @@
-import { PureComponent, createRef } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { getSyncOptionsAPICall, setSyncOptionsAPICall, syncNowAPICall } from '../../redux/actions/syncInfo';
 import style from './admin.module.css';
@@ -19,8 +19,8 @@ class Sync extends PureComponent {
             host: props.syncInfo.config.host,
             key: props.syncInfo.config.key
         };
-        this.syncAddress = createRef();
-        this.syncKey = createRef();
+        this.syncAddress = React.createRef();
+        this.syncKey = React.createRef();
         this._handleInputChange = this._handleInputChange.bind(this);
         this._handleSubmit = this._handleSubmit.bind(this);
         this._handleSync = this._handleSync.bind(this);
@@ -103,12 +103,10 @@ class Sync extends PureComponent {
                 <br />
                 <br />
                 {this.state.error
-                    ? (
-                        <>
-                            <div className={style.error}>{this.state.error}</div>
-                            <br />
-                        </>
-                    )
+                    ? <>
+                        <div className={style.error}>{this.state.error}</div>
+                        <br />
+                    </>
                     : null}
                 <button onClick={this._handleSubmit}>Save Connection Information</button>
                 <br />

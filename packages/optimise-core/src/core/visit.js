@@ -23,8 +23,7 @@ class Visit {
     /**
      * @function createVisit
      * @description Create a visit
-     * @param {Object} user Object that contain the id of the user doing the request
-     * @param {Object} visit The new entry
+     * @param {Object} entryObj the new visit entry
      */
     static createVisit(entryObj) {
         return new Promise((resolve, reject) => createEntry('VISITS', entryObj).then(result => resolve(result)).catch(error => reject(ErrorHelper(message.errorMessages.CREATIONFAIL, error))));
@@ -45,7 +44,7 @@ class Visit {
      * @function deleteVisit
      * @description Set as deleted a visit
      * @param {Object} user Object that contain the id of the user doing the request
-     * @param {integer} visitId
+     * @param {Number} visitId
      */
     static deleteVisit(user, visitId) {
         return new Promise((resolve, reject) => deleteEntry('VISITS', user, { id: visitId }).then(result => resolve(result)).catch(error => reject(ErrorHelper(message.errorMessages.DELETEFAIL, error))));
@@ -88,7 +87,7 @@ class Visit {
      * @function deleteReport
      * @description Set as Deleted the given report
      * @param {Object} user Object that contain the id of the user doing the request
-     * @param {integer} deleteObj the ID of the report to delete
+     * @param {Number} deleteObj the ID of the report to delete
      */
     static deleteReport(user, deleteObj) {
         return new Promise((resolve, reject) => deleteEntry('VISIT_REPORT', user, { id: deleteObj }).then(result => resolve(result)).catch(error => reject(ErrorHelper(message.errorMessages.DELETEFAIL, error))));

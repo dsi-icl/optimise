@@ -1,4 +1,4 @@
-import { Component, PureComponent } from 'react';
+import React, { Component, PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Icon } from '../icon';
@@ -119,19 +119,17 @@ class SearchResultForPatients extends Component {
         return (
             <div className={style.searchResultWrapper}>
                 {listOfPatients !== undefined && listOfPatients.filter(el => el['aliasId'].toLowerCase() === searchString.toLowerCase()).length === 0 && searchString !== '' && (searchType === 'USUBJID' || searchType === '')
-                    ? (
-                        <Link to={`/createPatient/${searchString}`} className={style.searchItem}>
-                            <div>
-                                <span className={style.createPatientSign}>&#43;</span>
+                    ? <Link to={`/createPatient/${searchString}`} className={style.searchItem}>
+                        <div>
+                            <span className={style.createPatientSign}>&#43;</span>
+                            <br />
+                            <span className={style.createPatientText}>
+                                Create patient
                                 <br />
-                                <span className={style.createPatientText}>
-                                    Create patient
-                                    <br />
-                                    {`${searchString}`}
-                                </span>
-                            </div>
-                        </Link>
-                    )
+                                {`${searchString}`}
+                            </span>
+                        </div>
+                    </Link>
                     : null}
                 {listOfPatients !== undefined && listOfPatients.map(el => <PatientButton key={el.patientId} data={el} searchString={searchString} />)}
             </div>

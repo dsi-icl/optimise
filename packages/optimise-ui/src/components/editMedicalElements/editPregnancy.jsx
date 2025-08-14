@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { BackButton } from '../medicalData/utils';
@@ -120,17 +120,15 @@ class EditPregnancy extends Component {
                     {
                         this.props.renderedInFrontPage
                             ? null
-                            : (
-                                <div className={style.ariane}>
-                                    <h2>Pregnancies</h2>
-                                    <BackButton to={`/patientProfile/${this.props.match.params.patientId}`} />
-                                </div>
-                            )
+                            : <div className={style.ariane}>
+                                <h2>Pregnancies</h2>
+                                <BackButton to={`/patientProfile/${this.props.match.params.patientId}`} />
+                            </div>
                     }
                     <form className={style.panel}>
                         {patientProfile.data.pregnancy
                             .sort((a, b) => parseInt(a.startDate) - parseInt(b.startDate))
-                            .map(el => (
+                            .map(el =>
                                 <OnePregnancy
                                     key={Math.random()}
                                     data={el}
@@ -139,59 +137,52 @@ class EditPregnancy extends Component {
                                     _handleClickDelete={this._handleClickDelete}
                                     patientId={patientProfile.data.patientId}
                                 />
-                            )
                             )}
                         {!this.state.addMore
-                            ? (
-                                <>
+                            ? <>
+                                <br />
+                                <button onClick={this._handleClickingAdd}>Add pregnancies</button>
+                            </>
+                            : <>
+                                <div className={style.newInterruption}>
+                                    <label>Start date: </label>
+                                    <PickDate startDate={this.state.newStartDate} handleChange={this._handleStartDateChange} />
                                     <br />
-                                    <button onClick={this._handleClickingAdd}>Add pregnancies</button>
-                                </>
-                            )
-                            : (
-                                <>
-                                    <div className={style.newInterruption}>
-                                        <label>Start date: </label>
-                                        <PickDate startDate={this.state.newStartDate} handleChange={this._handleStartDateChange} />
-                                        <br />
-                                        <label htmlFor="noEndDate">The pregnancy is ongoing: </label>
-                                        <input type="checkbox" name="noEndDate" onChange={this._handleToggleNoEndDate} checked={this.state.noEndDate} />
-                                        <br />
-                                        {this.state.noEndDate
-                                            ? null
-                                            : (
-                                                <>
-                                                    <label htmlFor="outcomeDate">Outcome date: </label>
-                                                    <PickDate startDate={!this.state.noEndDate ? this.state.newEndDate : null} handleChange={this._handleEndDateChange} />
-                                                    <br />
-                                                    <label>Outcome: </label>
-                                                    <select value={this.state.outcome} onChange={this._handleOutcomeChange}>
-                                                        <option value="unselected"></option>
-                                                        {pregnancyOutcomes.map(el => <option key={el.id} value={el.id}>{el.value}</option>)}
-                                                    </select>
-                                                    <br />
-                                                    <br />
-                                                    <label>MedDRA: </label>
-                                                    <MeddraPicker value={this.state.meddra} onChange={this._handleMeddraChange} />
-                                                    <br />
-                                                </>
-                                            )}
-                                    </div>
-                                    {this.state.error
-                                        ? (
+                                    <label htmlFor="noEndDate">The pregnancy is ongoing: </label>
+                                    <input type="checkbox" name="noEndDate" onChange={this._handleToggleNoEndDate} checked={this.state.noEndDate} />
+                                    <br />
+                                    {this.state.noEndDate
+                                        ? null
+                                        : (
                                             <>
-                                                <div className={style.error}>{this.state.error}</div>
+                                                <label htmlFor="outcomeDate">Outcome date: </label>
+                                                <PickDate startDate={!this.state.noEndDate ? this.state.newEndDate : null} handleChange={this._handleEndDateChange} />
+                                                <br />
+                                                <label>Outcome: </label>
+                                                <select value={this.state.outcome} onChange={this._handleOutcomeChange}>
+                                                    <option value="unselected"></option>
+                                                    {pregnancyOutcomes.map(el => <option key={el.id} value={el.id}>{el.value}</option>)}
+                                                </select>
+                                                <br />
+                                                <br />
+                                                <label>MedDRA: </label>
+                                                <MeddraPicker value={this.state.meddra} onChange={this._handleMeddraChange} />
                                                 <br />
                                             </>
-                                        )
-                                        : null}
-                                    <button onClick={this._handleSubmit}>Submit</button>
-                                    <br />
-                                    <br />
-                                    <button onClick={this._handleClickingAdd}>Cancel</button>
-                                    <br />
-                                </>
-                            )}
+                                        )}
+                                </div>
+                                {this.state.error
+                                    ? <>
+                                        <div className={style.error}>{this.state.error}</div>
+                                        <br />
+                                    </>
+                                    : null}
+                                <button onClick={this._handleSubmit}>Submit</button>
+                                <br />
+                                <br />
+                                <button onClick={this._handleClickingAdd}>Cancel</button>
+                                <br />
+                            </>}
                     </form>
                 </>
             );
@@ -347,92 +338,80 @@ class OnePregnancy extends Component {
             >
                 {
                     editing
-                        ? (
-                            <>
-                                <div className={style.editInterruption}>
-                                    <label>Start date: </label>
-                                    <PickDate startDate={startDate} handleChange={this._handleStartDateChange} />
-                                    <br />
-                                    <label htmlFor="noEndDate">The pregnancy is ongoing: </label>
-                                    <input type="checkbox" name="noEndDate" onChange={this._handleToggleNoEndDate} checked={noEndDate} />
-                                    <br />
-                                    {noEndDate
-                                        ? null
-                                        : (
-                                            <>
-                                                <label htmlFor="outcomeDate">Outcome date: </label>
-                                                <PickDate startDate={outcomeDate} handleChange={this._handleEndDateChange} />
-                                                <br />
-                                                <label>Outcome: </label>
-                                                <select onChange={this._handleOutcomeChange} value={outcome}>
-                                                    <option value="unselected"></option>
-                                                    {pregnancyOutcomes.map(el => <option key={el.id} value={el.id}>{el.value}</option>)}
-                                                </select>
-                                                <br />
-                                                <br />
-                                                <label>MedDRA: </label>
-                                                <MeddraPicker key={data.id} value={meddra} onChange={this._handleMeddraChange} />
-                                                <br />
-                                            </>
-                                        )}
-                                </div>
-                                {this.state.error
-                                    ? (
-                                        <>
-                                            <div className={style.error}>{this.state.error}</div>
-                                            <br />
-                                        </>
-                                    )
-                                    : null}
-                                <button onClick={this._handleSubmit}>Confirm change</button>
-                                <br />
-                                <br />
-                                <button onClick={this._handleEditClick}>Cancel</button>
-                            </>
-                        )
-                        : (
-                            <>
+                        ? <>
+                            <div className={style.editInterruption}>
                                 <label>Start date: </label>
-                                {' '}
-                                {startDate_original._d.toDateString()}
-                                {' '}
+                                <PickDate startDate={startDate} handleChange={this._handleStartDateChange} />
                                 <br />
-                                {outcomeDate_original
-                                    ? (
+                                <label htmlFor="noEndDate">The pregnancy is ongoing: </label>
+                                <input type="checkbox" name="noEndDate" onChange={this._handleToggleNoEndDate} checked={noEndDate} />
+                                <br />
+                                {noEndDate
+                                    ? null
+                                    : (
                                         <>
-                                            <label>End date: </label>
-                                            {' '}
-                                            {outcomeDate_original._d.toDateString()}
+                                            <label htmlFor="outcomeDate">Outcome date: </label>
+                                            <PickDate startDate={outcomeDate} handleChange={this._handleEndDateChange} />
                                             <br />
-                                        </>
-                                    )
-                                    : null}
-                                {outcome_original !== 'unselected'
-                                    ? (
-                                        <>
                                             <label>Outcome: </label>
-                                            {' '}
-                                            {pregnancyOutcomes.filter(ele => ele.id === outcome_original)[0].value}
-                                            {' '}
+                                            <select onChange={this._handleOutcomeChange} value={outcome}>
+                                                <option value="unselected"></option>
+                                                {pregnancyOutcomes.map(el => <option key={el.id} value={el.id}>{el.value}</option>)}
+                                            </select>
                                             <br />
-                                        </>
-                                    )
-                                    : null}
-                                {meddra_original
-                                    ? (
-                                        <>
+                                            <br />
                                             <label>MedDRA: </label>
-                                            {' '}
-                                            {meddra_Hash[0][meddra_original].name}
-                                            {' '}
+                                            <MeddraPicker key={data.id} value={meddra} onChange={this._handleMeddraChange} />
                                             <br />
                                         </>
-                                    )
-                                    : null}
-                                <DeleteButton clickhandler={() => this._handleClickDelete(data)} />
-                                <span title="Edit" onClick={this._handleEditClick} className={style.dataEdit}><Icon symbol="edit" /></span>
-                            </>
-                        )
+                                    )}
+                            </div>
+                            {this.state.error
+                                ? <>
+                                    <div className={style.error}>{this.state.error}</div>
+                                    <br />
+                                </>
+                                : null}
+                            <button onClick={this._handleSubmit}>Confirm change</button>
+                            <br />
+                            <br />
+                            <button onClick={this._handleEditClick}>Cancel</button>
+                        </>
+                        : <>
+                            <label>Start date: </label>
+                            {' '}
+                            {startDate_original._d.toDateString()}
+                            {' '}
+                            <br />
+                            {outcomeDate_original
+                                ? <>
+                                    <label>End date: </label>
+                                    {' '}
+                                    {outcomeDate_original._d.toDateString()}
+                                    <br />
+                                </>
+                                : null}
+                            {outcome_original !== 'unselected'
+                                ? <>
+                                    <label>Outcome: </label>
+                                    {' '}
+                                    {pregnancyOutcomes.filter(ele => ele.id === outcome_original)[0].value}
+                                    {' '}
+                                    <br />
+                                </>
+                                : null}
+                            {meddra_original
+                                ? <>
+                                    <label>MedDRA: </label>
+                                    {' '}
+                                    {meddra_Hash[0][meddra_original].name}
+                                    {' '}
+                                    <br />
+                                </>
+                                : null}
+                            <DeleteButton clickhandler={() => this._handleClickDelete(data)} />
+                            <span title="Edit" onClick={this._handleEditClick} className={style.dataEdit}><Icon symbol="edit" /></span>
+                        </>
                 }
             </div>
         );

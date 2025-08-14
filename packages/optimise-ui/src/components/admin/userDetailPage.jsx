@@ -1,4 +1,4 @@
-import { Component, PureComponent, createRef } from 'react';
+import React, { Component, PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import style from './admin.module.css';
@@ -29,32 +29,28 @@ class UserDetail extends Component {
                     <div className={style.userDetailPanel}>
                         <div className={style.userDetail}>
                             {usersFiltered.length === 1
-                                ? (
-                                    <>
-                                        <UserInfo data={usersFiltered[0]} />
-                                        <br />
-                                        <ChangeUserEmail username={usersFiltered[0].username} />
-                                        {' '}
-                                        <br />
-                                        <br />
-                                        <ChangeUserPassword username={usersFiltered[0].username} />
-                                        {' '}
-                                        <br />
-                                        <br />
-                                        <ChangeUserPrivilege userId={usersFiltered[0].id} adminPriv={usersFiltered[0].adminPriv} />
-                                        {' '}
-                                        <br />
-                                        <br />
-                                        <DeleteUser username={usersFiltered[0].username} />
-                                        {' '}
-                                        <br />
-                                    </>
-                                )
-                                : (
-                                    <div>
-                                        <i>We could not find the user you are looking for!</i>
-                                    </div>
-                                )}
+                                ? <>
+                                    <UserInfo data={usersFiltered[0]} />
+                                    <br />
+                                    <ChangeUserEmail username={usersFiltered[0].username} />
+                                    {' '}
+                                    <br />
+                                    <br />
+                                    <ChangeUserPassword username={usersFiltered[0].username} />
+                                    {' '}
+                                    <br />
+                                    <br />
+                                    <ChangeUserPrivilege userId={usersFiltered[0].id} adminPriv={usersFiltered[0].adminPriv} />
+                                    {' '}
+                                    <br />
+                                    <br />
+                                    <DeleteUser username={usersFiltered[0].username} />
+                                    {' '}
+                                    <br />
+                                </>
+                                : <div>
+                                    <i>We could not find the user you are looking for!</i>
+                                </div>}
                         </div>
                     </div>
                 </>
@@ -95,9 +91,9 @@ class UserInfo extends PureComponent {
                 <br />
                 <label>
                     This user is
+                    {' '}
                     {data.adminPriv ? 'an admin' : 'a standard user'}
                     .
-                    {' '}
                 </label>
                 {' '}
                 <br />
@@ -111,7 +107,7 @@ class ChangeUserEmail extends Component {
     constructor() {
         super();
         this.state = { addMore: false, error: false };
-        this.emailRef = createRef();
+        this.emailRef = React.createRef();
         this._handleClickingAdd = this._handleClickingAdd.bind(this);
         this._handleSubmit = this._handleSubmit.bind(this);
     }
@@ -135,28 +131,24 @@ class ChangeUserEmail extends Component {
 
     render() {
         if (this.state.addMore)
-            return (
-                <div className={style.userFeature}>
-                    <label htmlFor="email">Email:</label>
-                    <br />
-                    <input name="email" type="text" ref={this.emailRef} />
-                    <br />
-                    <br />
-                    {this.state.error
-                        ? (
-                            <>
-                                <div className={style.error}>{this.state.error}</div>
-                                <br />
-                                <br />
-                            </>
-                        )
-                        : null}
-                    <button onClick={this._handleSubmit}>Submit</button>
-                    <br />
-                    <br />
-                    <button onClick={this._handleClickingAdd}>Cancel</button>
-                </div>
-            );
+            return <div className={style.userFeature}>
+                <label htmlFor="email">Email:</label>
+                <br />
+                <input name="email" type="text" ref={this.emailRef} />
+                <br />
+                <br />
+                {this.state.error
+                    ? <>
+                        <div className={style.error}>{this.state.error}</div>
+                        <br />
+                        <br />
+                    </>
+                    : null}
+                <button onClick={this._handleSubmit}>Submit</button>
+                <br />
+                <br />
+                <button onClick={this._handleClickingAdd}>Cancel</button>
+            </div>;
         return <button onClick={this._handleClickingAdd}>Change user email</button>;
     }
 }
@@ -166,8 +158,8 @@ class ChangeUserPassword extends Component {
     constructor() {
         super();
         this.state = { addMore: false, error: false };
-        this.conPwRef = createRef();
-        this.pwRef = createRef();
+        this.conPwRef = React.createRef();
+        this.pwRef = React.createRef();
         this._handleClickingAdd = this._handleClickingAdd.bind(this);
         this._handleSubmit = this._handleSubmit.bind(this);
     }
@@ -191,33 +183,29 @@ class ChangeUserPassword extends Component {
 
     render() {
         if (this.state.addMore)
-            return (
-                <div className={style.userFeature}>
-                    <label htmlFor="password">Password:</label>
-                    <br />
-                    <input name="password" type="password" ref={this.pwRef} />
-                    <br />
-                    <br />
-                    <label htmlFor="passwordConf">Confirm Password:</label>
-                    <br />
-                    <input name="passwordConf" type="password" ref={this.conPwRef} />
-                    <br />
-                    <br />
-                    {this.state.error
-                        ? (
-                            <>
-                                <div className={style.error}>{this.state.error}</div>
-                                <br />
-                                <br />
-                            </>
-                        )
-                        : null}
-                    <button onClick={this._handleSubmit}>Submit</button>
-                    <br />
-                    <br />
-                    <button onClick={this._handleClickingAdd}>Cancel</button>
-                </div>
-            );
+            return <div className={style.userFeature}>
+                <label htmlFor="password">Password:</label>
+                <br />
+                <input name="password" type="password" ref={this.pwRef} />
+                <br />
+                <br />
+                <label htmlFor="passwordConf">Confirm Password:</label>
+                <br />
+                <input name="passwordConf" type="password" ref={this.conPwRef} />
+                <br />
+                <br />
+                {this.state.error
+                    ? <>
+                        <div className={style.error}>{this.state.error}</div>
+                        <br />
+                        <br />
+                    </>
+                    : null}
+                <button onClick={this._handleSubmit}>Submit</button>
+                <br />
+                <br />
+                <button onClick={this._handleClickingAdd}>Cancel</button>
+            </div>;
         return <button onClick={this._handleClickingAdd}>Change user password</button>;
     }
 }

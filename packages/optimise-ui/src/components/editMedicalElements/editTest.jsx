@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { NavLink } from 'react-router-dom';
@@ -72,47 +72,37 @@ class EditTest extends Component {
                 </div>
                 <form className={_style.panel}>
                     {testsFiltered
-                        ? (
-                            <>
-                                {wannaUpdate ? <UpdateTestEntry location={location} renderedInFrontPage={this.props.renderedInFrontPage} data={test} elementId={params.elementId} /> : null}
-                                {wannaUpdate
-                                    ? (
-                                        <>
-                                            <button onClick={this._handleWannaUpdateClick}>Cancel</button>
-                                            <br />
-                                            <br />
-                                        </>
-                                    )
-                                    : (
-                                        <>
-                                            <button onClick={this._handleWannaUpdateClick}>Change test date</button>
-                                            <br />
-                                            <br />
-                                        </>
-                                    )}
-                                <button onClick={this._handleClick} className={style.deleteButton}>Delete this test</button>
-                                <br />
-                                <br />
-                                <div>Note: You cannot change the type of test. If you created the wrong type of test you can delete this event record and create a new one.</div>
-                                {
-                                    renderedInFrontPage
-                                        ? (
-                                            <>
-                                                <br />
-                                                <br />
-                                                <br />
-                                                <NavLink to={`/patientProfile/${params.patientId}/visitFrontPage/${params.visitId}/page/${params.currentPage}${this.props.location.search}`}><button>Back</button></NavLink>
-                                            </>
-                                        )
-                                        : null
-                                }
-                            </>
-                        )
-                        : (
-                            <div>
-                                <i>We could not find the test you are looking for.</i>
-                            </div>
-                        )}
+                        ? <>
+                            {wannaUpdate ? <UpdateTestEntry location={location} renderedInFrontPage={this.props.renderedInFrontPage} data={test} elementId={params.elementId} /> : null}
+                            {wannaUpdate
+                                ? <>
+                                    <button onClick={this._handleWannaUpdateClick}>Cancel</button>
+                                    <br />
+                                    <br />
+                                </>
+                                : <>
+                                    <button onClick={this._handleWannaUpdateClick}>Change test date</button>
+                                    <br />
+                                    <br />
+                                </>}
+                            <button onClick={this._handleClick} className={style.deleteButton}>Delete this test</button>
+                            <br />
+                            <br />
+                            <div>Note: You cannot change the type of test. If you created the wrong type of test you can delete this event record and create a new one.</div>
+                            {
+                                renderedInFrontPage
+                                    ? <>
+                                        <br />
+                                        <br />
+                                        <br />
+                                        <NavLink to={`/patientProfile/${params.patientId}/visitFrontPage/${params.visitId}/page/${params.currentPage}${this.props.location.search}`}><button>Back</button></NavLink>
+                                    </>
+                                    : null
+                            }
+                        </>
+                        : <div>
+                            <i>We could not find the test you are looking for.</i>
+                        </div>}
                 </form>
             </>
         );
@@ -220,12 +210,10 @@ class UpdateTestEntry extends Component {
                 <br />
                 */}
                 {this.state.error
-                    ? (
-                        <>
-                            <div className={style.error}>{this.state.error}</div>
-                            <br />
-                        </>
-                    )
+                    ? <>
+                        <div className={style.error}>{this.state.error}</div>
+                        <br />
+                    </>
                     : null}
                 <button onClick={this._handleSubmit}>Submit</button>
                 <br />

@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { BackButton } from '../medicalData/utils';
@@ -95,7 +95,7 @@ class EditPrimaryDiagnoses extends Component {
                     <form className={style.panel}>
                         {patientProfile.data.diagnosis
                             .sort((a, b) => parseInt(a.diagnosisDate) - parseInt(b.diagnosisDate))
-                            .map(el => (
+                            .map(el =>
                                 <OneEditPrimaryDiagnoses
                                     key={Math.random()}
                                     data={el}
@@ -103,49 +103,42 @@ class EditPrimaryDiagnoses extends Component {
                                     _handleClickDelete={this._handleClickDelete}
                                     patientId={patientProfile.data.patientId}
                                 />
-                            )
                             )}
                         {!this.state.addMore
-                            ? (
-                                <>
-                                    <br />
-                                    <button onClick={this._handleClickingAdd}>Add diagnoses</button>
-                                </>
-                            )
-                            : (
-                                <>
-                                    <div className={style.newInterruption}>
-                                        <label>Diagnosis date: </label>
-                                        <PickDate startDate={this.state.diagnosisDate} handleChange={this._handleStartDateChange} />
-                                        <br />
-                                        <br />
-                                        <label>Diagnosis: </label>
-                                        <select value={this.state.diagnosis} onChange={this._handleDiagnosisChange}>
-                                            <option value="unselected"></option>
-                                            {diagnoses.map(el => <option key={el.id} value={el.id}>{el.value}</option>)}
-                                        </select>
-                                        <br />
-                                        <br />
-                                    </div>
-                                    {this.state.error
-                                        ? (
-                                            <>
-                                                <div className={style.error}>
-                                                    {' '}
-                                                    {this.state.error}
-                                                    {' '}
-                                                </div>
-                                                <br />
-                                            </>
-                                        )
-                                        : null}
-                                    <button onClick={this._handleSubmit}>Submit</button>
+                            ? <>
+                                <br />
+                                <button onClick={this._handleClickingAdd}>Add diagnoses</button>
+                            </>
+                            : <>
+                                <div className={style.newInterruption}>
+                                    <label>Diagnosis date: </label>
+                                    <PickDate startDate={this.state.diagnosisDate} handleChange={this._handleStartDateChange} />
                                     <br />
                                     <br />
-                                    <button onClick={this._handleClickingAdd}>Cancel</button>
+                                    <label>Diagnosis: </label>
+                                    <select value={this.state.diagnosis} onChange={this._handleDiagnosisChange}>
+                                        <option value="unselected"></option>
+                                        {diagnoses.map(el => <option key={el.id} value={el.id}>{el.value}</option>)}
+                                    </select>
                                     <br />
-                                </>
-                            )}
+                                    <br />
+                                </div>
+                                {this.state.error
+                                    ? <>
+                                        <div className={style.error}>
+                                            {' '}
+                                            {this.state.error}
+                                            {' '}
+                                        </div>
+                                        <br />
+                                    </>
+                                    : null}
+                                <button onClick={this._handleSubmit}>Submit</button>
+                                <br />
+                                <br />
+                                <button onClick={this._handleClickingAdd}>Cancel</button>
+                                <br />
+                            </>}
                     </form>
                 </>
             );
@@ -264,55 +257,49 @@ class OneEditPrimaryDiagnoses extends Component {
             >
                 {
                     editing
-                        ? (
-                            <>
-                                <div className={style.editInterruption}>
-                                    <label>Diagnosis date: </label>
-                                    <PickDate startDate={diagnosisDate} handleChange={this._handleStartDateChange} />
-                                    <br />
-                                    <br />
-                                    <label>Diagnosis: </label>
-                                    <select onChange={this._handleDiagnosisChange} value={diagnosis}>
-                                        <option value="unselected"></option>
-                                        {diagnoses.map(el => <option key={el.id} value={el.id}>{el.value}</option>)}
-                                    </select>
-                                    <br />
-                                    <br />
-                                </div>
-                                {this.state.error
-                                    ? (
-                                        <>
-                                            <div className={style.error}>
-                                                {' '}
-                                                {this.state.error}
-                                                {' '}
-                                            </div>
-                                            <br />
-                                        </>
-                                    )
-                                    : null}
-                                <button onClick={this._handleSubmit}>Confirm change</button>
-                                <br />
-                                <br />
-                                <button onClick={this._handleEditClick}>Cancel</button>
-                            </>
-                        )
-                        : (
-                            <>
+                        ? <>
+                            <div className={style.editInterruption}>
                                 <label>Diagnosis date: </label>
-                                {' '}
-                                {diagnosisDate_original._d.toDateString()}
-                                {' '}
+                                <PickDate startDate={diagnosisDate} handleChange={this._handleStartDateChange} />
+                                <br />
                                 <br />
                                 <label>Diagnosis: </label>
-                                {' '}
-                                {diagnoses.filter(ele => ele.id === diagnosis_original)[0].value}
-                                {' '}
+                                <select onChange={this._handleDiagnosisChange} value={diagnosis}>
+                                    <option value="unselected"></option>
+                                    {diagnoses.map(el => <option key={el.id} value={el.id}>{el.value}</option>)}
+                                </select>
                                 <br />
-                                <DeleteButton clickhandler={() => this._handleClickDelete(data)} />
-                                <span title="Edit" onClick={this._handleEditClick} className={style.dataEdit}><Icon symbol="edit" /></span>
-                            </>
-                        )
+                                <br />
+                            </div>
+                            {this.state.error
+                                ? <>
+                                    <div className={style.error}>
+                                        {' '}
+                                        {this.state.error}
+                                        {' '}
+                                    </div>
+                                    <br />
+                                </>
+                                : null}
+                            <button onClick={this._handleSubmit}>Confirm change</button>
+                            <br />
+                            <br />
+                            <button onClick={this._handleEditClick}>Cancel</button>
+                        </>
+                        : <>
+                            <label>Diagnosis date: </label>
+                            {' '}
+                            {diagnosisDate_original._d.toDateString()}
+                            {' '}
+                            <br />
+                            <label>Diagnosis: </label>
+                            {' '}
+                            {diagnoses.filter(ele => ele.id === diagnosis_original)[0].value}
+                            {' '}
+                            <br />
+                            <DeleteButton clickhandler={() => this._handleClickDelete(data)} />
+                            <span title="Edit" onClick={this._handleEditClick} className={style.dataEdit}><Icon symbol="edit" /></span>
+                        </>
                 }
             </div>
         );

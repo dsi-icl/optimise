@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import { NavLink, Redirect } from 'react-router-dom';
 import qs from 'query-string';
 import style from '../../frontpage.module.css';
@@ -55,69 +55,57 @@ class FrontPageNavigationButton extends Component {
         }
 
         const backButtonWithoutDiv
-            = (
-                <NavLink
-                    to={`/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${calcLastPage(currentPage)}${this._lastPageAnsweredYes(currentPage) ? '' : '/yes_or_no'}${searchString}`}
-                >
-                    <button>
-                        <b>&lt;&lt;</b>
-                        Go back
-                    </button>
-                </NavLink>
-            );
+            = <NavLink
+                to={`/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${calcLastPage(currentPage)}${this._lastPageAnsweredYes(currentPage) ? '' : '/yes_or_no'}${searchString}`}
+            >
+                <button>
+                    <b>&lt;&lt;</b>
+                    Go back
+                </button>
+            </NavLink>;
 
         const backButton = <div>{backButtonWithoutDiv}</div>;
 
         const nextButton = this._isAYesOrNoPage() && !this._isCompulsoryPage(currentPage)
-            ? (
-                <div>
-                    <button disabled style={{ visibility: 'hidden' }}>
-                        Continue
-                        <b>&gt;&gt;</b>
-                    </button>
-                </div>
-            )
+            ? <div>
+                <button disabled style={{ visibility: 'hidden' }}>
+                    Continue
+                    <b>&gt;&gt;</b>
+                </button>
+            </div>
             : (
                 onClickNext
-                    ? (
-                        <div>
+                    ? <div>
+                        <button onClick={onClickNext}>
+                            Save and continue
+                            <b>&gt;&gt;</b>
+                        </button>
+                    </div>
+                    : <div>
+                        <NavLink to={`/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${calcNextPage(currentPage)}${this._nextPageAnsweredYes(currentPage) ? '' : '/yes_or_no'}${searchString}`}>
                             <button onClick={onClickNext}>
-                                Save and continue
+                                Continue
                                 <b>&gt;&gt;</b>
                             </button>
-                        </div>
-                    )
-                    : (
-                        <div>
-                            <NavLink to={`/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${calcNextPage(currentPage)}${this._nextPageAnsweredYes(currentPage) ? '' : '/yes_or_no'}${searchString}`}>
-                                <button onClick={onClickNext}>
-                                    Continue
-                                    <b>&gt;&gt;</b>
-                                </button>
-                            </NavLink>
-                        </div>
-                    )
+                        </NavLink>
+                    </div>
             );
 
-        const firstPageButton = (
-            <div>
-                <NavLink
-                    to={`/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${calcNextPage(currentPage)}${this._nextPageAnsweredYes(currentPage) ? '' : '/yes_or_no'}${searchString}`}
-                >
-                    <button>Start</button>
-                </NavLink>
-            </div>
-        );
+        const firstPageButton = <div>
+            <NavLink
+                to={`/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${calcNextPage(currentPage)}${this._nextPageAnsweredYes(currentPage) ? '' : '/yes_or_no'}${searchString}`}
+            >
+                <button>Start</button>
+            </NavLink>
+        </div>;
 
-        const finishButton = (
-            <div>
-                <NavLink
-                    to={`/patientProfile/${patientId}`}
-                >
-                    <button className={style.finish_button}>Finish</button>
-                </NavLink>
-            </div>
-        );
+        const finishButton = <div>
+            <NavLink
+                to={`/patientProfile/${patientId}`}
+            >
+                <button className={style.finish_button}>Finish</button>
+            </NavLink>
+        </div>;
 
         const femaleConsentingPatient = pregnancySubStudyConsent && this.props.data.demographicData.gender !== 1;
 
@@ -129,20 +117,16 @@ class FrontPageNavigationButton extends Component {
             <div className={style.page_navigation_buttons}>
                 {currentPage === '0' ? firstPageButton : null}
                 {((currentPage === '10' && !femaleConsentingPatient) || (currentPage === '11' && femaleConsentingPatient))
-                    ? (
-                        <>
-                            {backButton}
-                            {finishButton}
-                        </>
-                    )
+                    ? <>
+                        {backButton}
+                        {finishButton}
+                    </>
                     : null}
                 {(((currentPage !== '10' && !femaleConsentingPatient) || (currentPage !== '11' && femaleConsentingPatient)) && currentPage !== '0')
-                    ? (
-                        <>
-                            {backButton}
-                            {nextButton}
-                        </>
-                    )
+                    ? <>
+                        {backButton}
+                        {nextButton}
+                    </>
                     : null}
             </div>
         );

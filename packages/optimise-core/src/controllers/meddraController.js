@@ -21,7 +21,7 @@ class MeddraController {
         try {
             highestId = (await dbcon()('ADVERSE_EVENT_MEDDRA').max('id'))[0]['max(`id`)'];
         }
- catch (e) {
+        catch (e) {
             res.status(400).json({ error: e });
             return null;
         }
@@ -32,7 +32,7 @@ class MeddraController {
             processor.parsebuffer();
             result = processor.transformData();
         }
- catch (e) {
+        catch (e) {
             res.status(400).json({ error: e });
             return null;
         }
