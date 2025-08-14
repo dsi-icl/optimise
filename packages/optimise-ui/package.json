@@ -1,6 +1,6 @@
 {
     "name": "optimise-ui",
-    "version": "3.4.0",
+    "version": "3.4.1",
     "private": true,
     "description": "Optimise:MS UI",
     "keywords": [
@@ -70,7 +70,7 @@
         "http-proxy-middleware": "2.0.9",
         "rehype-mdx-import-media": "1.2.0",
         "rehype-raw": "7.0.0",
-        "webpack": "5.101.1"
+        "webpack": "5.101.2"
     },
     "productName": "Optimise MS"
 }

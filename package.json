@@ -1,6 +1,6 @@
 {
     "name": "optimise",
-    "version": "3.4.0",
+    "version": "3.4.1",
     "private": true,
     "description": "Optimise:MS",
     "keywords": [
@@ -51,6 +51,7 @@
         "is-ci": "^4",
         "knex": "^3.1.0",
         "path-to-regexp": "^1.9.0",
+        "tmp": "^0.2.4",
         "typescript": "^5"
     },
     "dependencies": {
