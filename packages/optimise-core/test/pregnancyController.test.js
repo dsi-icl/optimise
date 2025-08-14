@@ -342,10 +342,10 @@ describe('Delete Pregnancy controller test', () => {
             id: 90
         })
         .then(({ status, body }) => {
-            expect(status).toBe(200);
+            expect(status).toBe(400);
             expect(typeof body).toBe('object');
-            expect(body.state).toBeDefined();
-            expect(body.state).toBe(0);
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.errorMessages.NOTFOUND);
             return true;
         }));
 

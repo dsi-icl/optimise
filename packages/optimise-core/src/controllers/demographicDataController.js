@@ -466,7 +466,7 @@ class DemographicDataController {
                     });
 
                     await dbcon()('PREGNANCY_ENTRY').insert({
-                        pregnancyId: result.id,
+                        pregnancyId: result[0].id,
                         recordedDuringVisit: parseInt(newVisitId),
                         type: 1, // We assume a baseline pregnancy entry
                         createdTime: dbcon().fn.now(),
@@ -537,14 +537,19 @@ class DemographicDataController {
 
     static deletePregnancy({ body, user }, res) {
         if (body.hasOwnProperty('id') && typeof body.id === 'number') {
-            PregnancyCore.deletePregnancy(user, { id: body.id }).then((resultP) => {
-                PregnancyCore.deleteOffspringEntry(user, { pregnancyId: body.id }).then((resultO) => {
-                    res.status(200).json(formatToJSON([resultP, resultO]));
+            PregnancyCore.deletePregnancy(user, { id: body.id }).then((result) => {
+                if (result === 0) {
+                    res.status(400).json(ErrorHelper(message.errorMessages.NOTFOUND));
+                    return;
+                }
+                PregnancyCore.deleteOffspringEntry(user, { pregnancyId: body.id }).then(() => {
+                    res.status(200).json(formatToJSON(result));
                     return true;
                 }).catch((error) => {
                     res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL, error));
                     return false;
                 });
+                return true;
             }).catch((error) => {
                 res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL, error));
                 return false;
