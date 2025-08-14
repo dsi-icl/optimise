@@ -46,7 +46,7 @@ class EditCommunication extends Component {
                         <i>We could not find the communication you are looking for.</i>
                     </div>
                 </form>
-                   </>;
+            </>;
         }
         const edssHash = visitFields.filter(el => /^edss:(.*)/.test(el.idname)).reduce((a, el) => { a[el.id] = el; return a; }, {});
         const VSBlock = formatVS(visits[0].data || [], VSFields_Hash[0]);

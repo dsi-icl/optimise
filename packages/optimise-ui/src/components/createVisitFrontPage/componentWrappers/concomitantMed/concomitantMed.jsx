@@ -28,6 +28,6 @@ export class ConcomitantMedWrapper extends Component {
                         <FrontPageNavigationButton match={match} location={location} />
                     </>}
             />
-               </Switch>;
+        </Switch>;
     }
 }

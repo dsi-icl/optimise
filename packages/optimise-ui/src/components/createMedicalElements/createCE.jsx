@@ -147,7 +147,7 @@ class CreateCE extends Component {
                                 <label htmlFor="endDate">End date: </label>
                                 <PickDate startDate={this.state.endDate ? this.state.endDate : moment()} handleChange={this._handleEndDateChange} />
                                 <br />
-                               </>)}
+                            </>)}
                         <br />
                         <label className={fixedCeTypes && fixedCeTypes.length === 1 ? _style.test_type_hidden : ''} htmlFor="event">What type of event is it?</label>
                         <br />
@@ -169,7 +169,7 @@ class CreateCE extends Component {
                             ? <>
                                 <div className={style.error}>{this.state.error}</div>
                                 <br />
-                              </>
+                            </>
                             : null}
                         <button onClick={this._handleSubmitClick}>Submit</button>
                     </div>

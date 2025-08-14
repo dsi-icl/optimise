@@ -86,7 +86,7 @@ export class LogEntry extends PureComponent { /* consider mapping the endpoints 
                     ? <>
                         <b>Body: </b>
                         <pre className={style.actionBody}>{JSON.stringify(JSON.parse(el.body), null, 2)}</pre>
-                      </>
+                    </>
                     : null}
             </div>
         );

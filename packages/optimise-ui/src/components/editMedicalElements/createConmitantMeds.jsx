@@ -63,11 +63,11 @@ class EditConcomitantMeds extends Component {
                             ? <>
                                 <br />
                                 <button onClick={this._handleClickingAdd}>Record more concomitant medication</button>
-                              </>
+                            </>
                             : <div className={_style.newInterruption}>
                                 <label>Record new concomitant medication: </label>
                                 <CreateConcomitantMed match={match} location={location} onChange={this._handleValueChange} />
-                              </div>}
+                            </div>}
                     </form>
                 </>
             );
@@ -264,19 +264,19 @@ class OneComorbidity extends Component {
                                     <label htmlFor="endDate">End date: </label>
                                     <PickDate startDate={this.state.endDate_new ? this.state.endDate_new : moment()} handleChange={this._handleEndDateChange} />
                                     <br />
-                                   </>)}
+                                </>)}
                             <br />
                             {this.state.error
                                 ? <>
                                     <div className={style.error}>{this.state.error}</div>
                                     <br />
-                                  </>
+                                </>
                                 : null}
                             <button onClick={this._handleSubmit}>Confirm change</button>
                             <br />
                             <br />
                             <button onClick={this._handleCancelClick}>Cancel</button>
-                          </>
+                        </>
                         : <>
                             <p>
                                 <b>Drug:</b>
@@ -298,12 +298,12 @@ class OneComorbidity extends Component {
                                     <b>End date:</b>
                                     {' '}
                                     {new Date(parseInt(data.endDate, 10)).toDateString()}
-                                  </p>
+                                </p>
                                 : <p>Patient is still taking this medication</p>}
                             <br />
                             <DeleteButton clickhandler={() => this._handleClickDelete(data)} />
                             <span title="Edit" onClick={this._handleEditClick} className={style.dataEdit}><Icon symbol="edit" /></span>
-                          </>
+                        </>
                 }
             </div>
         );
@@ -440,13 +440,13 @@ class CreateConcomitantMed extends Component {
                         <label htmlFor="endDate">End date: </label>
                         <PickDate startDate={this.state.endDate ? this.state.endDate : moment()} handleChange={this._handleEndDateChange} />
                         <br />
-                       </>)}
+                    </>)}
                 <br />
                 {this.state.error
                     ? <>
                         <div className={style.error}>{this.state.error}</div>
                         <br />
-                      </>
+                    </>
                     : null}
                 <button onClick={this._handleSubmitClick}>Submit</button>
             </div>

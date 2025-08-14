@@ -44,7 +44,7 @@ class OtherSAEWrapper extends Component {
                     <FrontPageNavigationButton match={match} location={location} />
                 </>}
             />
-               </Switch>;
+        </Switch>;
     }
 }
 

@@ -138,7 +138,7 @@ class TestData extends Component {
                     <div className={_style.panel}>
                         <i>We could not find the test that you are looking for.</i>
                     </div>
-                       </>;
+                </>;
             }
             const { fields } = this.props;
             const relevantFields = fields.testFields.filter(el => (el.referenceType === visitsMatched[0].type));
@@ -169,7 +169,7 @@ class TestData extends Component {
                                 ? <>
                                     <button disabled style={{ cursor: 'default', backgroundColor: 'green' }}>Successfully saved!</button>
                                     <br />
-                                  </>
+                                </>
                                 : null}
                             <button type="submit">Save</button>
                         </form>

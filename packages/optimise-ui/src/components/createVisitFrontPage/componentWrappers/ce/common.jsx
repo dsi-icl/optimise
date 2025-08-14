@@ -36,7 +36,7 @@ export class RenderEventsWrapper extends PureComponent {
                     {filteredEvents.map(el => <ClinicalEvent key={el.id} location={location} data={el} renderedInFrontPage={true} match={match} />)}
                 </tbody>
             </table>
-               </>;
+        </>;
     }
 }
 
@@ -46,7 +46,7 @@ export class EditEventDataWrapper extends PureComponent {
         return <>
             <h3>Enter data for this event:</h3>
             <CeData match={match} override_style={override_style} location={location} />
-               </>;
+        </>;
     }
 }
 
@@ -58,7 +58,7 @@ export class CreateEventWrapper extends PureComponent {
         return <>
             <h3>{title}</h3>
             <CreateCE match={match} fixedCeTypes={fixedCeTypes} override_style={override_style} renderedInFrontPage={true} location={location} />
-               </>;
+        </>;
     }
 }
 
@@ -68,7 +68,7 @@ export class EditEventWrapper extends PureComponent {
         return <>
             <h3>{title}</h3>
             <EditCE match={match} override_style={override_style} renderedInFrontPage={true} location={location} />
-               </>;
+        </>;
     }
 }
 
@@ -104,7 +104,7 @@ export class EventCreatedMessage extends Component {
                             <b>Meddra:</b>
                             {' '}
                             {meddraHash[currentEvent.meddra]}
-                          </p>
+                        </p>
                         : null
                 }
                 <br />

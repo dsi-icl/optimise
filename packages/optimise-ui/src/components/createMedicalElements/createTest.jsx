@@ -131,7 +131,7 @@ class CreateTest extends Component {
                             ? <>
                                 <div className={style.error}>{this.state.error}</div>
                                 <br />
-                              </>
+                            </>
                             : null}
                         <button onClick={this._handleSubmitClick}>Submit</button>
                     </form>

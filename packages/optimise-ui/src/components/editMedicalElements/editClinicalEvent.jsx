@@ -79,12 +79,12 @@ class EditCE extends Component {
                                     <button onClick={this._handleWannaUpdateClick}>Cancel</button>
                                     <br />
                                     <br />
-                                  </>
+                                </>
                                 : <>
                                     <button onClick={this._handleWannaUpdateClick}>Change start date / MedDRA</button>
                                     <br />
                                     <br />
-                                  </>}
+                                </>}
                             <button onClick={this._handleClick} className={style.deleteButton}>Delete this event</button>
                             <br />
                             <br />
@@ -98,13 +98,13 @@ class EditCE extends Component {
                                         <br />
                                         <br />
                                         <NavLink to={`/patientProfile/${params.patientId}/visitFrontPage/${params.visitId}/page/${params.currentPage}${this.props.location.search}`}><button>Back</button></NavLink>
-                                      </>
+                                    </>
                                     : null
                             }
-                          </>
+                        </>
                         : <div>
                             <i>We could not find the clinical event you are looking for.</i>
-                          </div>}
+                        </div>}
                 </form>
             </>
         );
@@ -228,7 +228,7 @@ class UpdateCEEntry extends Component {
                         <PickDate startDate={this.state.endDate ? this.state.endDate : moment()} handleChange={this._handleEndDateChange} />
                         <br />
                         <br />
-                       </>)}
+                    </>)}
                 <label>MedDRA: </label>
                 <MeddraPicker key={id} value={meddra === null || meddra === undefined ? undefined : String(meddra)} onChange={this._handleMeddraChange} />
                 <br />
@@ -237,7 +237,7 @@ class UpdateCEEntry extends Component {
                     ? <>
                         <div className={style.error}>{this.state.error}</div>
                         <br />
-                      </>
+                    </>
                     : null}
                 <button onClick={this._handleSubmit}>Submit</button>
                 <br />

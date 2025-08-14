@@ -108,7 +108,7 @@ class EditPrimaryDiagnoses extends Component {
                             ? <>
                                 <br />
                                 <button onClick={this._handleClickingAdd}>Add diagnoses</button>
-                              </>
+                            </>
                             : <>
                                 <div className={style.newInterruption}>
                                     <label>Diagnosis date: </label>
@@ -131,14 +131,14 @@ class EditPrimaryDiagnoses extends Component {
                                             {' '}
                                         </div>
                                         <br />
-                                      </>
+                                    </>
                                     : null}
                                 <button onClick={this._handleSubmit}>Submit</button>
                                 <br />
                                 <br />
                                 <button onClick={this._handleClickingAdd}>Cancel</button>
                                 <br />
-                              </>}
+                            </>}
                     </form>
                 </>
             );
@@ -279,13 +279,13 @@ class OneEditPrimaryDiagnoses extends Component {
                                         {' '}
                                     </div>
                                     <br />
-                                  </>
+                                </>
                                 : null}
                             <button onClick={this._handleSubmit}>Confirm change</button>
                             <br />
                             <br />
                             <button onClick={this._handleEditClick}>Cancel</button>
-                          </>
+                        </>
                         : <>
                             <label>Diagnosis date: </label>
                             {' '}
@@ -299,7 +299,7 @@ class OneEditPrimaryDiagnoses extends Component {
                             <br />
                             <DeleteButton clickhandler={() => this._handleClickDelete(data)} />
                             <span title="Edit" onClick={this._handleEditClick} className={style.dataEdit}><Icon symbol="edit" /></span>
-                          </>
+                        </>
                 }
             </div>
         );

@@ -91,7 +91,7 @@ export class UserCreate extends Component {
                                     <div className={style.error}>None of the fields can be empty!</div>
                                     <br />
                                     <br />
-                                  </>
+                                </>
                                 : null}
                             <button onClick={this._handleSubmit}>Create</button>
                             <br />

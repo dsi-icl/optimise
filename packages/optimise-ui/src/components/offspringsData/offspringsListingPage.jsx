@@ -74,7 +74,7 @@ class OffspringsListingPage extends Component {
                             ? <button type="button" onClick={() => history.push(`/patientProfile/${match.params.patientId}/pregnancy/`)}>Go back to the pregnancies list</button>
                             : null}
                     </div>
-                       </>;
+                </>;
             else
                 return <>
                     <div className={_style.ariane}>
@@ -104,7 +104,7 @@ class OffspringsListingPage extends Component {
                             ? <button type="button" onClick={() => history.push(`/patientProfile/${match.params.patientId}/pregnancy/`)}>Go back to the pregnancies list</button>
                             : null}
                     </div>
-                       </>;
+                </>;
         }
         else {
             return <div><Icon symbol="loading" /></div>;

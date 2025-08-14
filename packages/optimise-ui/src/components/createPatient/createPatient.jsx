@@ -245,7 +245,7 @@ class CreatePatient extends Component { // get these props from state: this.prop
                                         {' '}
                                         <br />
                                         <br />
-                                      </>
+                                    </>
                                     : null
                             }
                             <br />
@@ -286,10 +286,10 @@ class CreatePatient extends Component { // get these props from state: this.prop
                                                     {' '}
                                                     <br />
                                                     <br />
-                                                  </>
+                                                </>
                                                 : null
                                         }
-                                      </>
+                                    </>
                                     : null
                             }
                             <label htmlFor="dominant_hand">Dominant hand:</label>
@@ -334,7 +334,7 @@ class CreatePatient extends Component { // get these props from state: this.prop
                                 ? <>
                                     <div className={style.error}>{this.state.error}</div>
                                     <br />
-                                  </>
+                                </>
                                 : null}
                             <button type="submit">Submit</button>
                         </form>

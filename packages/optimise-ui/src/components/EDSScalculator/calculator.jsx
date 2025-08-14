@@ -310,7 +310,7 @@ class EDSSCalculator extends Component {
                                 ? <>
                                     <button disabled style={{ cursor: 'default', backgroundColor: 'green' }}>Successfully saved!</button>
                                     <br />
-                                  </>
+                                </>
                                 : null}
                             {
                                 this.props.renderedInFrontPage
@@ -320,10 +320,10 @@ class EDSSCalculator extends Component {
                             <br />
                             <br />
                             <button className={_style.cancelButton} onClick={this._handleCancel}>Cancel</button>
-                          </form>
+                        </form>
                         : <div>
                             <i>We could not find the visit you are looking for.</i>
-                          </div>}
+                        </div>}
                 </div>
             </>
         );

@@ -25,6 +25,6 @@ export class ComorbidityWrapper extends Component {
                         <FrontPageNavigationButton match={match} location={location} />
                     </>}
             />
-               </Switch>;
+        </Switch>;
     }
 }

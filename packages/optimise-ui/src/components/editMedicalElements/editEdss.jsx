@@ -116,10 +116,10 @@ class EditPerformanceMesaure extends Component {
                                 <br />
                                 <NavLink to={`/patientProfile/${params.patientId}/edit/msPerfMeas/${params.visitId}/edss`}><span className={style.openCalculator}>Open EDSS Calculator</span></NavLink>
                             </div>
-                          </>
+                        </>
                         : <div>
                             <i>We could not find the EDSS scores you are looking for.</i>
-                          </div>}
+                        </div>}
                 </form>
             </>
         );

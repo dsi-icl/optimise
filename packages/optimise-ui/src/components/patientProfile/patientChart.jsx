@@ -319,6 +319,7 @@ class OneVisit extends Component {
             pregnancy = this.props.data.pregnancy.filter(el => el.id === pregnancyEntries[0].pregnancyId);
             if (pregnancy.length > 0) {
                 entryIsTerm = (entryOrder === 'latest' || entryOrder === 'sole entry') && typeof pregnancy[0].outcome === 'number' && pregnancy[0].outcomeDate !== null;
+                console.log('EOPE', entryOrder, pregnancyEntries);
                 baselineDeleted = (entryOrder === 'first' || entryOrder === 'sole entry') && pregnancyEntries[0].type === 2;
             }
         }

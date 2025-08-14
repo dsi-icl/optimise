@@ -17,7 +17,7 @@ class ICD11Picker extends Component {
                         &nbsp;
                     </b>
                     {node.name}
-                                   </>}
+                </>}
             />
         );
     }

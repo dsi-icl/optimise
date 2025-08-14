@@ -57,12 +57,12 @@ class FrontPageNavigationButton extends Component {
         const backButtonWithoutDiv
             = <NavLink
                 to={`/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${calcLastPage(currentPage)}${this._lastPageAnsweredYes(currentPage) ? '' : '/yes_or_no'}${searchString}`}
-              >
+            >
                 <button>
                     <b>&lt;&lt;</b>
                     Go back
                 </button>
-              </NavLink>;
+            </NavLink>;
 
         const backButton = <div>{backButtonWithoutDiv}</div>;
 
@@ -72,7 +72,7 @@ class FrontPageNavigationButton extends Component {
                     Continue
                     <b>&gt;&gt;</b>
                 </button>
-              </div>
+            </div>
             : (
                 onClickNext
                     ? <div>
@@ -80,7 +80,7 @@ class FrontPageNavigationButton extends Component {
                             Save and continue
                             <b>&gt;&gt;</b>
                         </button>
-                      </div>
+                    </div>
                     : <div>
                         <NavLink to={`/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${calcNextPage(currentPage)}${this._nextPageAnsweredYes(currentPage) ? '' : '/yes_or_no'}${searchString}`}>
                             <button onClick={onClickNext}>
@@ -88,7 +88,7 @@ class FrontPageNavigationButton extends Component {
                                 <b>&gt;&gt;</b>
                             </button>
                         </NavLink>
-                      </div>
+                    </div>
             );
 
         const firstPageButton = <div>
@@ -97,7 +97,7 @@ class FrontPageNavigationButton extends Component {
             >
                 <button>Start</button>
             </NavLink>
-                                </div>;
+        </div>;
 
         const finishButton = <div>
             <NavLink
@@ -105,7 +105,7 @@ class FrontPageNavigationButton extends Component {
             >
                 <button className={style.finish_button}>Finish</button>
             </NavLink>
-                             </div>;
+        </div>;
 
         const femaleConsentingPatient = pregnancySubStudyConsent && this.props.data.demographicData.gender !== 1;
 
@@ -120,13 +120,13 @@ class FrontPageNavigationButton extends Component {
                     ? <>
                         {backButton}
                         {finishButton}
-                      </>
+                    </>
                     : null}
                 {(((currentPage !== '10' && !femaleConsentingPatient) || (currentPage !== '11' && femaleConsentingPatient)) && currentPage !== '0')
                     ? <>
                         {backButton}
                         {nextButton}
-                      </>
+                    </>
                     : null}
             </div>
         );

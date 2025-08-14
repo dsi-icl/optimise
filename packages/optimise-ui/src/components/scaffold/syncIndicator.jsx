@@ -160,7 +160,7 @@ class SyncIndicator extends Component {
                 }
                 {' '}
                 ...
-                   </span>;
+            </span>;
         }
         else if (lastSuccess !== undefined)
             return (

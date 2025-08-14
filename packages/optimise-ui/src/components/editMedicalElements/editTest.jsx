@@ -79,12 +79,12 @@ class EditTest extends Component {
                                     <button onClick={this._handleWannaUpdateClick}>Cancel</button>
                                     <br />
                                     <br />
-                                  </>
+                                </>
                                 : <>
                                     <button onClick={this._handleWannaUpdateClick}>Change test date</button>
                                     <br />
                                     <br />
-                                  </>}
+                                </>}
                             <button onClick={this._handleClick} className={style.deleteButton}>Delete this test</button>
                             <br />
                             <br />
@@ -96,13 +96,13 @@ class EditTest extends Component {
                                         <br />
                                         <br />
                                         <NavLink to={`/patientProfile/${params.patientId}/visitFrontPage/${params.visitId}/page/${params.currentPage}${this.props.location.search}`}><button>Back</button></NavLink>
-                                      </>
+                                    </>
                                     : null
                             }
-                          </>
+                        </>
                         : <div>
                             <i>We could not find the test you are looking for.</i>
-                          </div>}
+                        </div>}
                 </form>
             </>
         );
@@ -213,7 +213,7 @@ class UpdateTestEntry extends Component {
                     ? <>
                         <div className={style.error}>{this.state.error}</div>
                         <br />
-                      </>
+                    </>
                     : null}
                 <button onClick={this._handleSubmit}>Submit</button>
                 <br />

@@ -387,7 +387,7 @@ export const mappingFields = (typeHash, references, originalValues, transformer)
                                         {' '}
                                         in
                                         {content.unit}
-                                      </em>
+                                    </em>
                                     : ''}
                             </label>
                             <AntibodyField origVal={origVal ? origVal : null} reference={references[content.id].ref} />
@@ -405,7 +405,7 @@ export const mappingFields = (typeHash, references, originalValues, transformer)
                                         {' '}
                                         in
                                         {content.unit}
-                                      </em>
+                                    </em>
                                     : ''}
                             </label>
                             <TextField origVal={origVal ? origVal : null} reference={references[content.id].ref} />

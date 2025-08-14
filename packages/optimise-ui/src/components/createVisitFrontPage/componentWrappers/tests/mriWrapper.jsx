@@ -46,7 +46,7 @@ class MRIWrapper extends Component {
                     <FrontPageNavigationButton match={match} location={location} />
                 </>}
             />
-               </Switch>;
+        </Switch>;
     }
 }
 

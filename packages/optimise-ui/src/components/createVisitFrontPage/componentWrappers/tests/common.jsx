@@ -32,7 +32,7 @@ export class RenderTestWrapper extends PureComponent {
                     {labtests.map(el => <Test key={el.id} data={el} renderedInFrontPage={true} match={match} />)}
                 </tbody>
             </table>
-               </>;
+        </>;
     }
 }
 
@@ -66,6 +66,6 @@ export class EditTestWrapper extends Component {
         return <>
             <h3>{title}</h3>
             <EditTest match={match} override_style={override_style} renderedInFrontPage={true} location={location} />
-               </>;
+        </>;
     }
 }

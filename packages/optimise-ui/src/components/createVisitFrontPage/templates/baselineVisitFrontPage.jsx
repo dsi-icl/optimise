@@ -38,14 +38,14 @@ class BaselineVisitFrontPage extends Component {
                 {' '}
                 <b>disease-modifying treatments (DMT)</b>
                 .
-                                                  </p>}
-               />,
+            </p>}
+            />,
             6: <RelapseWrapper yesOrNoQuestion={<p>
                 Have there been any
                 <b>MS relapses within the last 2 years</b>
                 ?
-                                                </p>}
-               />,
+            </p>}
+            />,
             7: <OtherSAEWrapper yesOrNoQuestion={<p>
                 Is there any
                 <b>serious adverse event</b>
@@ -55,8 +55,8 @@ class BaselineVisitFrontPage extends Component {
                 <b>opportunistic infection</b>
                 {' '}
                 prior?
-                                                 </p>}
-               />,
+            </p>}
+            />,
             8: <TestWrapper yesOrNoQuestion={<p>
                 Is there any baseline lab result for
                 <b>Anti-JCV antibody status</b>
@@ -66,15 +66,15 @@ class BaselineVisitFrontPage extends Component {
                 <b>liver function</b>
                 {' '}
                 available?
-                                             </p>}
-               />,
+            </p>}
+            />,
             9: <MRIWrapper yesOrNoQuestion={<p>
                 Is there any baseline
                 <b>brain MRI</b>
                 {' '}
                 result available?
-                                            </p>}
-               />
+            </p>}
+            />
         };
 
         if (pregnancySubStudyConsent && this.props.data.demographicData.gender !== 1) {

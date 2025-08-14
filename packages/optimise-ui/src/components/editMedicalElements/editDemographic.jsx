@@ -211,12 +211,12 @@ class UpdateDemoEntry extends Component {
                         <br />
                         <br />
                         <button type="button" onClick={this._hideEditId}>Cancel</button>
-                      </div>
+                    </div>
                     : <>
                         <span onClick={this._showEditId} className={style.editAliasIdUncover}>Edit Patient ID</span>
                         <br />
                         <br />
-                      </>}
+                    </>}
                 <label htmlFor="givenName">Given name:</label>
                 <br />
                 {' '}

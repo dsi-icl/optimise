@@ -47,7 +47,7 @@ class TreatmentWrapper extends Component {
                     <FrontPageNavigationButton match={match} location={location} />
                 </>}
             />
-               </Switch>;
+        </Switch>;
     }
 }
 
@@ -82,7 +82,7 @@ class RenderTreatmentsWrapper extends PureComponent {
                     {treatmentssorted.map(el => <Medication key={el.id} data={el} renderedInFrontPage={true} match={match} />)}
                 </tbody>
             </table>
-               </>;
+        </>;
     }
 }
 
@@ -92,7 +92,7 @@ class EditMedWrapper extends PureComponent {
         return <>
             <h3>Edit this DMT</h3>
             <EditMed match={match} override_style={override_style} renderedInFrontPage={true} location={location} />
-               </>;
+        </>;
     }
 }
 
@@ -110,7 +110,7 @@ class CreateTreatmentsWrapper extends PureComponent {
         return <>
             <h3>Record a DMT</h3>
             <CreateTreatment match={match} override_style={override_style} renderedInFrontPage={true} location={location} />
-               </>;
+        </>;
     }
 }
 

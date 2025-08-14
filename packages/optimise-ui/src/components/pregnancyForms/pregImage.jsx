@@ -129,11 +129,11 @@ class PregnancyImageForm extends Component {
                                 Confirm
                             </button>
                             <button onClick={() => this.setState({ showAddNewImageData: false })}>Cancel</button>
-                          </div>
+                        </div>
                         : <button onClick={() => this.setState({ showAddNewImageData: true })}>Add new image data</button>
                 }
             </div>
-               </>;
+        </>;
     }
 }
 
@@ -284,13 +284,13 @@ class OnePregnancyImage extends Component {
                                 ? <>
                                     <div className={style.error}>{this.state.error}</div>
                                     <br />
-                                  </>
+                                </>
                                 : null}
                             <button onClick={this._handleSubmit}>Confirm change</button>
                             <br />
                             <br />
                             <button onClick={this._handleEditClick}>Cancel</button>
-                          </>
+                        </>
                         : <>
                             <label>Date: </label>
                             {' '}
@@ -309,7 +309,7 @@ class OnePregnancyImage extends Component {
                             <br />
                             <DeleteButton clickhandler={() => this._handleClickDelete()} />
                             <span title="Edit" onClick={this._handleEditClick} className={style.dataEdit}><Icon symbol="edit" /></span>
-                          </>
+                        </>
                 }
             </div>
         );

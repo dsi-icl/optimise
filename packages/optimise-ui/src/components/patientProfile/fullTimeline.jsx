@@ -412,7 +412,7 @@ class FullTimeline extends Component {
                                     {text}
                                     {point}
                                     {line}
-                                       </Fragment>;
+                                </Fragment>;
                             })}
                         </svg>
                     </div>

@@ -23,7 +23,7 @@ class VSFrontPageWrapper extends Component {
                                     <EditPregnancy match={this.props.match} location={this.props.location} renderedInFrontPage={true} />
                                     <br />
                                     <br />
-                                  </>
+                                </>
                                 : null
                         }
                         <p style={{ fontSize: '1.1rem' }}>Please enter vital signs:</p>

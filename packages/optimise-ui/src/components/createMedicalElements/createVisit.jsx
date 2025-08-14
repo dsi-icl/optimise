@@ -121,7 +121,7 @@ class CreateVisit extends Component {
                         ? <>
                             <div className={style.error}>{error}</div>
                             <br />
-                          </>
+                        </>
                         : null}
                     <button onClick={this._handleSubmitClick}>Submit</button>
                 </form>

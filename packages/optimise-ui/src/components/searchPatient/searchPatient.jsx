@@ -129,7 +129,7 @@ class SearchResultForPatients extends Component {
                                 {`${searchString}`}
                             </span>
                         </div>
-                      </Link>
+                    </Link>
                     : null}
                 {listOfPatients !== undefined && listOfPatients.map(el => <PatientButton key={el.patientId} data={el} searchString={searchString} />)}
             </div>

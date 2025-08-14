@@ -123,7 +123,7 @@ class EditPregnancy extends Component {
                             : <div className={style.ariane}>
                                 <h2>Pregnancies</h2>
                                 <BackButton to={`/patientProfile/${this.props.match.params.patientId}`} />
-                              </div>
+                            </div>
                     }
                     <form className={style.panel}>
                         {patientProfile.data.pregnancy
@@ -142,7 +142,7 @@ class EditPregnancy extends Component {
                             ? <>
                                 <br />
                                 <button onClick={this._handleClickingAdd}>Add pregnancies</button>
-                              </>
+                            </>
                             : <>
                                 <div className={style.newInterruption}>
                                     <label>Start date: </label>
@@ -175,14 +175,14 @@ class EditPregnancy extends Component {
                                     ? <>
                                         <div className={style.error}>{this.state.error}</div>
                                         <br />
-                                      </>
+                                    </>
                                     : null}
                                 <button onClick={this._handleSubmit}>Submit</button>
                                 <br />
                                 <br />
                                 <button onClick={this._handleClickingAdd}>Cancel</button>
                                 <br />
-                              </>}
+                            </>}
                     </form>
                 </>
             );
@@ -370,13 +370,13 @@ class OnePregnancy extends Component {
                                 ? <>
                                     <div className={style.error}>{this.state.error}</div>
                                     <br />
-                                  </>
+                                </>
                                 : null}
                             <button onClick={this._handleSubmit}>Confirm change</button>
                             <br />
                             <br />
                             <button onClick={this._handleEditClick}>Cancel</button>
-                          </>
+                        </>
                         : <>
                             <label>Start date: </label>
                             {' '}
@@ -389,7 +389,7 @@ class OnePregnancy extends Component {
                                     {' '}
                                     {outcomeDate_original._d.toDateString()}
                                     <br />
-                                  </>
+                                </>
                                 : null}
                             {outcome_original !== 'unselected'
                                 ? <>
@@ -398,7 +398,7 @@ class OnePregnancy extends Component {
                                     {pregnancyOutcomes.filter(ele => ele.id === outcome_original)[0].value}
                                     {' '}
                                     <br />
-                                  </>
+                                </>
                                 : null}
                             {meddra_original
                                 ? <>
@@ -407,11 +407,11 @@ class OnePregnancy extends Component {
                                     {meddra_Hash[0][meddra_original].name}
                                     {' '}
                                     <br />
-                                  </>
+                                </>
                                 : null}
                             <DeleteButton clickhandler={() => this._handleClickDelete(data)} />
                             <span title="Edit" onClick={this._handleEditClick} className={style.dataEdit}><Icon symbol="edit" /></span>
-                          </>
+                        </>
                 }
             </div>
         );

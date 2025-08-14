@@ -151,7 +151,7 @@ class TreatmentInterruption extends Component {
                                     ? <>
                                         <br />
                                         <button onClick={this._handleClickingAdd}>Add interruptions</button>
-                                      </>
+                                    </>
                                     : <>
                                         <div className={style.newInterruption}>
                                             <label>Start date: </label>
@@ -185,18 +185,18 @@ class TreatmentInterruption extends Component {
                                             ? <>
                                                 <div className={style.error}>{this.state.error}</div>
                                                 <br />
-                                              </>
+                                            </>
                                             : null}
                                         <button onClick={this._handleSubmit}>Submit</button>
                                         <br />
                                         <br />
                                         <button onClick={this._handleClickingAdd}>Cancel</button>
                                         <br />
-                                      </>}
-                              </>
+                                    </>}
+                            </>
                             : <div>
                                 <i>We could not find the treatment that you are looking for.</i>
-                              </div>}
+                            </div>}
                     </form>
                 </>
             );
@@ -384,13 +384,13 @@ class OneTreatmentInterruption extends Component {
                                 ? <>
                                     <div className={style.error}>{this.state.error}</div>
                                     <br />
-                                  </>
+                                </>
                                 : null}
                             <button onClick={this._handleSubmit}>Confirm change</button>
                             <br />
                             <br />
                             <button onClick={this._handleEditClick}>Cancel</button>
-                          </>
+                        </>
                         : <>
                             <label>Start date: </label>
                             {' '}
@@ -403,7 +403,7 @@ class OneTreatmentInterruption extends Component {
                                     {' '}
                                     {endDate_original._d.toDateString()}
                                     <br />
-                                  </>
+                                </>
                                 : null}
                             {reason_original
                                 ? <>
@@ -412,7 +412,7 @@ class OneTreatmentInterruption extends Component {
                                     {interruptionReasons.sort((a, b) => a.value.localeCompare(b.value)).filter(ele => ele.id === reason_original)[0].value}
                                     {' '}
                                     <br />
-                                  </>
+                                </>
                                 : null}
                             {meddra_original
                                 ? <>
@@ -421,11 +421,11 @@ class OneTreatmentInterruption extends Component {
                                     {meddra_Hash[0][meddra_original].name}
                                     {' '}
                                     <br />
-                                  </>
+                                </>
                                 : null}
                             <DeleteButton clickhandler={() => this._handleClickDelete(data)} />
                             <span title="Edit" onClick={this._handleEditClick} className={style.dataEdit}><Icon symbol="edit" /></span>
-                          </>
+                        </>
                 }
             </div>
         );

@@ -44,10 +44,10 @@ class VisitFrontPageTemplate extends Component {
                             match={this.props.match}
                             location={this.props.location}
                             pageNumberToElementMap={pageNumberToElementMap}
-                          />
+                        />
                         : <div>
                             <i>We could not find the visit you are looking for.</i>
-                          </div>}
+                        </div>}
                 </div>
             </>
         );

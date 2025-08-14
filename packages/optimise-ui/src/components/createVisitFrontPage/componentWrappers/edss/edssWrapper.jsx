@@ -27,6 +27,6 @@ export class EDSSWrapper extends Component {
                         <FrontPageNavigationButton onClickNext={(ev) => { this.form._handleSubmit(ev); this.forceUpdate(); }} formSaved={() => this.form.state.saved} match={match} location={location} />
                     </>}
             />
-               </Switch>;
+        </Switch>;
     }
 }

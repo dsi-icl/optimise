@@ -37,6 +37,6 @@ export default class UserManual extends Component {
                 }}
                 />
             </div>
-               </>;
+        </>;
     }
 }

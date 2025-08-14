@@ -147,7 +147,7 @@ class CeData extends Component {
                     <div className={_style.panel}>
                         <i>We could not find the event that you are looking for.</i>
                     </div>
-                       </>;
+                </>;
             }
             const { fields } = this.props;
             const relevantFields = fields.clinicalEventFields.filter(el => (el.referenceType === visitsMatched[0].type));
@@ -175,14 +175,14 @@ class CeData extends Component {
                                     ? <>
                                         <button disabled style={{ cursor: 'default', backgroundColor: 'green' }}>Successfully saved!</button>
                                         <br />
-                                      </>
+                                    </>
                                     : null}
                                 <button type="submit">Save</button>
                             </form>
-                          </div>
+                        </div>
                         : <div className={_style.panel}>
                             <i>There are no contextual data to record for this type of event. Please use the central panel to edit related symptoms and signs.</i>
-                          </div>}
+                        </div>}
                 </>
             );
         }

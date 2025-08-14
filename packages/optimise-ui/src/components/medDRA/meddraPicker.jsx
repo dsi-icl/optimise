@@ -17,7 +17,7 @@ class MeddraPicker extends Component {
                         &nbsp;
                     </b>
                     {node.name}
-                                   </>}
+                </>}
             />
         );
     }

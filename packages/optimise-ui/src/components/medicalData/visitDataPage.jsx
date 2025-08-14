@@ -145,7 +145,7 @@ class VisitData extends Component {
                     <div className={scaffold_style.panel}>
                         <i>We could not find the visit that you are looking for.</i>
                     </div>
-                       </>;
+                </>;
             }
             const { fields } = this.props;
             const category = this.props.category === 'symptoms' ? 2 : this.props.category === 'signs' ? 3 : 1;
@@ -182,7 +182,7 @@ class VisitData extends Component {
                                 ? <>
                                     <button disabled style={{ cursor: 'default', backgroundColor: 'green' }}>Successfully saved!</button>
                                     <br />
-                                  </>
+                                </>
                                 : null}
                             {
                                 this.props.renderedInFrontPage

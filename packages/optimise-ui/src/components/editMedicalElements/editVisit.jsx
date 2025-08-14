@@ -189,7 +189,7 @@ class EditVisit extends Component {
                                     ? <>
                                         <div className={style.error}>{error}</div>
                                         <br />
-                                      </>
+                                    </>
                                     : null}
                                 <button onClick={this._handleSubmitClick}>Submit</button>
                                 <br />
@@ -202,12 +202,12 @@ class EditVisit extends Component {
                             <button onClick={this._handleWannaUpdateClick}>Cancel</button>
                             <br />
                             <br />
-                          </>
+                        </>
                         : <>
                             <button onClick={this._handleWannaUpdateClick}>Change visit properties</button>
                             <br />
                             <br />
-                          </>}
+                        </>}
                     <button onClick={this._handleClick} className={style.deleteButton}>Delete this visit</button>
                 </form>
             </>

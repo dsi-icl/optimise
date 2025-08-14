@@ -99,7 +99,7 @@ class EditComorbidity extends Component {
                             ? <>
                                 <br />
                                 <button onClick={this._handleClickingAdd}>Add comorbidities</button>
-                              </>
+                            </>
                             : <>
                                 <div className={_style.newInterruption}>
                                     <label>ICD11: </label>
@@ -109,14 +109,14 @@ class EditComorbidity extends Component {
                                     ? <>
                                         <div className={_style.error}>{this.state.error}</div>
                                         <br />
-                                      </>
+                                    </>
                                     : null}
                                 <button onClick={this._handleSubmit}>Submit</button>
                                 <br />
                                 <br />
                                 <button onClick={this._handleClickingAdd}>Cancel</button>
                                 <br />
-                              </>}
+                            </>}
                     </form>
                 </>
             );
@@ -227,13 +227,13 @@ class OneComorbidity extends Component {
                                 ? <>
                                     <div className={style.error}>{this.state.error}</div>
                                     <br />
-                                  </>
+                                </>
                                 : null}
                             <button onClick={this._handleSubmit}>Confirm change</button>
                             <br />
                             <br />
                             <button onClick={this._handleEditClick}>Cancel</button>
-                          </>
+                        </>
                         : <>
                             {comorbidity_original
                                 ? <>
@@ -242,11 +242,11 @@ class OneComorbidity extends Component {
                                     {icd11_Hash[0][comorbidity_original].name}
                                     {' '}
                                     <br />
-                                  </>
+                                </>
                                 : null}
                             <DeleteButton clickhandler={() => this._handleClickDelete(data)} />
                             <span title="Edit" onClick={this._handleEditClick} className={style.dataEdit}><Icon symbol="edit" /></span>
-                          </>
+                        </>
                 }
             </div>
         );

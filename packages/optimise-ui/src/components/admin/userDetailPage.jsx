@@ -47,10 +47,10 @@ class UserDetail extends Component {
                                     <DeleteUser username={usersFiltered[0].username} />
                                     {' '}
                                     <br />
-                                  </>
+                                </>
                                 : <div>
                                     <i>We could not find the user you are looking for!</i>
-                                  </div>}
+                                </div>}
                         </div>
                     </div>
                 </>
@@ -91,9 +91,9 @@ class UserInfo extends PureComponent {
                 <br />
                 <label>
                     This user is
+                    {' '}
                     {data.adminPriv ? 'an admin' : 'a standard user'}
                     .
-                    {' '}
                 </label>
                 {' '}
                 <br />
@@ -142,13 +142,13 @@ class ChangeUserEmail extends Component {
                         <div className={style.error}>{this.state.error}</div>
                         <br />
                         <br />
-                      </>
+                    </>
                     : null}
                 <button onClick={this._handleSubmit}>Submit</button>
                 <br />
                 <br />
                 <button onClick={this._handleClickingAdd}>Cancel</button>
-                   </div>;
+            </div>;
         return <button onClick={this._handleClickingAdd}>Change user email</button>;
     }
 }
@@ -199,13 +199,13 @@ class ChangeUserPassword extends Component {
                         <div className={style.error}>{this.state.error}</div>
                         <br />
                         <br />
-                      </>
+                    </>
                     : null}
                 <button onClick={this._handleSubmit}>Submit</button>
                 <br />
                 <br />
                 <button onClick={this._handleClickingAdd}>Cancel</button>
-                   </div>;
+            </div>;
         return <button onClick={this._handleClickingAdd}>Change user password</button>;
     }
 }

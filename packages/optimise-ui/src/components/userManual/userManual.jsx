@@ -20,7 +20,7 @@ export default class UserManual extends Component {
                     img: ({ alt, ...imgProps }) => {
                         return (<ImageZoom>
                             <img alt={alt} {...imgProps} />
-                                </ImageZoom>);
+                        </ImageZoom>);
                     },
                     a: (aaa) => {
                         return <a href={aaa.href} target="_blank" rel="noopener noreferrer">{aaa.children}</a>;
@@ -28,6 +28,6 @@ export default class UserManual extends Component {
                 }}
                 />
             </div>
-               </>;
+        </>;
     }
 }

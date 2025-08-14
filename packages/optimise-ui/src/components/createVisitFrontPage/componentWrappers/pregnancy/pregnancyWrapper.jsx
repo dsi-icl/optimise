@@ -52,7 +52,7 @@ class PregnancyWrapper extends Component {
                     </>}
             />
 
-               </Switch>;
+        </Switch>;
     }
 }
 
