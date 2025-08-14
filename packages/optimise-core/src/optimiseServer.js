@@ -1,7 +1,7 @@
 // External node module imports
 import express from 'express';
 import expressSession from 'express-session';
-import knexSessionConnect from 'connect-session-knex';
+import { ConnectSessionKnexStore } from 'connect-session-knex';
 import swaggerUi from 'swagger-ui-express';
 import swaggerDocument from '../docs/swagger.json';
 import body_parser from 'body-parser';
@@ -35,7 +35,6 @@ import ICD11Controller from './controllers/icd11Controller';
 import PatientDiagnosisRoute from './routes/patientDiagnosisRoute';
 import SyncRoute from './routes/syncRoute';
 
-const knexSession = knexSessionConnect(expressSession);
 const csrfHandle = csrf();
 
 class OptimiseServer {
@@ -77,9 +76,9 @@ class OptimiseServer {
                 _this.app.use('/documentation', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
                 // Setup sessions with third party middleware
-                const knexSessionStore = new knexSession({
+                const knexSessionStore = new ConnectSessionKnexStore({
                     knex: dbcon(),
-                    tablename: 'SESSIONS'
+                    tableName: 'SESSIONS'
                 });
 
                 _this.app.use(expressSession({
@@ -128,7 +127,7 @@ class OptimiseServer {
                             res.status(403);
                             res.json(ErrorHelper('Form tempered with'));
                         }
- else {
+                        else {
                             next(error);
                         }
                     }
@@ -181,7 +180,7 @@ class OptimiseServer {
         try {
             return dbcon().destroy();
         }
- catch (__unused__exception) {
+        catch (__unused__exception) {
             return Promise.resolve();
         }
     }
