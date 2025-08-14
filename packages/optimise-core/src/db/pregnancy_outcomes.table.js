@@ -42,12 +42,20 @@ export default async (dbcon, version) => {
                         .where({ value: record['prev:value'] })
                         .update(newRecord, ['id']);
                 }
- else {
+                else {
                     await dbcon()(TABLE_NAME).insert(record);
                 }
             }
             break;
         }
+        case 22:
+            await dbcon()(TABLE_NAME).insert({
+                value: 'Incomplete prior pregnancy record',
+                detail: null,
+                scope: 'system',
+                deleted: `0@${new Date().getTime()}`
+            });
+            break;
         default:
             break;
     }

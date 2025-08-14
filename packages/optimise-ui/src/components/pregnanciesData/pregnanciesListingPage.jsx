@@ -54,6 +54,7 @@ class PregnanciesListingPage extends Component {
             .sort((a, b) => parseInt(a.startDate) - parseInt(b.startDate))
             .map((pregnancy, index) => {
                 pregnancy.orderPosition = index;
+                pregnancy.patientId = patientProfile?.data?.patientId;
                 return pregnancy;
             }).reverse();
 
@@ -72,7 +73,7 @@ class PregnanciesListingPage extends Component {
                     <div className={_style.panel}>
                         <i>This patient has no recorded pregnancy.</i>
                     </div>
-                       </>;
+                </>;
             else
                 return <>
                     <div className={_style.ariane}>
@@ -97,7 +98,7 @@ class PregnanciesListingPage extends Component {
                             {pregnancies.map((pregnancy, index) => <PregnancyCard key={index} pregnancy={pregnancy} />)}
                         </div>
                     </div>
-                       </>;
+                </>;
         }
         else {
             return <div><Icon symbol="loading" /></div>;

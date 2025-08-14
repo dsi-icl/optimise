@@ -18,7 +18,7 @@ export class PatientProfileSectionScaffold extends Component {
                         ? <>
                             <br />
                             {this.props.header}
-                          </>
+                        </>
                         : null}
                 </div>
                 {this.props.children}
@@ -66,9 +66,9 @@ export { PatientProfileTop };
 /*  receive props handler function this.props.clickhandler */
 export class DeleteButton extends Component {
     render() {
-        return (
+        return <div style={{ height: '2.3em', ...(this.props.style || {}) }} className={this.props.className}>
             <span title="Delete" onClick={this.props.clickhandler} className={style.cancelButton}><Icon symbol="trash" /></span>
-        );
+        </div>;
     }
 }
 

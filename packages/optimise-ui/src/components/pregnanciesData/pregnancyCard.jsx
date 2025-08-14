@@ -4,6 +4,9 @@ import store from '../../redux/store';
 import moment from 'moment';
 import ordinal from 'ordinal';
 import history from '../../redux/history';
+import { addAlert } from '../../redux/actions/alert';
+import { deletePregnancyAPICall } from '../../redux/actions/demographicData';
+import { DeleteButton } from '../patientProfile/sharedComponents';
 
 export const PregnancyCard = ({ pregnancy }) => {
     const { availableFields, patientProfile: { currentPatient, data: { pregnancy: allPregnancies, pregnancyEntries } } } = useMemo(() => store.getState(), []);
@@ -29,6 +32,7 @@ export const PregnancyCard = ({ pregnancy }) => {
             dataFieldsMap[data.field] = data;
         });
     });
+
     const dataFields = Object.values(dataFieldsMap).map((data) => {
         const field = pregnancyEntryFieldsMap[data.field];
         return {
@@ -38,11 +42,34 @@ export const PregnancyCard = ({ pregnancy }) => {
         };
     }).filter(data => data.value !== null && data.value.trim() !== '');
 
+    const _handleClickDelete = () => {
+        store.dispatch(addAlert({ alert: 'Do you want to delete this pregnancy record and all linked offspring records?', handler: _deleteFunction(pregnancy.id) }));
+    };
+
+    const _deleteFunction = (id) => {
+        return () => {
+            if (!pregnancy.id || !pregnancy.patientId)
+                return;
+            const body = {
+                patientId: pregnancy.patientId,
+                data: {
+                    id: id
+                }
+            };
+            store.dispatch(deletePregnancyAPICall(body));
+        };
+    };
+
     return <div key={pregnancy.id} className={style.level}>
-        <div className={style.levelHeader}>
-            {ordinal(pregnancy.orderPosition + 1)}
-            {' '}
-            pregnancy
+        <div className={style.levelHeader} style={{ display: 'flex' }}>
+            <span style={{ flexGrow: 1 }}>
+                {ordinal(pregnancy.orderPosition + 1)}
+                {' '}
+                pregnancy
+            </span>
+            <div style={{ marginTop: '1em' }}>
+                <DeleteButton clickhandler={_handleClickDelete} className={style.pregCardDeleteButton} />
+            </div>
         </div>
         <div className={style.levelBody} style={{ padding: '1rem' }}>
             From
@@ -77,7 +104,7 @@ export const PregnancyCard = ({ pregnancy }) => {
                     </tr>
                     {pregnancy.outcomeDate !== null
                         ? <tr>
-                            <td>Pregnancy end date</td>
+                            <td>Pregnancy end date B</td>
                             <td>{new Date(parseFloat(pregnancy.outcomeDate)).toDateString()}</td>
                         </tr>
                         : null}

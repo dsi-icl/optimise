@@ -150,12 +150,11 @@ const OffspringData = ({
                 <i>We could not find the event that you are looking for.</i>
             </div>
         </>;
-
     return <>
         <div className={scaffold_style.ariane}>
             <h2>
                 EDIT OFFSPRING DATA (
-                {offpringData.name ?? `ID${offspring.id}`}
+                {(offpringData.name?.trim()?.length > 0) ? offpringData.name : `ID${offspring.id}`}
                 )
             </h2>
             <BackButton to={`/patientProfile/${currentPatient}/offsprings`} />
@@ -169,6 +168,7 @@ const OffspringData = ({
                     <br />
                     <i>
                         This offspring was born preterm (at
+                        {' '}
                         {pregnancyLengthInWeeks}
                         {' '}
                         weeks).
@@ -180,6 +180,7 @@ const OffspringData = ({
                         <br />
                         <i>
                             This offspring was born past term (at
+                            {' '}
                             {pregnancyLengthInWeeks}
                             {' '}
                             weeks).

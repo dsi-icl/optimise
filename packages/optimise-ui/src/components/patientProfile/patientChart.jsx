@@ -62,6 +62,7 @@ class PatientChart extends Component {
                     <h2>
                         <Link to={`/patientProfile/${this.props.match.params.patientId}`}>
                             Patient
+                            {' '}
                             {this.props.fetching ? '' : `${this.props.data.patientId}`}
                         </Link>
                     </h2>
@@ -302,8 +303,8 @@ class OneVisit extends Component {
         //
         const pregnancyEntries = this.props.data.pregnancyEntries.filter(el => el['recordedDuringVisit'] === this.props.visitId);
         const pregnancyImages = this.props.data.pregnancyImages.filter(el => el.visitId === this.props.visitId);
-        const isLatestPregnancyEntry = this.props.data.pregnancyEntries.sort((a, b) => b.id - a.id)[0]?.id === pregnancyEntries[0]?.id;
-        const isLatestVisit = this.props.data.visits.sort((a, b) => b.id - a.id)[0]?.id === this.props.visitId;
+        const isLatestPregnancyEntry = pregnancyEntries.sort((a, b) => parseInt(a.startDate) - parseInt(b.startDate))[0]?.id === pregnancyEntries[0]?.id;
+        const isLatestVisit = this.props.data.visits.sort((a, b) => parseInt(a.visitDate) - parseInt(b.visitDate))[0]?.id === this.props.visitId;
 
         function isValidDateFormat(dateString) {
             const date = new Date(dateString);
@@ -316,8 +317,10 @@ class OneVisit extends Component {
         if (pregnancyEntries.length) {
             const entryOrder = PregnancyEntry._checkEntryOrder(pregnancyEntries[0], this.props.data);
             pregnancy = this.props.data.pregnancy.filter(el => el.id === pregnancyEntries[0].pregnancyId);
-            entryIsTerm = (entryOrder === 'latest' || entryOrder === 'sole entry') && typeof pregnancy[0].outcome === 'number' && pregnancy[0].outcomeDate !== null;
-            baselineDeleted = (entryOrder === 'first' || entryOrder === 'sole entry') && pregnancyEntries[0].type === 2;
+            if (pregnancy.length > 0) {
+                entryIsTerm = (entryOrder === 'latest' || entryOrder === 'sole entry') && typeof pregnancy[0].outcome === 'number' && pregnancy[0].outcomeDate !== null;
+                baselineDeleted = (entryOrder === 'first' || entryOrder === 'sole entry') && pregnancyEntries[0].type === 2;
+            }
         }
 
         const pregnancyOffspring = JSON.parse(pregnancyEntries[0]?.offsprings ?? '[]');
@@ -717,7 +720,7 @@ class OneVisit extends Component {
                         <br />
                     </>
                     : null}
-                {this.props.data.demographicData && this.props.data.demographicData.gender !== 1
+                {this.props.visitType === 1 && this.props.data.demographicData && this.props.data.demographicData.gender !== 1
                     ? <>
                         <h4>
                             <Icon symbol="symptom" />
@@ -745,15 +748,14 @@ class OneVisit extends Component {
 
                                             {baselineDeleted
                                                 ? <tr>
-                                                    <td style={{ color: 'red' }}>Pregnancy start date * Baseline entry error - please recreate</td>
-                                                    <td style={{ color: 'red' }}>{new Date(parseFloat(pregnancy[0].startDate)).toDateString()}</td>
+                                                    <td style={{ color: 'red' }} colSpan={2}>We could not find a baseline entry, please check this is right</td>
                                                 </tr>
                                                 : null}
 
                                             {pregnancy[0].outcomeDate !== null && entryIsTerm && pregnancyEntries[0].type === 2
                                                 ? <>
                                                     <tr>
-                                                        <td>Pregnancy end date</td>
+                                                        <td>Pregnancy end date A</td>
                                                         <td>{new Date(parseFloat(pregnancy[0].outcomeDate)).toDateString()}</td>
 
                                                     </tr>
@@ -782,7 +784,7 @@ class OneVisit extends Component {
                                                     <table>
                                                         <thead>
                                                             <tr>
-                                                                <th colSpan="2">Offspring ID{el.id}</th>
+                                                                <th colSpan="2">Offspring ID {el.id}</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -987,6 +989,7 @@ class Charts extends Component {
         }
         const { visits } = this.props.data;
         const { DOB } = this.props.data.demographicData;
+
         return (
             <PatientProfileSectionScaffold
                 sectionName="Medical History Summary"

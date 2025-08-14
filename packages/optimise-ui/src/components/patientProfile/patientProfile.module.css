@@ -366,17 +366,18 @@ div.timelineCEBlack {
 
 .cancelButton>svg {
     width: 1em;
+    height: 1.1em;
     fill: hsl(var(--color-background-h), var(--color-background-s), 70%);
 }
 
-.cancelButton:hover>svg {
+.cancelButton>svg:hover {
     fill: var(--color-error);
     cursor: pointer;
 }
 
 .editButton>div {
     width: 1.2em;
-    height: 1.2em;
+    height: 1.5em;
     fill: hsl(var(--color-background-h), var(--color-background-s), 50%);
 }
 
@@ -458,7 +459,7 @@ div.timelineCEBlack {
     border-bottom: 0.1em solid hsl(var(--color-background-h), var(--color-background-s), 90%);
 }
 
-.expandTimeline, .dataEdit {
+.expandTimeline, .dataEdit, .cancelButton {
     display: inline-block;
     margin-left: 0.3em;
     width: 1em;
@@ -493,16 +494,14 @@ div.timelineCEBlack {
 
 .timelineTextContent {
     color: #fff;
-    position: sticky;
     position: -webkit-sticky;
+    position: sticky;
     left: 0px;
     overflow: hidden;
     display: inline-block;
     border-radius: 2px;
-    left: 0;
     padding: 0 6px;
     white-space: nowrap;
-    overflow: hidden;
     width: 100%;
     text-overflow: ellipsis;
 }

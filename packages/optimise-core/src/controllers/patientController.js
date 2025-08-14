@@ -41,7 +41,7 @@ class PatientController {
             return false;
         }
         if (typeof body.aliasId !== 'string' || (typeof body.optimiseConsent !== 'string' && body.optimiseConsent !== null)
-          || (typeof body.pregnancySubStudyConsent !== 'string' && body.pregnancySubStudyConsent !== null)) {
+            || (typeof body.pregnancySubStudyConsent !== 'string' && body.pregnancySubStudyConsent !== null)) {
             res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
             return false;
         }
@@ -85,11 +85,11 @@ class PatientController {
                 return false;
             });
         }
- else if (user.adminPriv !== 1) {
+        else if (user.adminPriv !== 1) {
             res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
             return false;
         }
- else {
+        else {
             res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
             return false;
         }
@@ -106,7 +106,7 @@ class PatientController {
                     return false;
                 });
         }
- else {
+        else {
             res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
             return false;
         }
@@ -137,7 +137,7 @@ class PatientController {
             return PatientCore.getPatientProfile({ id: patientId }, false)
                 .then((result) => {
                     const promiseContainer = [];
-                    promiseContainer.push(ActionCore.erasePatients(result.id, result.patientId, undefined));
+                    promiseContainer.push(ActionCore.erasePatients(result.id, result.patientId));
                     if (result.visits.length >= 1)
                         for (let i = 0; i < result.visits.length; i++)
                             promiseContainer.push(ActionCore.eraseVisits(result.visits[i].id));
@@ -170,9 +170,7 @@ class PatientController {
                         for (let i = 0; i < result.pregnancy.length; i++)
                             promiseContainer.push(ActionCore.eraseIdOnRoute('/demographics/Pregnancy', result.pregnancy[i].id));
                     const promises = Promise.all(promiseContainer);
-                    return promises.then((subResult) => {
-                        if (subResult === 0 && process.env.NODE_ENV !== 'production')
-                            console.error('No logs were found corresponding to the patient. Please check the LOG_ACTIONS table.');
+                    return promises.then(() => {
                         return eraseEntry('PATIENTS', { id: patientId }).then(() => {
                             res.status(200).json({ success: true, message: 'Erasure completed. Check for any data retreivable if needed.' });
                             return true;

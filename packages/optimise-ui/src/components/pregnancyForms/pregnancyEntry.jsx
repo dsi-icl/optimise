@@ -200,7 +200,6 @@ class PregnancyEntry extends Component {
         const currentVisit = data.visits.find(el => parseInt(el.id) === parseInt(pregnancyEntry.recordedDuringVisit));
 
         const allPregnancyEntries = data.pregnancyEntries.filter(el => parseInt(el.pregnancyId) === parseInt(pregnancyId));
-
         if (allPregnancyEntries.length === 1 && allPregnancyEntries[0].id === pregnancyEntry.id) {
             return 'sole entry';
         }
@@ -567,7 +566,7 @@ class PregnancyEntry extends Component {
     _handleOutcomeApplicableChange(ev) {
         const newType = this.state.pregnancyEntry.type === 2 ? 3 : 2;
         const { fields } = this.props;
-        const relevantFields = fields.pregnancyEntryFields.filter(el => (el.referenceType === newType /* && el.deleted === '-' */));
+        const relevantFields = fields.pregnancyEntryFields.filter(el => this.state.entryOrder === 'sole entry' ? el.referenceType !== 1 : (el.referenceType === newType /* && el.deleted === '-' */));
         const inputTypeHash = fields.inputTypes.reduce((a, el) => { a[el.id] = el.value; return a; }, {});
         const fieldTree = createLevelObj(relevantFields);
         this.inputTypeHash = inputTypeHash;
@@ -665,7 +664,7 @@ class PregnancyEntry extends Component {
                     <div className={_style.panel}>
                         <i>We could not find the entry that you are looking for.</i>
                     </div>
-                       </>;
+                </>;
             }
 
             if (!this.references) {
@@ -680,13 +679,13 @@ class PregnancyEntry extends Component {
                         ? <div className={scaffold_style.ariane}>
                             <h2>ADD PREGNANCY ENTRY</h2>
                             <BackButton to={`/patientProfile/${match.params.patientId}`} />
-                          </div>
+                        </div>
                         : <div className={scaffold_style.ariane}>
                             <h2>EDIT PREGNANCY ENTRY</h2>
                             {isFromPregnancyView
                                 ? <BackButton to={`/patientProfile/${match.params.patientId}/pregnancy`} />
                                 : <BackButton to={`/patientProfile/${match.params.patientId}`} />}
-                          </div>}
+                        </div>}
                     <div className={`${scaffold_style.panel} ${style.topLevelPanel}`}>
                         <form className={style.form} onInput={this._handleFormInput}>
                             <div className={`${style.levelBody} ${pregnancy_style.panel}`}>
@@ -698,7 +697,7 @@ class PregnancyEntry extends Component {
                                             <p> Please enter details for a baseline pregnancy entry.</p>
                                             <br />
                                             <br />
-                                          </>
+                                        </>
                                         : null
                                 }
                                 {
@@ -712,7 +711,7 @@ class PregnancyEntry extends Component {
                                             </p>
                                             <br />
                                             <br />
-                                          </>
+                                        </>
                                         : null
                                 }
                                 {this.state.pregnancyEntry.type === 1
@@ -721,7 +720,7 @@ class PregnancyEntry extends Component {
                                             ? <>
                                                 <br />
                                                 <br />
-                                              </>
+                                            </>
                                             : null}
                                         <label key="startDate">
                                             Pregnancy start date:
@@ -729,9 +728,10 @@ class PregnancyEntry extends Component {
                                         </label>
                                         <br />
                                         <br />
-                                      </div>
+                                    </div>
                                     : null}
-                                {this.treatAsNewEntry && (this.state.pregnancyEntry.type === 2 || this.state.pregnancyEntry.type === 3)
+                                <br />
+                                {(this.state.entryOrder === 'sole entry' || this.state.entryOrder === 'latest') && (this.state.pregnancyEntry.type === 2 || this.state.pregnancyEntry.type === 3)
                                     ? <div>
                                         <label>
                                             Would you like to add an outcome for this pregnancy?:
@@ -747,15 +747,15 @@ class PregnancyEntry extends Component {
                                         <br />
                                         {' '}
                                         <br />
-                                      </div>
+                                    </div>
                                     : null}
                                 {
                                     this.state.outcomeApplicable === 'yes'
-                                        && this.state.pregnancyEntry.type === 3
+                                        && (this.state.pregnancyEntry.type === 2 || this.state.pregnancyEntry.type === 3)
                                         ? <div>
                                             <br />
                                             <label>
-                                                Pregnancy end date:
+                                                Pregnancy end date C:
                                                 <PickDate
                                                     startDate={this.state.pregnancyOutcomeDate}
                                                     handleChange={date =>
@@ -773,7 +773,7 @@ class PregnancyEntry extends Component {
                                                 </select>
                                             </label>
                                             <br />
-                                          </div>
+                                        </div>
                                         : null
                                 }
                                 <div className="protected">
@@ -791,7 +791,7 @@ class PregnancyEntry extends Component {
                                         <PregnancyImageForm visitId={params.visitId} />
                                         <br />
                                         <br />
-                                      </>
+                                    </>
                                     : null}
 
                             </div>
@@ -800,13 +800,13 @@ class PregnancyEntry extends Component {
                                     <button disabled style={{ cursor: 'default', backgroundColor: 'green' }}>Successfully saved!</button>
                                     <br />
                                     <br />
-                                  </>
+                                </>
                                 : null}
                             {this.state.error
                                 ? <div className={style.levelBody}>
                                     <div className={profile_style.error}>{this.state.error}</div>
                                     <br />
-                                  </div>
+                                </div>
                                 : null}
                             {
                                 this.props.renderedInFrontPage
@@ -822,7 +822,8 @@ class PregnancyEntry extends Component {
                                     <div className={`${style.levelBody} ${pregnancy_style.panel}`}>
                                         <label>Offspring data cards</label>
                                         <i>
-                                            We have records to
+                                            We have records for
+                                            {' '}
                                             {originalOffspringsAmount}
                                             {' '}
                                             offspring
@@ -838,10 +839,10 @@ class PregnancyEntry extends Component {
                                                 {originalOffspringsAmount > 1 ? 's' : ''}
                                                 {' '}
                                                 data
-                                              </button>
+                                            </button>
                                             : null}
                                     </div>
-                                  </>
+                                </>
                                 : null}
                         </form>
                     </div>

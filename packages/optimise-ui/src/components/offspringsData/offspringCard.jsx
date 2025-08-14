@@ -5,10 +5,13 @@ import store from '../../redux/store';
 import moment from 'moment';
 import ordinal from 'ordinal';
 import history from '../../redux/history';
+import { DeleteButton } from '../patientProfile/sharedComponents';
+import { deleteOffspringAPICall } from '../../redux/actions/demographicData';
+import { addAlert } from '../../redux/actions/alert';
 
 export const OffspringCard = ({ offspring }) => {
     const { data, pregnancy } = offspring;
-    const { availableFields, patientProfile: { currentPatient, data: { pregnancy: allPregnancies } } } = useMemo(() => store.getState(), []);
+    const { availableFields, patientProfile: { currentPatient, data: { pregnancy: allPregnancies, patientId } } } = useMemo(() => store.getState(), []);
     const pregnancyOutcomeTypes = useMemo(() => availableFields.pregnancyOutcomes ?? [], [availableFields.pregnancyOutcomes]);
 
     if (!data || !pregnancy)
@@ -20,10 +23,34 @@ export const OffspringCard = ({ offspring }) => {
     const offspringValues = Object.entries(data).filter(([key]) => key !== 'name');
     const pregnancyOrderPosition = (allPregnancies ?? []).sort((a, b) => parseInt(a.startDate) - parseInt(b.startDate)).findIndex(p => p.id === pregnancy.id) ?? -1;
 
+    const _handleClickDelete = () => {
+        store.dispatch(addAlert({ alert: 'Do you want to delete this offspring record?', handler: _deleteFunction(offspring.id) }));
+    };
+
+    const _deleteFunction = (id) => {
+        return () => {
+            if (!offspring.id || !patientId)
+                return;
+            const body = {
+                patientId: patientId,
+                data: {
+                    id: id
+                }
+            };
+            store.dispatch(deleteOffspringAPICall(body));
+        };
+    };
+
     return <div key={offspring.id} className={style.level}>
-        <div className={style.levelHeader}>
-            Offspring
-            {data.name ?? `ID${offspring.id}`}
+        <div className={style.levelHeader} style={{ display: 'flex' }}>
+            <span style={{ flexGrow: 1 }}>
+                Offspring
+                {' '}
+                {data.name?.trim()?.length > 0 ? data.name : `ID${offspring.id}`}
+            </span>
+            <div style={{ marginTop: '1em' }}>
+                <DeleteButton clickhandler={_handleClickDelete} className={style.offspringCardDeleteButton} />
+            </div>
         </div>
         <div className={style.levelBody} style={{ padding: '1rem' }}>
             From
@@ -41,7 +68,7 @@ export const OffspringCard = ({ offspring }) => {
                         {' '}
                         {moment(new Date(parseInt(pregnancy.outcomeDate, 10))).toLocaleString()}
                     </i>
-                  </div>
+                </div>
                 : <div>
                     {mounthCountdown}
                     {' '}
@@ -49,7 +76,7 @@ export const OffspringCard = ({ offspring }) => {
                     {mounthCountdown > 1 ? 's' : ''}
                     {' '}
                     to expected term.
-                  </div>}
+                </div>}
             <table>
                 <tbody>
                     {offspringValues.length
@@ -60,7 +87,7 @@ export const OffspringCard = ({ offspring }) => {
                             </tr>))
                         : <tr>
                             <td colSpan="2"><i>No data</i></td>
-                          </tr>}
+                        </tr>}
                 </tbody>
             </table>
             <button type="button" style={{ marginTop: '0.5rem' }} onClick={() => history.push(`/patientProfile/${currentPatient}/offsprings/${offspring.id}`)}>Edit offspring data</button>
@@ -70,5 +97,5 @@ export const OffspringCard = ({ offspring }) => {
                 : null//<button style={{ marginTop: '0.5rem' }}>Record death in-utero</button>
             } */}
         </div>
-           </div>;
+    </div>;
 };

@@ -24,6 +24,12 @@ export default async (dbcon, version) => {
                 table.foreign('pregnancyEntry').references('id').inTable('PREGNANCY_ENTRY').onDelete('CASCADE');
             });
             break;
+        case 22:
+            await dbcon().schema.table(TABLE_NAME, (table) => {
+                table.dropForeign('pregnancyEntry');
+                table.foreign('pregnancyEntry').references('id').inTable('PREGNANCY_ENTRY').onDelete('CASCADE');
+            });
+            break;
         default:
             break;
     }

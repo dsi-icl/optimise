@@ -381,7 +381,9 @@ class OneImmunisation extends Component {
                             </div>
                         </div>,
                         // eslint-disable-next-line react/jsx-key
-                        <DeleteButton clickhandler={() => this._handleClickDelete(el)} />
+                        <div style={{ marginTop: '0.5em' }}>
+                            <DeleteButton clickhandler={() => this._handleClickDelete(el)} />
+                        </div>
                     ])}
                 </tr>
             );

@@ -3,6 +3,7 @@ import message from '../utils/message-utils';
 import formatToJSON from '../utils/format-response';
 import moment from 'moment';
 import { DemographicCore, MedicalHistoryCore, ImmunisationCore, PregnancyCore } from '../core/demographic';
+import dbcon from '../utils/db-connection';
 
 const PregnancyModel = {
     patient: 0,
@@ -15,12 +16,12 @@ const PregnancyModel = {
 class DemographicDataController {
     static createDemographic({ body, user }, res) {
         if ((!body.hasOwnProperty('patient') || !body.hasOwnProperty('DOB') || !body.hasOwnProperty('gender') || !body.hasOwnProperty('dominant_hand')
-          || !body.hasOwnProperty('ethnicity') || !body.hasOwnProperty('country_of_origin'))) {
+            || !body.hasOwnProperty('ethnicity') || !body.hasOwnProperty('country_of_origin'))) {
             res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
         }
         if (typeof body.patient !== 'number' || typeof body.DOB !== 'string' || typeof body.gender !== 'number' || typeof body.dominant_hand !== 'number'
-          || typeof body.ethnicity !== 'number' || typeof body.country_of_origin !== 'number') {
+            || typeof body.ethnicity !== 'number' || typeof body.country_of_origin !== 'number') {
             res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }
@@ -51,7 +52,7 @@ class DemographicDataController {
 
     static createImmunisation({ body, user }, res) {
         if (body.hasOwnProperty('patient') && body.hasOwnProperty('immunisationDate') && body.hasOwnProperty('vaccineName')
-          && typeof body.patient === 'number' && typeof body.immunisationDate === 'string' && typeof body.vaccineName === 'string') {
+            && typeof body.patient === 'number' && typeof body.immunisationDate === 'string' && typeof body.vaccineName === 'string') {
             const momentImmun = moment(body.immunisationDate, moment.ISO_8601);
             if (!momentImmun.isValid() && body.immunisationDate !== null) {
                 const msg = message.dateError[momentImmun.invalidAt()] !== undefined ? message.dateError[momentImmun.invalidAt()] : message.userError.INVALIDDATE;
@@ -73,11 +74,11 @@ class DemographicDataController {
                 return false;
             });
         }
- else if (!(body.hasOwnProperty('patient') && body.hasOwnProperty('immunisationDate') && body.hasOwnProperty('vaccineName'))) {
+        else if (!(body.hasOwnProperty('patient') && body.hasOwnProperty('immunisationDate') && body.hasOwnProperty('vaccineName'))) {
             res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
         }
- else {
+        else {
             res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }
@@ -85,8 +86,8 @@ class DemographicDataController {
 
     static createMedicalCondition({ body, user }, res) {
         if (body.hasOwnProperty('patient') && body.hasOwnProperty('startDate') && body.hasOwnProperty('outcome') && body.hasOwnProperty('relation') && body.hasOwnProperty('conditionName')
-          && ((body.hasOwnProperty('resolvedYear') && typeof body.resolvedYear === 'number') || !body.hasOwnProperty('resolvedYear'))
-          && typeof body.patient === 'number' && typeof body.startDate === 'string' && typeof body.outcome === 'string' && typeof body.relation === 'number' && typeof body.conditionName === 'number') {
+            && ((body.hasOwnProperty('resolvedYear') && typeof body.resolvedYear === 'number') || !body.hasOwnProperty('resolvedYear'))
+            && typeof body.patient === 'number' && typeof body.startDate === 'string' && typeof body.outcome === 'string' && typeof body.relation === 'number' && typeof body.conditionName === 'number') {
             const momentStart = moment(body.startDate, moment.ISO_8601);
             if (!momentStart.isValid() && body.startDate !== null) {
                 const msg = message.dateError[momentStart.invalidAt()] !== undefined ? message.dateError[momentStart.invalidAt()] : message.userError.INVALIDDATE;
@@ -113,11 +114,11 @@ class DemographicDataController {
                 return false;
             });
         }
- else if (!(body.hasOwnProperty('patient') && body.hasOwnProperty('startDate') && body.hasOwnProperty('outcome') && body.hasOwnProperty('relation') && body.hasOwnProperty('conditionName'))) {
+        else if (!(body.hasOwnProperty('patient') && body.hasOwnProperty('startDate') && body.hasOwnProperty('outcome') && body.hasOwnProperty('relation') && body.hasOwnProperty('conditionName'))) {
             res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
         }
- else {
+        else {
             res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }
@@ -133,11 +134,11 @@ class DemographicDataController {
                 return false;
             });
         }
- else if (!body.hasOwnProperty('id')) {
+        else if (!body.hasOwnProperty('id')) {
             res.status(400).send(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
         }
- else {
+        else {
             res.status(400).send(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }
@@ -153,11 +154,11 @@ class DemographicDataController {
                 return false;
             });
         }
- else if (!body.hasOwnProperty('id')) {
+        else if (!body.hasOwnProperty('id')) {
             res.status(400).send(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
         }
- else {
+        else {
             res.status(400).send(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }
@@ -173,11 +174,11 @@ class DemographicDataController {
                 return false;
             });
         }
- else if (!body.hasOwnProperty('id')) {
+        else if (!body.hasOwnProperty('id')) {
             res.status(400).send(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
         }
- else {
+        else {
             res.status(400).send(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }
@@ -202,11 +203,11 @@ class DemographicDataController {
                 return false;
             });
         }
- else if (!body.hasOwnProperty('id')) {
+        else if (!body.hasOwnProperty('id')) {
             res.status(400).send(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
         }
- else {
+        else {
             res.status(400).send(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }
@@ -214,7 +215,7 @@ class DemographicDataController {
 
     static editImmunisation({ body, user }, res) {
         if (body.hasOwnProperty('id') && typeof body.id === 'number'
-          && ((body.hasOwnProperty('immunisationDate') && typeof body.immunisationDate === 'string') || !body.hasOwnProperty('immunisationDate'))) {
+            && ((body.hasOwnProperty('immunisationDate') && typeof body.immunisationDate === 'string') || !body.hasOwnProperty('immunisationDate'))) {
             const momentImmun = moment(body.immunisationDate, moment.ISO_8601);
             if (body.hasOwnProperty('immunisationDate') && body.immunisationDate !== null && !momentImmun.isValid()) {
                 const msg = message.dateError[momentImmun.invalidAt()] !== undefined ? message.dateError[momentImmun.invalidAt()] : message.userError.INVALIDDATE;
@@ -232,11 +233,11 @@ class DemographicDataController {
                 return false;
             });
         }
- else if (!body.hasOwnProperty('id')) {
+        else if (!body.hasOwnProperty('id')) {
             res.status(400).send(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
         }
- else {
+        else {
             res.status(400).send(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }
@@ -244,8 +245,8 @@ class DemographicDataController {
 
     static editMedicalCondition({ body, user }, res) {
         if (body.hasOwnProperty('id') && typeof body.id === 'number'
-          && ((body.hasOwnProperty('outcome') && typeof body.outcome === 'string') || !body.hasOwnProperty('outcome'))
-          && ((body.hasOwnProperty('resolvedYear') && typeof body.resolvedYear === 'number') || !body.hasOwnProperty('resolvedYear'))) {
+            && ((body.hasOwnProperty('outcome') && typeof body.outcome === 'string') || !body.hasOwnProperty('outcome'))
+            && ((body.hasOwnProperty('resolvedYear') && typeof body.resolvedYear === 'number') || !body.hasOwnProperty('resolvedYear'))) {
             MedicalHistoryCore.editMedicalHistory(user, body).then((result) => {
                 res.status(200).json(formatToJSON(result));
                 return true;
@@ -254,11 +255,11 @@ class DemographicDataController {
                 return false;
             });
         }
- else if (!body.hasOwnProperty('id')) {
+        else if (!body.hasOwnProperty('id')) {
             res.status(400).send(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
         }
- else {
+        else {
             res.status(400).send(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }
@@ -283,7 +284,7 @@ class DemographicDataController {
                 return false;
             });
         }
- else {
+        else {
             res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }
@@ -300,12 +301,12 @@ class DemographicDataController {
                 res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
                 return;
             }
- else {
+            else {
                 action[req.params.dataType](req, res, next);
                 return;
             }
         }
- else {
+        else {
             res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
         }
@@ -329,12 +330,12 @@ class DemographicDataController {
                     return false;
                 });
             }
- else {
+            else {
                 res.status(404).json(ErrorHelper(message.userError.WRONGARGUMENTS));
                 return;
             }
         }
- else {
+        else {
             const promiseArray = [];
             for (let key = 0; key < Object.keys(action).length; key++) {
                 promiseArray.push(action[Object.keys(action)[key]]());
@@ -370,12 +371,12 @@ class DemographicDataController {
                     return false;
                 });
             }
- else {
+            else {
                 res.status(404).json(ErrorHelper(message.userError.WRONGARGUMENTS));
                 return;
             }
         }
- else {
+        else {
             const promiseArray = [];
             for (let key = 0; key < Object.keys(action).length; key++) {
                 promiseArray.push(action[Object.keys(action)[key]]());
@@ -445,18 +446,50 @@ class DemographicDataController {
             entryObj.createdByUser = user.id;
 
             PregnancyCore.createPregnancy(entryObj, ['id']).then((result) => {
-                res.status(200).json(formatToJSON(result));
-                return true;
+                (async () => {
+                    const [{ id: newVisitId }] = await dbcon()('VISITS').insert({
+                        patient: body.patient,
+                        visitDate: momentStart.valueOf(),
+                        type: 1, // We assume a standard visit
+                        createdTime: dbcon().fn.now(),
+                        createdByUser: user.id,
+                        deleted: '-'
+                    }, ['id']);
+
+                    await dbcon()('VISIT_DATA').insert({
+                        visit: parseInt(newVisitId),
+                        field: 0,
+                        value: 'Pregnancy',
+                        createdTime: dbcon().fn.now(),
+                        createdByUser: user.id,
+                        deleted: '-'
+                    });
+
+                    await dbcon()('PREGNANCY_ENTRY').insert({
+                        pregnancyId: result.id,
+                        recordedDuringVisit: parseInt(newVisitId),
+                        type: 1, // We assume a baseline pregnancy entry
+                        createdTime: dbcon().fn.now(),
+                        createdByUser: user.id,
+                        deleted: '-'
+                    });
+                })().then(() => {
+                    res.status(200).json(formatToJSON(result));
+                    return true;
+                }).catch((error) => {
+                    res.status(400).json(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
+                    return false;
+                });
             }).catch((error) => {
                 res.status(400).json(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
                 return false;
             });
         }
- else if (!(body.hasOwnProperty('patient') && body.hasOwnProperty('outcome'))) {
+        else if (!(body.hasOwnProperty('patient') && body.hasOwnProperty('outcome'))) {
             res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
         }
- else {
+        else {
             res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }
@@ -472,7 +505,7 @@ class DemographicDataController {
                 res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
                 return;
             }
- else if (body.hasOwnProperty('startDate') && body.startDate !== null) {
+            else if (body.hasOwnProperty('startDate') && body.startDate !== null) {
                 entryObj.startDate = momentStart.valueOf();
             }
             if (body.hasOwnProperty('outcomeDate') && body.outcomeDate !== null && !momentOutcome.isValid()) {
@@ -480,7 +513,7 @@ class DemographicDataController {
                 res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
                 return;
             }
- else if (body.hasOwnProperty('outcomeDate') && body.outcomeDate !== null) {
+            else if (body.hasOwnProperty('outcomeDate') && body.outcomeDate !== null) {
                 entryObj.outcomeDate = momentOutcome.valueOf();
             }
 
@@ -492,11 +525,11 @@ class DemographicDataController {
                 return false;
             });
         }
- else if (!body.hasOwnProperty('id')) {
+        else if (!body.hasOwnProperty('id')) {
             res.status(400).send(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
         }
- else {
+        else {
             res.status(400).send(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }
@@ -504,19 +537,24 @@ class DemographicDataController {
 
     static deletePregnancy({ body, user }, res) {
         if (body.hasOwnProperty('id') && typeof body.id === 'number') {
-            PregnancyCore.deletePregnancy(user, { id: body.id }).then((result) => {
-                res.status(200).json(formatToJSON(result));
-                return true;
+            PregnancyCore.deletePregnancy(user, { id: body.id }).then((resultP) => {
+                PregnancyCore.deleteOffspringEntry(user, { pregnancyId: body.id }).then((resultO) => {
+                    res.status(200).json(formatToJSON([resultP, resultO]));
+                    return true;
+                }).catch((error) => {
+                    res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL, error));
+                    return false;
+                });
             }).catch((error) => {
                 res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL, error));
                 return false;
             });
         }
- else if (!body.hasOwnProperty('id')) {
+        else if (!body.hasOwnProperty('id')) {
             res.status(400).send(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
         }
- else {
+        else {
             res.status(400).send(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }
@@ -569,7 +607,7 @@ class DemographicDataController {
                 res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
                 return;
             }
- else if (body.hasOwnProperty('date') && body.date !== null) {
+            else if (body.hasOwnProperty('date') && body.date !== null) {
                 entryObj.date = momentDate.valueOf();
             }
 
@@ -589,11 +627,11 @@ class DemographicDataController {
                 return false;
             });
         }
- else if (!body.hasOwnProperty('id')) {
+        else if (!body.hasOwnProperty('id')) {
             res.status(400).send(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
         }
- else {
+        else {
             res.status(400).send(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }
@@ -611,11 +649,11 @@ class DemographicDataController {
                 return false;
             });
         }
- else if (!body.hasOwnProperty('id')) {
+        else if (!body.hasOwnProperty('id')) {
             res.status(400).send(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
         }
- else {
+        else {
             res.status(400).send(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }
@@ -681,7 +719,7 @@ class DemographicDataController {
             res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
         }
- else {
+        else {
             res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }
@@ -741,7 +779,7 @@ class DemographicDataController {
     }
 
     static deleteOffspringEntry({ body, user }, res) {
-        if (body.hasOwnProperty('id') && typeof body.id === 'string') {
+        if (body.hasOwnProperty('id') && typeof body.id === 'number') {
             PregnancyCore.deleteOffspringEntry(user, { id: body.id }).then((result) => {
                 res.status(200).json(formatToJSON(result));
                 return true;
@@ -754,7 +792,7 @@ class DemographicDataController {
             res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
         }
- else {
+        else {
             res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }
