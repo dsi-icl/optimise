@@ -11303,10 +11303,10 @@ react-calendar-timeline@0.26.7:
     lodash.isequal "^4.5.0"
     memoize-one "^5.1.1"
 
-react-datepicker@8.4.0:
-  version "8.4.0"
-  resolved "https://registry.yarnpkg.com/react-datepicker/-/react-datepicker-8.4.0.tgz#8db0beac6282ef72d12494bd49cc5e61362a3a42"
-  integrity sha512-6nPDnj8vektWCIOy9ArS3avus9Ndsyz5XgFCJ7nBxXASSpBdSL6lG9jzNNmViPOAOPh6T5oJyGaXuMirBLECag==
+react-datepicker@8.5.0:
+  version "8.5.0"
+  resolved "https://registry.yarnpkg.com/react-datepicker/-/react-datepicker-8.5.0.tgz#25b39f394d8b2107d1333574301828d5ef73c1a0"
+  integrity sha512-GdKElMgEBgyAv2L5QjwvlStdZU8Nz76roBZ2rkpxFx8eIJ0SAHaAGckG8+FSi00EQnzKqA2N9qA61oxll8CyhA==
   dependencies:
     "@floating-ui/react" "^0.27.3"
     clsx "^2.1.1"
