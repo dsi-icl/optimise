@@ -50,7 +50,7 @@
         "connect-session-knex": "5.0.0",
         "csurf": "1.11.0",
         "csv-parse": "6.1.0",
-        "express": "4.21.2",
+        "express": "5.1.0",
         "express-rate-limit": "8.0.1",
         "express-session": "1.18.2",
         "express-zip": "3.0.0",
