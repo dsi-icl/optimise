@@ -47,7 +47,7 @@
         "query-string": "9.2.2",
         "react": "19.1.1",
         "react-calendar-timeline": "0.26.7",
-        "react-datepicker": "8.4.0",
+        "react-datepicker": "8.7.0",
         "react-dom": "19.1.1",
         "react-event-timeline": "1.6.3",
         "react-helmet-async": "2.0.5",
