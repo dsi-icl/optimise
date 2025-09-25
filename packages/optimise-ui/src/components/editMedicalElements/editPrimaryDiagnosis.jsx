@@ -257,7 +257,7 @@ class OneEditPrimaryDiagnoses extends Component {
             >
                 {
                     editing
-                        ? <>
+                        ? <div>
                             <div className={style.editInterruption}>
                                 <label>Diagnosis date: </label>
                                 <PickDate startDate={diagnosisDate} handleChange={this._handleStartDateChange} />
@@ -285,18 +285,20 @@ class OneEditPrimaryDiagnoses extends Component {
                             <br />
                             <br />
                             <button onClick={this._handleEditClick}>Cancel</button>
-                        </>
+                        </div>
                         : <>
-                            <label>Diagnosis date: </label>
-                            {' '}
-                            {diagnosisDate_original._d.toDateString()}
-                            {' '}
-                            <br />
-                            <label>Diagnosis: </label>
-                            {' '}
-                            {diagnoses.filter(ele => ele.id === diagnosis_original)[0].value}
-                            {' '}
-                            <br />
+                            <div style={{ flexGrow: 1 }}>
+                                <label>Diagnosis date: </label>
+                                {' '}
+                                {diagnosisDate_original._d.toDateString()}
+                                {' '}
+                                <br />
+                                <label>Diagnosis: </label>
+                                {' '}
+                                {diagnoses.filter(ele => ele.id === diagnosis_original)[0].value}
+                                {' '}
+                                <br />
+                            </div>
                             <DeleteButton clickhandler={() => this._handleClickDelete(data)} />
                             <span title="Edit" onClick={this._handleEditClick} className={style.dataEdit}><Icon symbol="edit" /></span>
                         </>

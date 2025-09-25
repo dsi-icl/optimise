@@ -253,7 +253,7 @@ class OnePregnancyImage extends Component {
             >
                 {
                     editing
-                        ? <>
+                        ? <div>
                             <div className={style.editInterruption}>
                                 <label>Date: </label>
                                 <PickDate startDate={date} handleChange={this._handleDateChange} />
@@ -290,23 +290,25 @@ class OnePregnancyImage extends Component {
                             <br />
                             <br />
                             <button onClick={this._handleEditClick}>Cancel</button>
-                        </>
+                        </div>
                         : <>
-                            <label>Date: </label>
-                            {' '}
-                            {date.toISOString().substring(0, 10)}
-                            {' '}
-                            <br />
-                            <label>Mode: </label>
-                            {' '}
-                            {mode}
-                            {' '}
-                            <br />
-                            <label>Result: </label>
-                            {' '}
-                            {result}
-                            {' '}
-                            <br />
+                            <div style={{ flexGrow: 1 }}>
+                                <label>Date: </label>
+                                {' '}
+                                {date.toISOString().substring(0, 10)}
+                                {' '}
+                                <br />
+                                <label>Mode: </label>
+                                {' '}
+                                {mode}
+                                {' '}
+                                <br />
+                                <label>Result: </label>
+                                {' '}
+                                {result}
+                                {' '}
+                                <br />
+                            </div>
                             <DeleteButton clickhandler={() => this._handleClickDelete()} />
                             <span title="Edit" onClick={this._handleEditClick} className={style.dataEdit}><Icon symbol="edit" /></span>
                         </>

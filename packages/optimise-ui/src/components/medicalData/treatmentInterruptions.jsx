@@ -392,37 +392,39 @@ class OneTreatmentInterruption extends Component {
                             <button onClick={this._handleEditClick}>Cancel</button>
                         </>
                         : <>
-                            <label>Start date: </label>
-                            {' '}
-                            {startDate_original._d.toDateString()}
-                            {' '}
-                            <br />
-                            {endDate_original
-                                ? <>
-                                    <label>End date: </label>
-                                    {' '}
-                                    {endDate_original._d.toDateString()}
-                                    <br />
-                                </>
-                                : null}
-                            {reason_original
-                                ? <>
-                                    <label>Reason: </label>
-                                    {' '}
-                                    {interruptionReasons.sort((a, b) => a.value.localeCompare(b.value)).filter(ele => ele.id === reason_original)[0].value}
-                                    {' '}
-                                    <br />
-                                </>
-                                : null}
-                            {meddra_original
-                                ? <>
-                                    <label>MedDRA: </label>
-                                    {' '}
-                                    {meddra_Hash[0][meddra_original].name}
-                                    {' '}
-                                    <br />
-                                </>
-                                : null}
+                            <div style={{ flexGrow: 1 }}>
+                                <label>Start date: </label>
+                                {' '}
+                                {startDate_original._d.toDateString()}
+                                {' '}
+                                <br />
+                                {endDate_original
+                                    ? <>
+                                        <label>End date: </label>
+                                        {' '}
+                                        {endDate_original._d.toDateString()}
+                                        <br />
+                                    </>
+                                    : null}
+                                {reason_original
+                                    ? <>
+                                        <label>Reason: </label>
+                                        {' '}
+                                        {interruptionReasons.sort((a, b) => a.value.localeCompare(b.value)).filter(ele => ele.id === reason_original)[0].value}
+                                        {' '}
+                                        <br />
+                                    </>
+                                    : null}
+                                {meddra_original
+                                    ? <>
+                                        <label>MedDRA: </label>
+                                        {' '}
+                                        {meddra_Hash[0][meddra_original].name}
+                                        {' '}
+                                        <br />
+                                    </>
+                                    : null}
+                            </div>
                             <DeleteButton clickhandler={() => this._handleClickDelete(data)} />
                             <span title="Edit" onClick={this._handleEditClick} className={style.dataEdit}><Icon symbol="edit" /></span>
                         </>

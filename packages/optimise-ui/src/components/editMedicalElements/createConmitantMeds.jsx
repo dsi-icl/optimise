@@ -234,7 +234,7 @@ class OneComorbidity extends Component {
             >
                 {
                     editing
-                        ? <>
+                        ? <div>
                             <label htmlFor="event">What medication is it?</label>
                             <br />
                             <select name="event" value={this.state.type_new} onChange={this._handleTypeChange} autoComplete="off">
@@ -276,31 +276,33 @@ class OneComorbidity extends Component {
                             <br />
                             <br />
                             <button onClick={this._handleCancelClick}>Cancel</button>
-                        </>
+                        </div>
                         : <>
-                            <p>
-                                <b>Drug:</b>
-                                {' '}
-                                {typedict[data.concomitantMedId].name}
-                            </p>
-                            <p>
-                                <b>Indication:</b>
-                                {' '}
-                                {data.indication}
-                            </p>
-                            <p>
-                                <b>Start date:</b>
-                                {' '}
-                                {new Date(parseInt(data.startDate, 10)).toDateString()}
-                            </p>
-                            {data.endDate
-                                ? <p>
-                                    <b>End date:</b>
+                            <div style={{ flexGrow: 1 }}>
+                                <p>
+                                    <b>Drug:</b>
                                     {' '}
-                                    {new Date(parseInt(data.endDate, 10)).toDateString()}
+                                    {typedict[data.concomitantMedId].name}
                                 </p>
-                                : <p>Patient is still taking this medication</p>}
-                            <br />
+                                <p>
+                                    <b>Indication:</b>
+                                    {' '}
+                                    {data.indication}
+                                </p>
+                                <p>
+                                    <b>Start date:</b>
+                                    {' '}
+                                    {new Date(parseInt(data.startDate, 10)).toDateString()}
+                                </p>
+                                {data.endDate
+                                    ? <p>
+                                        <b>End date:</b>
+                                        {' '}
+                                        {new Date(parseInt(data.endDate, 10)).toDateString()}
+                                    </p>
+                                    : <p>Patient is still taking this medication</p>}
+                                <br />
+                            </div>
                             <DeleteButton clickhandler={() => this._handleClickDelete(data)} />
                             <span title="Edit" onClick={this._handleEditClick} className={style.dataEdit}><Icon symbol="edit" /></span>
                         </>
