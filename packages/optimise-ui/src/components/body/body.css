@@ -1,4 +1,4 @@
-/* @import 'tailwindcss'; */
+@import 'tailwindcss';
 @import './fonts.css';
 @import 'react-medium-image-zoom/dist/styles.css';
 
@@ -175,10 +175,9 @@ h4 {
     color: hsl(var(--color-background-h), var(--color-background-s), calc(var(--color-background-l) * 2));
 }
 
-/* svg {
-    height: 100%;
-    width: 100%;
-} */
+svg {
+    display: inline-block;
+}
 
 table {
     border-collapse: collapse;
