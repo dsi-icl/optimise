@@ -382,7 +382,7 @@ class SyncCore {
             }
 
             try {
-                const sqliteBuffer = fs.readFileSync(global.config.optimiseDBLocation, { flags: 'r', autoClose: true });
+                const sqliteBuffer = fs.readFileSync(global.config.optimiseDBLocation, { flag: 'r' });
                 let compressedBuffer;
                 try {
                     compressedBuffer = gzipSync(sqliteBuffer, {
