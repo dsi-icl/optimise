@@ -29,6 +29,11 @@ module.exports = {
     module: {
         rules: [
             {
+                test: /\.ts?$/,
+                use: 'ts-loader',
+                exclude: /node_modules/,
+            },
+            {
                 test: /\.js?$/,
                 use: {
                     loader: 'babel-loader',
@@ -40,6 +45,9 @@ module.exports = {
                 exclude: /node_modules/
             }
         ]
+    },
+    resolve: {
+        extensions: ['.ts', '.js'],
     },
     plugins: (process.env.NODE_ENV === 'development'
         ? [
