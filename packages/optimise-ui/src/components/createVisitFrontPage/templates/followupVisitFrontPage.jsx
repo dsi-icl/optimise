@@ -12,7 +12,6 @@ import { OtherSAEWrapper } from '../componentWrappers/ce/otherSAEWrapper';
 import { VisitFrontPageTemplate } from './template';
 import { VisitFrontPageIntroduction } from '../componentWrappers/introductoryPage/introductoryPage';
 import { ConcomitantMedWrapper } from '../componentWrappers/concomitantMed/concomitantMed';
-import PregnancyWrapper from '../componentWrappers/pregnancy/pregnancyWrapper';
 
 @connect(state => ({
     fetching: state.patientProfile.fetching,
@@ -108,20 +107,9 @@ class FollowupVisitFrontPage extends Component {
                 {' '}
                 results since last visit?
             </p>}
-            />
+            />,
+            10: <CommunicationWrapper />
         };
-
-        if (pregnancySubStudyConsent && this.props.data.demographicData.gender !== 1) {
-            Object.assign(pageNumberToElementMap, {
-                10: <PregnancyWrapper yesOrNoQuestion={<p>Do you wish to record pregnancy data?</p>} />,
-                11: <CommunicationWrapper />
-            });
-        }
-        else {
-            Object.assign(pageNumberToElementMap, {
-                10: <CommunicationWrapper />
-            });
-        }
 
         const pageToTitleMap = {
             0: 'Introduction',
@@ -133,20 +121,9 @@ class FollowupVisitFrontPage extends Component {
             6: 'Relapses',
             7: 'SAE\'s and infections',
             8: 'Lab tests',
-            9: 'MRI'
+            9: 'MRI',
+            10: 'Communication and notes'
         };
-
-        if (pregnancySubStudyConsent && this.props.data.demographicData.gender !== 1) {
-            Object.assign(pageToTitleMap, {
-                10: 'Pregnancy',
-                11: 'Communication and notes'
-            });
-        }
-        else {
-            Object.assign(pageToTitleMap, {
-                10: 'Communication and notes'
-            });
-        }
 
         return (
             <VisitFrontPageTemplate

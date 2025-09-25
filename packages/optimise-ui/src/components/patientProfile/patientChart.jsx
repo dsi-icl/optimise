@@ -12,7 +12,6 @@ import { getPatientProfileById } from '../../redux/actions/searchPatient';
 import store from '../../redux/store';
 import Icon from '../icon';
 import style from './patientProfile.module.css';
-import { PregnancyEntry } from '../pregnancyForms/pregnancyEntry';
 
 // need to pass location to buttons  - do later
 
@@ -257,9 +256,7 @@ export const formatRow = arr => arr.map((el, ind) => <td key={ind}>{el}</td>);
 @connect(state => ({
     typedict: state.availableFields.visitFields_Hash[0],
     inputType: state.availableFields.inputTypes_Hash[0],
-    icd11_Hash: state.availableFields.icd11_Hash[0],
-    pregnancyOutcome_hash: state.availableFields.pregnancyOutcomes_Hash[0],
-    pregnancyEntryFields_hash: state.availableFields.pregnancyEntryFields_Hash[0]
+    icd11_Hash: state.availableFields.icd11_Hash[0]
 }))
 class OneVisit extends Component {
     render() {
@@ -299,31 +296,6 @@ class OneVisit extends Component {
         const comorbidities = this.props.data.comorbidities.filter(el => el.visit === this.props.visitId);
         const concomitantMeds = this.props.data.concomitantMeds.filter(el => el.visit === this.props.visitId);
         const originalEditorState = communication ? EditorState.createWithContent(convertFromRaw(JSON.parse(communication))) : EditorState.createEmpty();
-
-        //
-        const pregnancyEntries = this.props.data.pregnancyEntries.filter(el => el['recordedDuringVisit'] === this.props.visitId);
-        const pregnancyImages = this.props.data.pregnancyImages.filter(el => el.visitId === this.props.visitId);
-        const isLatestPregnancyEntry = pregnancyEntries.sort((a, b) => parseInt(a.startDate) - parseInt(b.startDate))[0]?.id === pregnancyEntries[0]?.id;
-        const isLatestVisit = this.props.data.visits.sort((a, b) => parseInt(a.visitDate) - parseInt(b.visitDate))[0]?.id === this.props.visitId;
-
-        function isValidDateFormat(dateString) {
-            const date = new Date(dateString);
-            return !isNaN(date) && dateString === date.toISOString();
-        }
-
-        let pregnancy;
-        let entryIsTerm = false;
-        let baselineDeleted = false;
-        if (pregnancyEntries.length) {
-            const entryOrder = PregnancyEntry._checkEntryOrder(pregnancyEntries[0], this.props.data);
-            pregnancy = this.props.data.pregnancy.filter(el => el.id === pregnancyEntries[0].pregnancyId);
-            if (pregnancy.length > 0) {
-                entryIsTerm = (entryOrder === 'latest' || entryOrder === 'sole entry') && typeof pregnancy[0].outcome === 'number' && pregnancy[0].outcomeDate !== null;
-                baselineDeleted = (entryOrder === 'first' || entryOrder === 'sole entry') && pregnancyEntries[0].type === 2;
-            }
-        }
-
-        const pregnancyOffspring = JSON.parse(pregnancyEntries[0]?.offsprings ?? '[]');
 
         const filteredSymptoms = filterEmptyRenders(symptoms, this.props.inputType, this.props.typedict);
         const filteredComorbidities = comorbidities;
@@ -718,171 +690,6 @@ class OneVisit extends Component {
                         </NavLink>
                         <br />
                         <br />
-                    </>
-                    : null}
-                {this.props.visitType === 1 && this.props.data.demographicData && this.props.data.demographicData.gender !== 1
-                    ? <>
-                        <h4>
-                            <Icon symbol="symptom" />
-                            &nbsp;PREGNANCY
-                        </h4>
-                        {pregnancyEntries.length && pregnancy.length && this.props.data.pregnancySubStudyConsent
-                            ? <>
-                                This section only reflects the pregnancy entry related to this visit. To see all pregnancy information, please visit the pregnancy section.
-                                <br />
-                                <br />
-                                <div className={style.visitWrapper}>
-                                    <table>
-                                        <thead>
-                                            <tr>
-                                                <th colSpan="2">{pregnancyEntries[0].type === 1 ? 'Baseline' : pregnancyEntries[0].type === 2 ? 'Follow up' : pregnancyEntries[0].type === 3 ? 'Term' : 'Unknown'}</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {pregnancyEntries[0].type === 1
-                                                ? <tr>
-                                                    <td>Pregnancy start date</td>
-                                                    <td>{new Date(parseFloat(pregnancy[0].startDate)).toDateString()}</td>
-                                                </tr>
-                                                : null}
-
-                                            {baselineDeleted
-                                                ? <tr>
-                                                    <td style={{ color: 'red' }} colSpan={2}>We could not find a baseline entry, please check this is right</td>
-                                                </tr>
-                                                : null}
-
-                                            {pregnancy[0].outcomeDate !== null && entryIsTerm && pregnancyEntries[0].type === 2
-                                                ? <>
-                                                    <tr>
-                                                        <td>Pregnancy end date A</td>
-                                                        <td>{new Date(parseFloat(pregnancy[0].outcomeDate)).toDateString()}</td>
-
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Pregnancy outcome</td>
-                                                        <td>{this.props.pregnancyOutcome_hash[pregnancy[0].outcome]}</td>
-                                                    </tr>
-                                                </>
-                                                : null}
-
-                                            {pregnancyEntries[0].data.map((el, index) => (
-                                                <tr key={index}>
-                                                    <td>{this.props.pregnancyEntryFields_hash[el.field_idname].definition}</td>
-                                                    <td>{isValidDateFormat(el.value) ? el.value.slice(0, 10) : el.value}</td>
-                                                </tr>
-                                            ))}
-                                        </tbody>
-                                    </table>
-
-                                    {/* {pregnancyOffspring?.length
-                                        ? pregnancyOffspring.map((el, index) => {
-                                            const offspringValues = Object.entries(el);
-                                            return (
-                                                <Fragment key={index}>
-                                                    <br />
-                                                    <table>
-                                                        <thead>
-                                                            <tr>
-                                                                <th colSpan="2">Offspring ID {el.id}</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            {offspringValues.length
-                                                                ? offspringValues.filter(([key]) => key !== 'id').map(([key, value]) => (
-                                                                    <tr key={key}>
-                                                                        <td>{key}</td>
-                                                                        <td>{value}</td>
-                                                                    </tr>))
-                                                                : <tr>
-                                                                    <td colSpan="2"><i>No data</i></td>
-                                                                </tr>}
-                                                        </tbody>
-                                                    </table>
-                                                </Fragment>
-                                            );
-                                        })
-                                        : null
-                                    } */}
-
-                                    {pregnancyImages.length
-                                        ? pregnancyImages.map((el, index) => {
-                                            return (
-                                                <Fragment key={index}>
-                                                    <br />
-                                                    <table>
-                                                        <thead>
-                                                            <tr>
-                                                                <th colSpan="2">
-                                                                    Pregnancy Image
-                                                                    {el.id}
-                                                                </th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <td>Date</td>
-                                                                <td>{new Date(parseFloat(el.date)).toDateString()}</td>
-                                                            </tr>
-                                                        </tbody>
-                                                        <tbody>
-                                                            <tr>
-                                                                <td>Mode</td>
-                                                                <td>{el.mode}</td>
-                                                            </tr>
-                                                        </tbody>
-                                                        <tbody>
-                                                            <tr>
-                                                                <td>Result</td>
-                                                                <td>{el.result}</td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </Fragment>
-                                            );
-                                        })
-                                        : null}
-
-                                    {pregnancyOffspring?.length
-                                        ? <>
-                                            <br />
-                                            <NavLink to={`/patientProfile/${this.props.data.patientId}/pregnancy/${pregnancyEntries[0].pregnancyId}/offsprings`} activeClassName={style.activeNavLink}>
-                                                <button>
-                                                    See offspring
-                                                    {pregnancyOffspring.length > 1 ? 's' : ''}
-                                                    {' '}
-                                                    data for this pregnancy
-                                                </button>
-                                            </NavLink>
-                                            <br />
-                                        </>
-                                        : null}
-                                    <br />
-                                </div>
-                                {isLatestPregnancyEntry
-                                    ? <>
-                                        <NavLink to={`/patientProfile/${this.props.data.patientId}/data/visit/${this.props.visitId}/pregnancy`} activeClassName={style.activeNavLink}>
-                                            <button id={`epe_v${this.props.visitId}`}>Edit pregnancy entry</button>
-                                        </NavLink>
-                                        <br />
-                                        {' '}
-                                        <br />
-                                    </>
-                                    : null}
-                            </>
-                            : isLatestVisit
-                                ? <>
-                                    <NavLink to={`/patientProfile/${this.props.data.patientId}/data/visit/${this.props.visitId}/pregnancy?add`} activeClassName={style.activeNavLink}>
-                                        <button>Add pregnancy entry</button>
-                                    </NavLink>
-                                    <br />
-                                    <br />
-                                </>
-                                : <>
-                                    You can only modify the last pregnancy information record to add more to the latest visit record.
-                                    <br />
-                                    <br />
-                                </>}
                     </>
                     : null}
 
