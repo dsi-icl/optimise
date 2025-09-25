@@ -15,12 +15,12 @@ class TreatmentController {
             return;
         }
         if ((body.hasOwnProperty('dose') && typeof body.dose !== 'number')
-          || (body.hasOwnProperty('unit') && body.unit !== 'µg' && body.unit !== 'mg' && body.unit !== 'cc' && body.unit !== 'na')
-          || (body.hasOwnProperty('form') && body.form !== 'OR' && body.form !== 'IV' && body.form !== 'IM' && body.form !== 'IT' && body.form !== 'SC' && body.form !== 'SL')
-          || (body.hasOwnProperty('times') && typeof body.times !== 'number')
-          || (body.hasOwnProperty('intervalUnit') && body.intervalUnit !== 'hour' && body.intervalUnit !== 'day'
-            && body.intervalUnit !== 'week' && body.intervalUnit !== '6weeks' && body.intervalUnit !== '8weeks'
-            && body.intervalUnit !== 'month' && body.intervalUnit !== 'year')) {
+            || (body.hasOwnProperty('unit') && body.unit !== 'µg' && body.unit !== 'mg' && body.unit !== 'cc' && body.unit !== 'na')
+            || (body.hasOwnProperty('form') && body.form !== 'OR' && body.form !== 'IV' && body.form !== 'IM' && body.form !== 'IT' && body.form !== 'SC' && body.form !== 'SL')
+            || (body.hasOwnProperty('times') && typeof body.times !== 'number')
+            || (body.hasOwnProperty('intervalUnit') && body.intervalUnit !== 'hour' && body.intervalUnit !== 'day'
+                && body.intervalUnit !== 'week' && body.intervalUnit !== '6weeks' && body.intervalUnit !== '8weeks'
+                && body.intervalUnit !== 'month' && body.intervalUnit !== 'year')) {
             res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }
@@ -71,7 +71,7 @@ class TreatmentController {
 
     static addTerminationDate({ body }, res) { // for adding termination date
         if ((body.hasOwnProperty('treatmentId') && body.hasOwnProperty('terminationDate')) && body.hasOwnProperty('terminatedReason')
-          && typeof body.treatmentId === 'number' && typeof body.terminatedDate === 'string' && typeof body.terminatedReason === 'number') {
+            && typeof body.treatmentId === 'number' && typeof body.terminatedDate === 'string' && typeof body.terminatedReason === 'number') {
             const momentTerminated = moment(body.terminatedDate, moment.ISO_8601);
             if (!momentTerminated.isValid() && body.terminatedDate !== null) {
                 res.status(400).json(ErrorHelper(message.dateError[momentTerminated.invalidAt()], new Error(message.userError.INVALIDDATE)));
@@ -86,11 +86,11 @@ class TreatmentController {
                     return false;
                 });
         }
- else if (!((body.hasOwnProperty('treatmentId') && body.hasOwnProperty('terminationDate')) && body.hasOwnProperty('terminatedReason'))) {
+        else if (!((body.hasOwnProperty('treatmentId') && body.hasOwnProperty('terminationDate')) && body.hasOwnProperty('terminatedReason'))) {
             res.status(400).json(message.userError.MISSINGARGUMENT);
             return;
         }
- else {
+        else {
             res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }
@@ -121,11 +121,11 @@ class TreatmentController {
             });
             return;
         }
- else if (!body.hasOwnProperty('id')) {
+        else if (!body.hasOwnProperty('id')) {
             res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
         }
- else {
+        else {
             res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }
@@ -145,7 +145,7 @@ class TreatmentController {
                 res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL));
                 return false;
             }
- else {
+            else {
                 res.status(200).json(formatToJSON(result));
                 return true;
             }
@@ -157,7 +157,7 @@ class TreatmentController {
 
     static addInterruption({ body, user }, res) { // need to search if treatment exists
         if (body.hasOwnProperty('treatmentId') && body.hasOwnProperty('start_date')
-          && typeof body.treatmentId === 'number' && typeof body.start_date === 'string') {
+            && typeof body.treatmentId === 'number' && typeof body.start_date === 'string') {
             const momentStart = moment(body.start_date, moment.ISO_8601);
             const momentEnd = moment(body.end_date, moment.ISO_8601);
             if (!momentStart.isValid() && body.start_date !== null) {
@@ -190,11 +190,11 @@ class TreatmentController {
                 return false;
             });
         }
- else if (!(body.hasOwnProperty('treatmentId') && body.hasOwnProperty('start_date'))) {
+        else if (!(body.hasOwnProperty('treatmentId') && body.hasOwnProperty('start_date'))) {
             res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
         }
- else {
+        else {
             res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }
@@ -202,7 +202,7 @@ class TreatmentController {
 
     static editInterruption({ body, user }, res) {
         if (body.hasOwnProperty('treatmentInterId') && typeof body.treatmentInterId === 'number'
-          && body.hasOwnProperty('start_date') && typeof body.start_date === 'string') {
+            && body.hasOwnProperty('start_date') && typeof body.start_date === 'string') {
             const momentStart = body.hasOwnProperty('start_date') && body.start_date !== null ? moment(body.start_date, moment.ISO_8601) : null;
             const momentEnd = body.hasOwnProperty('end_date') && body.end_date !== null ? moment(body.end_date, moment.ISO_8601) : null;
             if (momentStart !== null && !momentStart.isValid()) {
@@ -234,11 +234,11 @@ class TreatmentController {
                 return false;
             });
         }
- else if (!(body.hasOwnProperty('treatmentInterId') && body.hasOwnProperty('start_date'))) {
+        else if (!(body.hasOwnProperty('treatmentInterId') && body.hasOwnProperty('start_date'))) {
             res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
         }
- else {
+        else {
             res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }
@@ -251,7 +251,7 @@ class TreatmentController {
                     res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL));
                     return false;
                 }
- else {
+                else {
                     res.status(200).json(formatToJSON(result));
                     return true;
                 }
@@ -260,11 +260,11 @@ class TreatmentController {
                 return false;
             });
         }
- else if (!(body.hasOwnProperty('treatmentInterId'))) {
+        else if (!(body.hasOwnProperty('treatmentInterId'))) {
             res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
         }
- else {
+        else {
             res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }
@@ -281,7 +281,7 @@ class TreatmentController {
             });
             return;
         }
- else {
+        else {
             TreatmentCore.getReasons().then((result) => {
                 res.status(200).json(result);
                 return true;
@@ -304,7 +304,7 @@ class TreatmentController {
             });
             return;
         }
- else {
+        else {
             TreatmentCore.getDrugs().then((result) => {
                 res.status(200).json(formatToJSON(result));
                 return true;

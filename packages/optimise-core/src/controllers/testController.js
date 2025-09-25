@@ -56,7 +56,7 @@ class TestController {
             res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
             return;
         }
- else if (body.hasOwnProperty('expectedOccurDate') && body.expectedOccurDate !== null) {
+        else if (body.hasOwnProperty('expectedOccurDate') && body.expectedOccurDate !== null) {
             entryObj.expectedOccurDate = momentExpect.valueOf();
         }
         const momentOccur = moment(body.actualOccurredDate, moment.ISO_8601);
@@ -65,7 +65,7 @@ class TestController {
             res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
             return;
         }
- else if (body.hasOwnProperty('actualOccurredDate') && body.actualOccurredDate !== null) {
+        else if (body.hasOwnProperty('actualOccurredDate') && body.actualOccurredDate !== null) {
             entryObj.actualOccurredDate = momentOccur.valueOf();
         }
         TestCore.updateTest(user, entryObj).then((result) => {
@@ -91,7 +91,7 @@ class TestController {
             res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
         }
- else {
+        else {
             res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }
