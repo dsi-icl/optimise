@@ -157,7 +157,6 @@ class CreateCE extends Component {
                                 ? <>{this.props.types.map(type => <option key={type.id} value={type.id}>{type.name}</option>)}</>
                                 : <>{this.props.types.filter(type => fixedCeTypes.includes(parseInt(type.id))).map(type => <option key={type.id} value={type.id}>{type.name}</option>)}</>}
                         </select>
-                        {' '}
                         <br />
                         <br />
                         <label htmlFor="meddra">MedDRA:</label>

@@ -68,9 +68,7 @@ class LabTestCreatedMessage extends Component {
                 <p>Please enter lab results on the opposite panel for the following test:</p>
                 <br />
                 <p>
-                    <b>Date:</b>
-                    {' '}
-                    {dateOccur}
+                    <b>Date:</b> {dateOccur}
                 </p>
 
                 <br />
@@ -78,7 +76,6 @@ class LabTestCreatedMessage extends Component {
                 <p>You can also record another lab test (only record another test if it is from a different date):</p>
                 <br />
                 <NavLink to={`/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${currentPage}${this.props.location.search}`}>
-                    {' '}
                     <button>Create another test</button>
                 </NavLink>
             </div>

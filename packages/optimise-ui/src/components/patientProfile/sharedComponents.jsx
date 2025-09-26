@@ -22,9 +22,7 @@ export class PatientProfileSectionScaffold extends Component {
                         : null}
                 </div>
                 {this.props.children}
-                {' '}
                 <br />
-                {' '}
                 <br />
             </div>
         );

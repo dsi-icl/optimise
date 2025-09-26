@@ -247,9 +247,7 @@ class CommunicationEditor extends Component {
                         <button name="ceBlock" onClick={this._queryInterval} title="Clinical Events" className={this.state.nextType === 'ceBlock' ? style.selectedHop : ''}>Clinical Events</button>
                         <button name="VSBlock" onClick={this._onClick} title="Patient Data">Patient Data</button>
                         <button name="symptomBlock" onClick={this._onClick} title={`Symptoms ${'&'} Signs`}>
-                            Symptoms
-                            &
-                            Signs
+                            Symptoms & Signs
                         </button>
                     </div>
                     <div>
@@ -261,10 +259,7 @@ class CommunicationEditor extends Component {
                 <br />
                 <div className={`${style.comIntervalBox} ${this.state.nextType ? style.showInterval : ''}`}>
                     <label htmlFor="interval">
-                        Collect
-                        {this.state.nextType === 'ceBlock' ? 'clinical events' : this.state.nextType === 'testBlock' ? 'tests' : 'treatments'}
-                        {' '}
-                        across:
+                        Collect {this.state.nextType === 'ceBlock' ? 'clinical events' : this.state.nextType === 'testBlock' ? 'tests' : 'treatments'} across:
                     </label>
                     <br />
                     <select value={this.state.intervalValue} name="interval" onChange={this._handleIntervalChange}>

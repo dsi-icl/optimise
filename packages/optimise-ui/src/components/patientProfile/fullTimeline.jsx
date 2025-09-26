@@ -278,7 +278,6 @@ class FullTimeline extends Component {
             return (
                 <div onClick={() => this.toggleGroup(parseInt(group.id))} style={{ cursor: 'pointer' }}>
                     {/* {this.state.openGroups[parseInt(group.id)] ? '[-]' : '[+]'} */}
-                    {' '}
                     {group.title}
                 </div>
             );
@@ -491,35 +490,10 @@ class FullTimeline extends Component {
                         <br />
                         <br />
                         <div className={style.keyboardGroup}>
-                            <pre className={style.keyboardKey}>shift</pre>
-                            {' '}
-                            +
-                            <pre className={style.keyboardKey}>mousewheel</pre>
-                            {' '}
-                            = move timeline left/right
-                            <br />
-                            <pre className={style.keyboardKey}>alt</pre>
-                            {' '}
-                            +
-                            <pre className={style.keyboardKey}>mousewheel</pre>
-                            {' '}
-                            = zoom in/out
-                            <br />
-                            <pre className={style.keyboardKey}>ctrl</pre>
-                            {' '}
-                            +
-                            <pre className={style.keyboardKey}>mousewheel</pre>
-                            {' '}
-                            = zoom in/out 10× faster
-                            <br />
-                            <pre className={style.keyboardKey}>meta/alt</pre>
-                            {' '}
-                            +
-                            <pre className={style.keyboardKey}>mousewheel</pre>
-                            {' '}
-                            = zoom in/out 3x faster
-                            <br />
-                            <br />
+                            <pre className={style.keyboardKey}>shift</pre> + <pre className={style.keyboardKey}>mousewheel</pre> = move timeline left/right<br />
+                            <pre className={style.keyboardKey}>alt</pre> + <pre className={style.keyboardKey}>mousewheel</pre> = zoom in/out<br />
+                            <pre className={style.keyboardKey}>ctrl</pre> + <pre className={style.keyboardKey}>mousewheel</pre> = zoom in/out 10× faster<br />
+                            <pre className={style.keyboardKey}>meta/alt</pre> + <pre className={style.keyboardKey}>mousewheel</pre> = zoom in/out 3x faster<br /><br />
                         </div>
                         And you can use pinch-in and pinch-out zoom gestures (two touch points) on touch screens.
                         <br />

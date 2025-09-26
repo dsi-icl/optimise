@@ -240,14 +240,12 @@ class OneComorbidity extends Component {
                             <select name="event" value={this.state.type_new} onChange={this._handleTypeChange} autoComplete="off">
                                 {this.props.types.map(type => <option key={type.id} value={type.id}>{type.name}</option>)}
                             </select>
-                            {' '}
                             <br />
                             <br />
                             <label>
                                 Indication:
                                 <input type="text" value={this.state.indication_new} onChange={this._handleIndicationChange} />
                             </label>
-                            {' '}
                             <br />
                             <br />
                             <label htmlFor="">Start date:</label>
@@ -280,25 +278,17 @@ class OneComorbidity extends Component {
                         : <>
                             <div style={{ flexGrow: 1 }}>
                                 <p>
-                                    <b>Drug:</b>
-                                    {' '}
-                                    {typedict[data.concomitantMedId].name}
+                                    <b>Drug:</b> {typedict[data.concomitantMedId].name}
                                 </p>
                                 <p>
-                                    <b>Indication:</b>
-                                    {' '}
-                                    {data.indication}
+                                    <b>Indication:</b> {data.indication}
                                 </p>
                                 <p>
-                                    <b>Start date:</b>
-                                    {' '}
-                                    {new Date(parseInt(data.startDate, 10)).toDateString()}
+                                    <b>Start date:</b> {new Date(parseInt(data.startDate, 10)).toDateString()}
                                 </p>
                                 {data.endDate
                                     ? <p>
-                                        <b>End date:</b>
-                                        {' '}
-                                        {new Date(parseInt(data.endDate, 10)).toDateString()}
+                                        <b>End date:</b> {new Date(parseInt(data.endDate, 10)).toDateString()}
                                     </p>
                                     : <p>Patient is still taking this medication</p>}
                                 <br />
@@ -418,14 +408,12 @@ class CreateConcomitantMed extends Component {
                     <option value="unselected"></option>
                     {this.props.types.map(type => <option key={type.id} value={type.id}>{type.name}</option>)}
                 </select>
-                {' '}
                 <br />
                 <br />
                 <label>
                     Indication:
                     <input type="text" value={this.state.indication} onChange={this._handleIndicationChange} />
                 </label>
-                {' '}
                 <br />
                 <br />
                 <label htmlFor="">Start date:</label>

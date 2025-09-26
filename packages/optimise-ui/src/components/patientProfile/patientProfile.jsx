@@ -29,12 +29,10 @@ class Section extends Component {
 
         if (fetching) {
             return <span></span>;
-        }
-        else {
+        } else {
             if (erasePatient.success) {
-                return <Redirect to="/searchPatient/from/deletionSuccessful" />;
-            }
-            else {
+                return <Redirect to='/searchPatient/from/deletionSuccessful' />;
+            } else {
                 return (
                     <>
                         <div className={style.ariane}>
@@ -63,6 +61,7 @@ export { Section };
     fields: state.availableFields.demoFields[0]
 }))
 class DemographicSection extends Component {
+
     constructor() {
         super();
         this.state = { showPii: false };
@@ -98,66 +97,29 @@ class DemographicSection extends Component {
             gender = fields['genders'].filter(el => el.id === gender)[0].value;
 
             return (
-                <PatientProfileSectionScaffold
-                    sectionName="Profile"
-                    actions={
-                        <EditButton to={`/patientProfile/${this.props.patientId}/edit/demographic/data`} />
-                    }
-                >
-                    <label>Date of birth:</label>
-                    {' '}
-                    {new Date(parseInt(DOB, 10)).toDateString()}
-                    <br />
-                    <label>Gender:</label>
-                    {' '}
-                    <span>{gender}</span>
-                    {' '}
-                    <br />
-                    <label>Dominant hand:</label>
-                    {' '}
-                    <span>{dominantHand}</span>
-                    {' '}
-                    <br />
-                    <label>Ethnicity:</label>
-                    {' '}
-                    <span>{ethnicity}</span>
-                    {' '}
-                    <br />
-                    <label>Country of origin:</label>
-                    {' '}
-                    <span>{countryOfOrigin}</span>
-                    {' '}
-                    <br />
+                <PatientProfileSectionScaffold sectionName='Profile' actions={
+                    <EditButton to={`/patientProfile/${this.props.patientId}/edit/demographic/data`} />
+                }>
+                    <label>Date of birth:</label> {new Date(parseInt(DOB, 10)).toDateString()}<br />
+                    <label>Gender:</label> <span>{gender}</span> <br />
+                    <label>Dominant hand:</label> <span>{dominantHand}</span> <br />
+                    <label>Ethnicity:</label> <span>{ethnicity}</span> <br />
+                    <label>Country of origin:</label> <span>{countryOfOrigin}</span> <br />
                     <div onMouseLeave={this._hidePii} className={`${style.closePii} ${pii && this.state.showPii ? style.openPii : ''}`}>
                         <span onClick={this._queryPatientData} className={style.piiUncover}>Show Personally Identifiable Information</span>
                         {pii
                             ? <>
                                 <br />
-                                <label>First name:</label>
-                                {' '}
-                                <span>{pii.firstName}</span>
-                                {' '}
-                                <br />
-                                <label>Surname:</label>
-                                {' '}
-                                <span>{pii.surname}</span>
-                                {' '}
-                                <br />
-                                <label>Address:</label>
-                                {' '}
-                                <span>{pii.fullAddress}</span>
-                                {' '}
-                                <br />
-                                <label>Postcode:</label>
-                                {' '}
-                                <span>{pii.postcode}</span>
+                                <label>First name:</label> <span>{pii.firstName}</span> <br />
+                                <label>Surname:</label> <span>{pii.surname}</span> <br />
+                                <label>Address:</label> <span>{pii.fullAddress}</span> <br />
+                                <label>Postcode:</label> <span>{pii.postcode}</span>
                             </>
                             : null}
                     </div>
                 </PatientProfileSectionScaffold>
             );
-        }
-        else {
+        } else {
             return <div>Please add demographic data via the API.</div>;
         }
     }
@@ -200,6 +162,7 @@ class ImmunisationSection extends Component {
     }
 
     _handleSubmit(ev) {
+
         ev.preventDefault();
         if (this.state.lastSubmit && (new Date()).getTime() - this.state.lastSubmit < 500 ? true : false)
             return;
@@ -244,24 +207,17 @@ class ImmunisationSection extends Component {
     render() {
         const { data } = this.props;
         return (
-            <PatientProfileSectionScaffold sectionName="Immunisations" active={this.state.addMore}>
-                <table cellSpacing="1em">
-                    {this.state.addMore || data.immunisations.length !== 0
-                        ? <thead>
-                            <tr>
-                                <th>Vaccine name</th>
-                                <th>Date</th>
-                            </tr>
-                        </thead>
-                        : null}
+            <PatientProfileSectionScaffold sectionName='Immunisations' active={this.state.addMore}>
+                <table cellSpacing={'1em'}>
+                    {this.state.addMore || data.immunisations.length !== 0 ? <thead>
+                        <tr><th>Vaccine name</th><th>Date</th></tr>
+                    </thead> : null}
                     <tbody>
                         {data.immunisations.map(el => <OneImmunisation key={el.id} data={el} patientId={data.patientId} />)}
-                        {!this.state.addMore
-                            ? null
-                            : <tr className={style.immunisationNewItem}>
-                                <td><input value={this.state.newName} onChange={this._handleInput} placeholder="vaccine name" name="vaccineName" type="text" /></td>
-                                <td colSpan="2"><PickDate startDate={this.state.newDate} handleChange={this._handleDateChange} /></td>
-                            </tr>}
+                        {!this.state.addMore ? null : <tr className={style.immunisationNewItem}>
+                            <td><input value={this.state.newName} onChange={this._handleInput} placeholder='vaccine name' name='vaccineName' type='text' /></td>
+                            <td colSpan='2'><PickDate startDate={this.state.newDate} handleChange={this._handleDateChange} /></td>
+                        </tr>}
                     </tbody>
                 </table>
                 {!this.state.addMore
@@ -270,19 +226,10 @@ class ImmunisationSection extends Component {
                         <button onClick={this._handleClickingAdd}>Add immunisation</button>
                     </>
                     : <>
-                        <br />
-                        <br />
-                        {this.state.error
-                            ? <>
-                                <div className={style.error}>{this.state.error}</div>
-                                <br />
-                            </>
-                            : null}
-                        <button onClick={this._handleSubmit}>Submit</button>
-                        <br />
-                        <br />
-                        <button onClick={this._handleClickingAdd}>Cancel</button>
-                        <br />
+                        <br /><br />
+                        {this.state.error ? <><div className={style.error}>{this.state.error}</div><br /></> : null}
+                        <button onClick={this._handleSubmit}>Submit</button><br /><br />
+                        <button onClick={this._handleClickingAdd}>Cancel</button><br />
                     </>}
             </PatientProfileSectionScaffold>
         );
@@ -354,9 +301,7 @@ class OneImmunisation extends Component {
                     <tr key={el.vaccineName} className={style.immunisationItem}>
                         {formatRow([
                             el.vaccineName,
-                            // eslint-disable-next-line react/jsx-key
                             <PickDate startDate={this.state.newDate} handleChange={this._handleDateChange} />,
-                            // eslint-disable-next-line react/jsx-key
                             <button onClick={this._handleSave}>Save</button>
                         ])}
                     </tr>
@@ -367,20 +312,17 @@ class OneImmunisation extends Component {
                     }
                 </>
             );
-        }
-        else {
+        } else {
             return (
                 <tr key={el.vaccineName} className={style.immunisationItem}>
                     {formatRow([
                         el.vaccineName,
                         new Date(parseInt(el.immunisationDate, 10)).toDateString(),
-                        // eslint-disable-next-line react/jsx-key
                         <div className={style.editButton} style={{ cursor: 'pointer' }}>
                             <div onClick={() => { this.setState({ editing: true }); }}>
-                                <span title="Edit" className={style.dataEdit}><Icon symbol="edit" /></span>
+                                <span title='Edit' className={style.dataEdit}><Icon symbol='edit' /></span>
                             </div>
                         </div>,
-                        // eslint-disable-next-line react/jsx-key
                         <div style={{ marginTop: '0.5em' }}>
                             <DeleteButton clickhandler={() => this._handleClickDelete(el)} />
                         </div>
@@ -388,6 +330,7 @@ class OneImmunisation extends Component {
                 </tr>
             );
         }
+
     }
 }
 
@@ -399,12 +342,9 @@ class PrimaryDiagnosis extends Component {
     render() {
         if (this.props.data.diagnosis.length === 0) {
             return (
-                <PatientProfileSectionScaffold
-                    sectionName="Last Primary MS Diagnosis"
-                    actions={
-                        <EditButton to={`/patientProfile/${this.props.patientId}/edit/diagnosis/data`} />
-                    }
-                >
+                <PatientProfileSectionScaffold sectionName='Last Primary MS Diagnosis' actions={
+                    <EditButton to={`/patientProfile/${this.props.patientId}/edit/diagnosis/data`} />
+                }>
                     <i>No recorded diagnosis</i>
                 </PatientProfileSectionScaffold>
             );
@@ -421,26 +361,18 @@ class PrimaryDiagnosis extends Component {
         }
 
         return (
-            <PatientProfileSectionScaffold
-                sectionName="Last Primary MS Diagnosis"
-                actions={
-                    <EditButton to={`/patientProfile/${this.props.patientId}/edit/diagnosis/data`} />
-                }
-            >
+            <PatientProfileSectionScaffold sectionName='Last Primary MS Diagnosis' actions={
+                <EditButton to={`/patientProfile/${this.props.patientId}/edit/diagnosis/data`} />
+            }>
                 <>
-                    <label>Date of diagnosis: </label>
-                    {' '}
-                    {new Date(parseInt(diagnosis.diagnosisDate, 10)).toDateString()}
-                    {' '}
-                    <br />
-                    <label>Diagnosis: </label>
-                    {' '}
-                    {diagnosisName.value}
+                    <label>Date of diagnosis: </label> {new Date(parseInt(diagnosis.diagnosisDate, 10)).toDateString()} < br />
+                    <label>Diagnosis: </label> {diagnosisName.value}
                 </>
             </PatientProfileSectionScaffold>
         );
     }
 }
+
 
 @connect(state => ({
     outcomeHash: state.availableFields.pregnancyOutcomes_Hash[0],
@@ -449,6 +381,7 @@ class PrimaryDiagnosis extends Component {
 }))
 class Pregnancy extends Component {
     render() {
+
         if (this.props.data.demographicData) {
             if (this.props.data.demographicData.gender === 1)
                 return null;
@@ -467,12 +400,9 @@ class Pregnancy extends Component {
         if (this.props.data.demographicData) {
             if (this.props.data.pregnancy.length === 0) {
                 return (
-                    <PatientProfileSectionScaffold
-                        sectionName="Pregnancies"
-                        actions={
-                            !this.props.data.pregnancySubStudyConsent ? <EditButton to={`/patientProfile/${this.props.data.patientId}/edit/pregnancy/data`} /> : undefined
-                        }
-                    >
+                    <PatientProfileSectionScaffold sectionName='Pregnancies' actions={
+                        !this.props.data.pregnancySubStudyConsent ? <EditButton to={`/patientProfile/${this.props.data.patientId}/edit/pregnancy/data`} /> : undefined
+                    }>
                         No pregnancies recorded
                     </PatientProfileSectionScaffold>
                 );
@@ -487,43 +417,14 @@ class Pregnancy extends Component {
         const MedDRAName = this.props.meddra_Hash[pregnancy.meddra];
 
         return (
-            <PatientProfileSectionScaffold
-                sectionName="Last Pregnancy"
-                actions={
-                    !this.props.data.pregnancySubStudyConsent ? <EditButton to={`/patientProfile/${this.props.data.patientId}/edit/pregnancy/data`} /> : undefined
-                }
-            >
+            <PatientProfileSectionScaffold sectionName='Last Pregnancy' actions={
+                !this.props.data.pregnancySubStudyConsent ? <EditButton to={`/patientProfile/${this.props.data.patientId}/edit/pregnancy/data`} /> : undefined
+            }>
                 <>
-                    <label>Start date: </label>
-                    {' '}
-                    {moment(pregnancy.startDate, 'x')._d.toDateString()}
-                    {pregnancy.outcomeDate && pregnancy.outcomeDate !== ''
-                        ? <>
-                            {' '}
-                            <br />
-                            <label>End date: </label>
-                            {' '}
-                            {moment(pregnancy.outcomeDate, 'x')._d.toDateString()}
-                        </>
-                        : null}
-                    {outcomeName
-                        ? <>
-                            {' '}
-                            <br />
-                            <label>Outcome: </label>
-                            {' '}
-                            {outcomeName}
-                        </>
-                        : null}
-                    {MedDRAName
-                        ? <>
-                            {' '}
-                            <br />
-                            <label>MedDRA: </label>
-                            {' '}
-                            {MedDRAName.name}
-                        </>
-                        : null}
+                    <label>Start date: </label> {moment(pregnancy.startDate, 'x')._d.toDateString()}
+                    {pregnancy.outcomeDate && pregnancy.outcomeDate !== '' ? <> <br /><label>End date: </label> {moment(pregnancy.outcomeDate, 'x')._d.toDateString()}</> : null}
+                    {outcomeName ? <> <br /><label>Outcome: </label> {outcomeName}</> : null}
+                    {MedDRAName ? <> <br /><label>MedDRA: </label> {MedDRAName.name}</> : null}
                     {this.props.data.pregnancySubStudyConsent
                         ? <Link to={`/subStudyPreg/${this.props.data.patientId}`} className={style.piiUncover}>See pregnancies</Link>
                         : null}
@@ -555,6 +456,7 @@ class ConsentSection extends Component {
         this._handleClickWithdrawPregnancyConsent = this._handleClickWithdrawPregnancyConsent.bind(this);
         this._handleClickGivesPregnancyConsent = this._handleClickGivesPregnancyConsent.bind(this);
         this._handlePregnancyConsentDateChange = this._handlePregnancyConsentDateChange.bind(this);
+
     }
 
     _handleConsentDateChange(date) {
@@ -635,27 +537,22 @@ class ConsentSection extends Component {
         store.dispatch(updateParticipationAPICall(body));
     }
 
+
     render() {
         const { participation, optimiseConsent, pregnancySubStudyConsent } = this.props.data;
         const femalePatient = this.props.data.demographicData && this.props.data.demographicData.gender !== 1;
 
         return <>
-            <PatientProfileSectionScaffold sectionName="Study participation">
+            <PatientProfileSectionScaffold sectionName='Study participation'>
                 <button onClick={this._handleClickWithdrawParticipation}>{participation ? 'This patient withdraws from the study' : 'This patient re-enrolls in the study'}</button>
             </PatientProfileSectionScaffold>
-            <PatientProfileSectionScaffold sectionName="Consent">
+            <PatientProfileSectionScaffold sectionName='Consent'>
                 {
                     optimiseConsent
                         ? <div>
-                            <span>
-                                <b>Consent date:</b>
-                                {' '}
-                                {new Date(optimiseConsent).toLocaleDateString()}
-                            </span>
+                            <span><b>Consent date:</b> {new Date(optimiseConsent).toLocaleDateString()}</span>
                             <button style={{ marginTop: '0.5rem' }} onClick={this._handleClickWithdrawConsent}>This patient withdraws consent</button>
-                            <br />
-                            {' '}
-                            <br />
+                            <br /> <br />
                             <span>Select date of consent:</span>
                             <PickDate startDate={this.state.selectedConsentDate} handleChange={this._handleConsentDateChange} />
                             <button style={{ marginTop: '0.5rem' }} disabled={this.state.selectedConsentDate === undefined} onClick={this._handleClickGivesConsent}>Change consent date</button>
@@ -669,19 +566,13 @@ class ConsentSection extends Component {
 
             </PatientProfileSectionScaffold>
             {femalePatient
-                ? <PatientProfileSectionScaffold sectionName="Pregnancy sub study consent">
+                ? <PatientProfileSectionScaffold sectionName='Pregnancy sub study consent'>
                     {
                         pregnancySubStudyConsent
                             ? <div>
-                                <span>
-                                    <b>Consent date:</b>
-                                    {' '}
-                                    {new Date(pregnancySubStudyConsent).toLocaleDateString()}
-                                </span>
+                                <span><b>Consent date:</b> {new Date(pregnancySubStudyConsent).toLocaleDateString()}</span>
                                 <button style={{ marginTop: '0.5rem' }} onClick={this._handleClickWithdrawPregnancyConsent}>Withdraw pregnancy sub study consent</button>
-                                <br />
-                                {' '}
-                                <br />
+                                <br /> <br />
                                 <span>Select date of consent: </span>
                                 <PickDate startDate={this.state.selectedPregnancyConsentDate} handleChange={this._handlePregnancyConsentDateChange} />
                                 <button style={{ marginTop: '0.5rem' }} disabled={this.state.selectedPregnancyConsentDate === undefined} onClick={this._handleClickGivesPregnancyConsent}>Change pregnancy sub study consent date</button>
@@ -697,6 +588,7 @@ class ConsentSection extends Component {
         </>;
     }
 }
+
 
 /**
  * @prop {Object} this.props.match
@@ -727,8 +619,9 @@ class DeletePatient extends Component {
     }
 
     render() {
+
         if (this.props.adminPriv === 1)
-            return <PatientProfileSectionScaffold sectionName="Delete">
+            return <PatientProfileSectionScaffold sectionName='Delete'>
                 <button onClick={this._handleClickDelete} className={style.deleteButton}>Delete this patient</button>
             </PatientProfileSectionScaffold>;
         return null;

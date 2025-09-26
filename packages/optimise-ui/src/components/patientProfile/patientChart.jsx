@@ -60,9 +60,7 @@ class PatientChart extends Component {
                     <Helmet title="Patient Profile" />
                     <h2>
                         <Link to={`/patientProfile/${this.props.match.params.patientId}`}>
-                            Patient
-                            {' '}
-                            {this.props.fetching ? '' : `${this.props.data.patientId}`}
+                            Patient {this.props.fetching ? '' : `${this.props.data.patientId}`}
                         </Link>
                     </h2>
                     <PatientProfileTop />
@@ -432,12 +430,7 @@ class OneVisit extends Component {
                         </NavLink>
                         <br />
                         <h4>
-                            <Icon symbol="addVS" />
-                            &nbsp;PHYSICAL MEASURES, VITAL SIGNS
-                            {isMinor ? ', ' : ' AND'}
-                            {' '}
-                            HABITS
-                            {isMinor ? ' AND ACADEMIC CONCERNS' : ''}
+                            <Icon symbol="addVS" />&nbsp;PHYSICAL MEASURES, VITAL SIGNS {isMinor ? ', ' : ' AND'} HABITS {isMinor ? ' AND ACADEMIC CONCERNS' : ''}
                         </h4>
                         {VSValueArray.length > 0
                             ? (
@@ -492,12 +485,7 @@ class OneVisit extends Component {
                             : null}
                         <NavLink to={`/patientProfile/${this.props.patientId}/data/visit/${this.props.visitId}/vitals`} activeClassName={style.activeNavLink}>
                             <button>
-                                Edit physical measures
-                                {isMinor ? ', ' : ' and '}
-                                vital signs
-                                {isMinor ? ' and academic concerns' : ''}
-                                {' '}
-                                data for this visit
+                                Edit physical measures{isMinor ? ', ' : ' and '}vital signs{isMinor ? ' and academic concerns' : ''} data for this visit
                             </button>
                         </NavLink>
                         <br />
@@ -804,21 +792,16 @@ class Charts extends Component {
                     <div className={style.filterBox}>
                         Filter by
                         <span onClick={() => this._handleFilterSelection('visits')} className={this.state.filter.visits ? style.selected : ''}>
-                            <Icon symbol="addVS" />
-                            visits
+                            <Icon symbol="addVS" /> visits
                         </span>
                         <span onClick={() => this._handleFilterSelection('events')} className={this.state.filter.events ? style.selected : ''}>
-                            <Icon symbol="addEvent" className={style.timelineCE} />
-                            events
+                            <Icon symbol="addEvent" className={style.timelineCE} /> events
                         </span>
                         <span onClick={() => this._handleFilterSelection('tests')} className={this.state.filter.tests ? style.selected : ''}>
-                            <Icon symbol="addTest" className={style.timelineTest} />
-                            tests
+                            <Icon symbol="addTest" className={style.timelineTest} /> tests
                         </span>
                         <span onClick={() => this._handleFilterSelection('treatments')} className={this.state.filter.treatments ? style.selected : ''}>
-                            <Icon symbol="addTreatment" className={style.timelineMed} />
-                            {' '}
-                            treatments
+                            <Icon symbol="addTreatment" className={style.timelineMed} /> treatments
                         </span>
                         <br />
                         <br />

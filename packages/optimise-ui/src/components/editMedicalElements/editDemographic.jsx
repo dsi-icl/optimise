@@ -219,13 +219,11 @@ class UpdateDemoEntry extends Component {
                     </>}
                 <label htmlFor="givenName">Given name:</label>
                 <br />
-                {' '}
                 <input value={givenName} name="givenName" onChange={this._handleFreeTextChange} autoComplete="off" />
                 <br />
                 <br />
                 <label htmlFor="surname">Surname:</label>
                 <br />
-                {' '}
                 <input value={surname} name="surname" onChange={this._handleFreeTextChange} autoComplete="off" />
                 <br />
                 <br />
@@ -236,7 +234,6 @@ class UpdateDemoEntry extends Component {
                 <br />
                 <label htmlFor="postcode">Postcode:</label>
                 <br />
-                {' '}
                 <input value={postcode} name="postcode" onChange={this._handleFreeTextChange} autoComplete="off" />
                 <br />
                 <br />
@@ -245,9 +242,7 @@ class UpdateDemoEntry extends Component {
                 <br />
                 <label>Date of birth:</label>
                 <br />
-                {' '}
                 <PickDate startDate={moment(DOB, 'x')} handleChange={this._handleDobDateChange} />
-                {' '}
                 <br />
                 <br />
                 <label>Gender: </label>

@@ -142,34 +142,25 @@ class SyncIndicator extends Component {
                 title = `${error.message}: ${error.exception}`;
             return (
                 <span title={title}>
-                    <strong className={style.statusIcon}><Icon symbol="attention"></Icon></strong>
-                    {' '}
-                    {message}
+                    <strong className={style.statusIcon}><Icon symbol="attention"></Icon></strong> {message}
                 </span>
             );
         }
         else if (status.syncing === true) {
             return <span title={`${status.status}: ${status.step}`}>
-                <strong className={`${style.statusIcon} ${style.syncActive}`}><Icon symbol="sync"></Icon></strong>
-                {
+                <strong className={`${style.statusIcon} ${style.syncActive}`}><Icon symbol="sync"></Icon></strong>{
                     status.status === 'scheduling'
                         ? 'Preparing synchronisation'
                         : status.step === 'linking'
                             ? 'Linking'
                             : 'Synching'
-                }
-                {' '}
-                ...
+                }...
             </span>;
         }
         else if (lastSuccess !== undefined)
             return (
                 <span title={lastSuccess}>
-                    <strong className={style.statusIcon}><Icon symbol="cloud"></Icon></strong>
-                    {' '}
-                    Synced with
-                    {' '}
-                    {(new URL(syncInfo.config.host)).host}
+                    <strong className={style.statusIcon}><Icon symbol="cloud"></Icon></strong> Synced with {(new URL(syncInfo.config.host)).host}
                 </span>
             );
         else

@@ -23,19 +23,7 @@ class VisitFrontPageTemplate extends Component {
             <>
                 <div className={style.ariane}>
                     <h2>
-                        {isBaselineVisit ? 'Baseline' : 'Follow-up'}
-                        {' '}
-                        Visit Initial Data Entry (
-                        {this.props.match.params.patientId}
-                        ) - Page
-                        {' '}
-                        {currentPageNumber}
-                        /
-                        {femaleConsentingPatient ? '12' : '11'}
-                        :
-                        {' '}
-                        {pageToTitleMap[params.currentPage]}
-                        {' '}
+                        {isBaselineVisit ? 'Baseline' : 'Follow-up'} Visit Initial Data Entry ( {this.props.match.params.patientId} ) - Page {currentPageNumber} / {femaleConsentingPatient ? '12' : '11'} : {pageToTitleMap[params.currentPage]}
                     </h2>
                 </div>
                 <div className={style.panel}>

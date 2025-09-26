@@ -137,8 +137,7 @@ class VisitData extends Component {
                 return <>
                     <div className={scaffold_style.ariane}>
                         <h2>
-                            Edit
-                            {this.props.category.toUpperCase()}
+                            Edit {this.props.category.toUpperCase()}
                         </h2>
                         <BackButton to={`/patientProfile/${match.params.patientId}`} />
                     </div>
@@ -168,8 +167,7 @@ class VisitData extends Component {
                 <>
                     <div className={scaffold_style.ariane}>
                         <h2>
-                            Edit
-                            {this.props.category.toUpperCase()}
+                            Edit {this.props.category.toUpperCase()}
                         </h2>
                         <BackButton to={`/patientProfile/${match.params.patientId}`} />
                     </div>

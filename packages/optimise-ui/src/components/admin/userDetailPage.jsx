@@ -33,19 +33,15 @@ class UserDetail extends Component {
                                     <UserInfo data={usersFiltered[0]} />
                                     <br />
                                     <ChangeUserEmail username={usersFiltered[0].username} />
-                                    {' '}
                                     <br />
                                     <br />
                                     <ChangeUserPassword username={usersFiltered[0].username} />
-                                    {' '}
                                     <br />
                                     <br />
                                     <ChangeUserPrivilege userId={usersFiltered[0].id} adminPriv={usersFiltered[0].adminPriv} />
-                                    {' '}
                                     <br />
                                     <br />
                                     <DeleteUser username={usersFiltered[0].username} />
-                                    {' '}
                                     <br />
                                 </>
                                 : <div>
@@ -69,34 +65,11 @@ class UserInfo extends PureComponent {
         const { data } = this.props;
         return (
             <div>
-                <label>ID: </label>
-                {' '}
-                {data.id}
-                {' '}
-                <br />
-                <label>Username: </label>
-                {' '}
-                {data.username}
-                {' '}
-                <br />
-                <label>Real name: </label>
-                {' '}
-                {data.realname}
-                {' '}
-                <br />
-                <label>Email: </label>
-                {' '}
-                {data.email}
-                {' '}
-                <br />
-                <label>
-                    This user is
-                    {' '}
-                    {data.adminPriv ? 'an admin' : 'a standard user'}
-                    .
-                </label>
-                {' '}
-                <br />
+                <label>ID: </label> {data.id}<br />
+                <label>Username: </label> {data.username}<br />
+                <label>Real name: </label> {data.realname}<br />
+                <label>Email: </label> {data.email}<br />
+                <label>This user is {data.adminPriv ? 'an admin' : 'a standard user'}.</label><br />
             </div>
         );
     }

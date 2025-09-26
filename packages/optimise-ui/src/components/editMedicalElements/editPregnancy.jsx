@@ -379,35 +379,20 @@ class OnePregnancy extends Component {
                         </div>
                         : <>
                             <div style={{ flexGrow: 1 }}>
-                                <label>Start date: </label>
-                                {' '}
-                                {startDate_original._d.toDateString()}
-                                {' '}
-                                <br />
+                                <label>Start date: </label>{startDate_original._d.toDateString()}<br />
                                 {outcomeDate_original
                                     ? <>
-                                        <label>End date: </label>
-                                        {' '}
-                                        {outcomeDate_original._d.toDateString()}
-                                        <br />
+                                        <label>End date: </label>{outcomeDate_original._d.toDateString()}<br />
                                     </>
                                     : null}
                                 {outcome_original !== 'unselected'
                                     ? <>
-                                        <label>Outcome: </label>
-                                        {' '}
-                                        {pregnancyOutcomes.filter(ele => ele.id === outcome_original)[0].value}
-                                        {' '}
-                                        <br />
+                                        <label>Outcome: </label>{pregnancyOutcomes.filter(ele => ele.id === outcome_original)[0].value}<br />
                                     </>
                                     : null}
                                 {meddra_original
                                     ? <>
-                                        <label>MedDRA: </label>
-                                        {' '}
-                                        {meddra_Hash[0][meddra_original].name}
-                                        {' '}
-                                        <br />
+                                        <label>MedDRA: </label>{meddra_Hash[0][meddra_original].name}<br />
                                     </>
                                     : null}
                             </div>

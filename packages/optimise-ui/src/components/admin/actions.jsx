@@ -18,7 +18,6 @@ export class AdminActions extends Component {
                             <button>Manage users</button>
                         </NavLink>
                         <br />
-                        {' '}
                         <br />
                         <NavLink to="/administration/meddra" activeClassName={style.activeNavLink}>
                             <button>Manage MedDRA</button>

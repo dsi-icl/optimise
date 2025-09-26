@@ -86,19 +86,16 @@ class Sync extends PureComponent {
                 <br />
                 <label htmlFor="id">Agent ID:</label>
                 <br />
-                {' '}
                 <input name="id" type="text" readOnly value={id} autoComplete="off" autoCorrect="off" autoCapitalize="off" spellCheck="false" />
                 <br />
                 <br />
                 <label htmlFor="host">Remote Host:</label>
                 <br />
-                {' '}
                 <input name="host" type="text" ref={this.syncAddress} defaultValue={host} autoComplete="off" autoCorrect="off" autoCapitalize="off" spellCheck="false" />
                 <br />
                 <br />
                 <label htmlFor="key">Validation Key:</label>
                 <br />
-                {' '}
                 <input name="key" type="text" ref={this.syncKey} defaultValue={key} autoComplete="off" autoCorrect="off" autoCapitalize="off" spellCheck="false" />
                 <br />
                 <br />

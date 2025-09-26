@@ -239,9 +239,7 @@ class OneComorbidity extends Component {
                                 {comorbidity_original
                                     ? <>
                                         <label alt={icd11_Hash[0][comorbidity_original].name}>ICD11: </label>
-                                        {' '}
                                         {icd11_Hash[0][comorbidity_original].name}
-                                        {' '}
                                         <br />
                                     </>
                                     : null}

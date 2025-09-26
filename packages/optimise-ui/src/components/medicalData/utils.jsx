@@ -383,11 +383,7 @@ export const mappingFields = (typeHash, references, originalValues, transformer)
                             <label>
                                 {content.definition}
                                 {content.unit
-                                    ? <em>
-                                        {' '}
-                                        in
-                                        {content.unit}
-                                    </em>
+                                    ? <em>in {content.unit}</em>
                                     : ''}
                             </label>
                             <AntibodyField origVal={origVal ? origVal : null} reference={references[content.id].ref} />
@@ -401,11 +397,7 @@ export const mappingFields = (typeHash, references, originalValues, transformer)
                             <label>
                                 {content.definition}
                                 {content.unit
-                                    ? <em>
-                                        {' '}
-                                        in
-                                        {content.unit}
-                                    </em>
+                                    ? <em> in {content.unit}</em>
                                     : ''}
                             </label>
                             <TextField origVal={origVal ? origVal : null} reference={references[content.id].ref} />
@@ -419,7 +411,6 @@ export const mappingFields = (typeHash, references, originalValues, transformer)
             return (
                 <div key={title} className={style.level}>
                     <div className={style.levelHeader}>
-                        {' '}
                         {title}
                     </div>
                     <div className={style.levelBody}>{Object.entries(content).map(curry)}</div>

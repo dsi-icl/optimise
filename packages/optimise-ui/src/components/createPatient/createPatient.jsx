@@ -195,9 +195,7 @@ class CreatePatient extends Component { // get these props from state: this.prop
                     <div className={style.panel}>
                         <form onSubmit={this._handleSubmit}>
                             <label htmlFor="aliasId">Patient ID:</label>
-                            {' '}
                             <br />
-                            {' '}
                             <input value={this.state.aliasId} name="aliasId" onChange={this._handleFreeTextChange} autoComplete="off" />
                             <br />
                             <br />
@@ -205,13 +203,11 @@ class CreatePatient extends Component { // get these props from state: this.prop
                             <br />
                             <label htmlFor="givenName">Given name:</label>
                             <br />
-                            {' '}
                             <input value={this.state.givenName} name="givenName" onChange={this._handleFreeTextChange} autoComplete="off" />
                             <br />
                             <br />
                             <label htmlFor="surname">Surname:</label>
                             <br />
-                            {' '}
                             <input value={this.state.surname} name="surname" onChange={this._handleFreeTextChange} autoComplete="off" />
                             <br />
                             <br />
@@ -222,7 +218,6 @@ class CreatePatient extends Component { // get these props from state: this.prop
                             <br />
                             <label htmlFor="postcode">Postcode:</label>
                             <br />
-                            {' '}
                             <input value={this.state.postcode} name="postcode" onChange={this._handleFreeTextChange} autoComplete="off" />
                             <br />
                             <br />
@@ -242,7 +237,6 @@ class CreatePatient extends Component { // get these props from state: this.prop
                                     ? <>
                                         <label>Consent date:</label>
                                         <PickDate startDate={this.state.optimiseConsentDate} handleChange={this._handleConsentDateChange} />
-                                        {' '}
                                         <br />
                                         <br />
                                     </>
@@ -253,16 +247,12 @@ class CreatePatient extends Component { // get these props from state: this.prop
                             <br />
                             <label>Date of birth:</label>
                             <br />
-                            {' '}
                             <PickDate startDate={this.state.DOB} handleChange={this._handleDobDateChange} />
-                            {' '}
                             <br />
                             <br />
                             <label htmlFor="gender">Gender:</label>
                             <br />
-                            {' '}
                             <SelectField name="gender" value={this.state.gender} options={genders_sorted} handler={this._handleChange} />
-                            {' '}
                             <br />
                             <br />
                             {
@@ -283,7 +273,6 @@ class CreatePatient extends Component { // get these props from state: this.prop
                                                 ? <>
                                                     <label>Consent date:</label>
                                                     <PickDate startDate={this.state.pregnancyConsentDate} handleChange={this._handlePregnancyConsentDateChange} />
-                                                    {' '}
                                                     <br />
                                                     <br />
                                                 </>
@@ -294,23 +283,17 @@ class CreatePatient extends Component { // get these props from state: this.prop
                             }
                             <label htmlFor="dominant_hand">Dominant hand:</label>
                             <br />
-                            {' '}
                             <SelectField name="dominant_hand" value={this.state['dominant_hand']} options={dominant_hands_sorted} handler={this._handleChange} noEmpty={true} />
-                            {' '}
                             <br />
                             <br />
                             <label htmlFor="ethnicity">Ethnicity:</label>
                             <br />
-                            {' '}
                             <SelectField name="ethnicity" value={this.state['ethnicity']} options={ethnicities} handler={this._handleChange} />
-                            {' '}
                             <br />
                             <br />
                             <label htmlFor="country_of_origin">Country of origin:</label>
                             <br />
-                            {' '}
                             <SelectField name="country_of_origin" value={this.state['country_of_origin']} options={countries} handler={this._handleChange} />
-                            {' '}
                             <br />
                             <br />
                             <br />
@@ -318,16 +301,12 @@ class CreatePatient extends Component { // get these props from state: this.prop
                             <br />
                             <label>Diagnosis date:</label>
                             <br />
-                            {' '}
                             <PickDate startDate={this.state.diagnosisDate} handleChange={this._handleDiagnosisDateChange} />
-                            {' '}
                             <br />
                             <br />
                             <label htmlFor="diagnosis">Diagnosis:</label>
                             <br />
-                            {' '}
                             <SelectField name="diagnosis" value={this.state['diagnosis']} options={this.props.diagnosesfields} handler={this._handleChange} />
-                            {' '}
                             <br />
                             <br />
                             {this.state.error
