@@ -218,7 +218,7 @@ class OneComorbidity extends Component {
             >
                 {
                     editing
-                        ? <>
+                        ? <div>
                             <div className={style.editInterruption}>
                                 <label>ICD11: </label>
                                 <ICD11Picker value={comorbidity} onChange={this._handleValueChange} />
@@ -233,17 +233,17 @@ class OneComorbidity extends Component {
                             <br />
                             <br />
                             <button onClick={this._handleEditClick}>Cancel</button>
-                        </>
+                        </div>
                         : <>
-                            {comorbidity_original
-                                ? <>
-                                    <label alt={icd11_Hash[0][comorbidity_original].name}>ICD11: </label>
-                                    {' '}
-                                    {icd11_Hash[0][comorbidity_original].name}
-                                    {' '}
-                                    <br />
-                                </>
-                                : null}
+                            <div style={{ flexGrow: 1 }}>
+                                {comorbidity_original
+                                    ? <>
+                                        <label alt={icd11_Hash[0][comorbidity_original].name}>ICD11: </label>
+                                        {icd11_Hash[0][comorbidity_original].name}
+                                        <br />
+                                    </>
+                                    : null}
+                            </div>
                             <DeleteButton clickhandler={() => this._handleClickDelete(data)} />
                             <span title="Edit" onClick={this._handleEditClick} className={style.dataEdit}><Icon symbol="edit" /></span>
                         </>

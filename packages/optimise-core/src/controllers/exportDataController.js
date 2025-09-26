@@ -68,7 +68,7 @@ class ExportDataController {
                 .then(filesArray => res.status(200).zip(filesArray, `${attachmentName}.zip`))
                 .catch(error => res.status(404).zip([ExportDataController.createErrorFile(message.errorMessages.NOTFOUND.concat(` ${error}`))], `${attachmentName}.zip`));
         }
- else {
+        else {
             if (typeof query.field === 'string')
                 queryfield = query.field;
             else if (query.field !== undefined)
@@ -475,7 +475,7 @@ class ExportDataController {
                     });
                 });
             }
- catch (e) {
+            catch (e) {
                 console.error(e);
             }
         }

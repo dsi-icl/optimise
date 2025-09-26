@@ -25,7 +25,6 @@ export class RemoteControl extends Component {
             return (
                 <div className={style.initial_question}>
                     If you allow remote control, the software team at DSI-ICL can request actions OptimiseMS on your computer.
-                    {' '}
                     <br />
                     <br />
                     Do you want to proceed?

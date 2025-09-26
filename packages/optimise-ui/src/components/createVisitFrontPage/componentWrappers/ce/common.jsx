@@ -89,21 +89,15 @@ export class EventCreatedMessage extends Component {
                 <p>Please enter related data on the opposite panel for the following event:</p>
                 <br />
                 <p>
-                    <b>Date:</b>
-                    {' '}
-                    {dateOccur}
+                    <b>Date:</b> {dateOccur}
                 </p>
                 <p>
-                    <b>Type:</b>
-                    {' '}
-                    {typeHash[currentEvent.type]}
+                    <b>Type:</b> {typeHash[currentEvent.type]}
                 </p>
                 {
                     currentEvent.meddra
                         ? <p>
-                            <b>Meddra:</b>
-                            {' '}
-                            {meddraHash[currentEvent.meddra]}
+                            <b>Meddra:</b> {meddraHash[currentEvent.meddra]}
                         </p>
                         : null
                 }
@@ -112,7 +106,6 @@ export class EventCreatedMessage extends Component {
                 <p>You can also record another entry:</p>
                 <br />
                 <NavLink to={`/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${currentPage}${this.props.location.search}`}>
-                    {' '}
                     <button>Record another entry</button>
                 </NavLink>
             </div>

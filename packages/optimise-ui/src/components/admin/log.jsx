@@ -68,9 +68,7 @@ export class LogEntry extends PureComponent { /* consider mapping the endpoints 
         return (
             <div className={style.logCard}>
                 <b>Id: </b>
-                {' '}
                 <pre className={style.actionOther}>{el.id}</pre>
-                {' '}
                 <br />
                 <b>User: </b>
                 <pre className={style.actionOther}>{el.user}</pre>
@@ -79,7 +77,6 @@ export class LogEntry extends PureComponent { /* consider mapping the endpoints 
                 <pre className={style.actionOther}>{el.createdTime}</pre>
                 <br />
                 <b>Action: </b>
-                {' '}
                 <pre className={style.actionOther}>{`${el.method} ${el.router}`}</pre>
                 <br />
                 {Object.keys(JSON.parse(el.body)).length > 0

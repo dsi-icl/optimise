@@ -64,11 +64,11 @@ class ComorbidityController {
                 return false;
             });
         }
- else if (!body.hasOwnProperty('id')) {
+        else if (!body.hasOwnProperty('id')) {
             res.status(400).send(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
         }
- else {
+        else {
             res.status(400).send(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }
@@ -84,7 +84,7 @@ class ComorbidityController {
                 return false;
             });
         }
- else {
+        else {
             res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }

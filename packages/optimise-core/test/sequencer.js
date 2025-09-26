@@ -2,7 +2,6 @@ const TestSequencer = require('@jest/test-sequencer').default;
 
 class CustomSequencer extends TestSequencer {
     sort(tests) {
-        // console.log('tester', tests);
         const orderPath = ['visitController.test.js', 'pregnancyController.test.js'];
         return tests.sort((testA, testB) => {
             const indexA = orderPath.findIndex(path => testA.path.includes(path));

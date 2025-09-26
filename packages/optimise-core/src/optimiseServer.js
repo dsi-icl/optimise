@@ -33,6 +33,7 @@ import MeddraRoute from './routes/meddraRoute';
 import MeddraController from './controllers/meddraController';
 import ICD11Controller from './controllers/icd11Controller';
 import PatientDiagnosisRoute from './routes/patientDiagnosisRoute';
+import SubStudyPregRoute from './routes/subStudyPregRoute';
 import SyncRoute from './routes/syncRoute';
 
 const csrfHandle = csrf();
@@ -158,6 +159,7 @@ class OptimiseServer {
                 _this.setupMeddra();
                 _this.setupICD11();
                 _this.setupConcomitantMeds();
+                _this.setupSubStudyPreg();
 
                 _this.app.all('/*', (__unused__req, res) => {
                     res.status(400);
@@ -379,6 +381,14 @@ class OptimiseServer {
      */
     setupSync() {
         this.app.use('/sync', SyncRoute);
+    }
+
+    /**
+     * @fn setupSubStudyPreg
+     * @desc Initialize the pregnancy sub-study related routes
+     */
+    setupSubStudyPreg() {
+        this.app.use('/subStudyPreg', SubStudyPregRoute);
     }
 }
 

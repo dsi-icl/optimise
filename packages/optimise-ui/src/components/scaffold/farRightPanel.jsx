@@ -3,8 +3,6 @@ import { Route, Switch } from 'react-router-dom';
 import { CreatePatient } from '../createPatient';
 import { Section } from '../patientProfile/patientProfile';
 import { DataPageRouter } from '../medicalData/router';
-import { OffspringsPageRouter } from '../offspringsData/router';
-import { PregnancyPageRouter } from '../pregnanciesData/router';
 import { CreateVisit } from '../createMedicalElements/createVisit';
 import { CreateElementRouter } from '../createMedicalElements/router';
 import { EditElementRouter } from '../editMedicalElements/router';
@@ -14,6 +12,8 @@ import { UserCreate } from '../admin/userCreatePage';
 import { UserDetail } from '../admin/userDetailPage';
 import { UserActions } from '../admin/userActions';
 import { UserManualMenu } from '../userManual';
+import { PregnancyDataEdit } from '../subStudyPreg/prengancyEdit';
+import { OffspringDataEdit } from '../subStudyPreg/offspringEdit';
 import style from './scaffold.module.css';
 
 export default class FarRightPanel extends Component {
@@ -21,8 +21,11 @@ export default class FarRightPanel extends Component {
         return (
             <div className={style.farRightPanel}>
                 <Switch>
-                    <Route path="/patientProfile/:patientId/pregnancy" render={({ match }) => <PregnancyPageRouter match={match} />} />
-                    <Route path="/patientProfile/:patientId/offsprings" render={({ match }) => <OffspringsPageRouter match={match} />} />
+                    <Route path="/subStudyPreg/:patientNumber/add" render={({ match }) => <PregnancyDataEdit match={match} />} />
+                    <Route path="/subStudyPreg/:patientNumber/:pregnancyId/edit" render={({ match }) => <PregnancyDataEdit key={match.params.pregnancyId} match={match} />} />
+                    <Route path="/subStudyPreg/:patientNumber/:pregnancyId/add" render={({ match }) => <OffspringDataEdit match={match} />} />
+                    <Route path="/subStudyPreg/:patientNumber/:pregnancyId/:offspringId/edit" render={({ match }) => <OffspringDataEdit key={match.params.offspringId} match={match} />} />
+                    <Route path="/subStudyPreg/:patientNumber" render={() => null} />
                     <Route path="/patientProfile/:patientId/create/:type" render={({ match }) => <CreateElementRouter match={match} />} />
                     <Route path="/patientProfile/:patientId/edit/:elementType/:elementId" render={({ match }) => <EditElementRouter match={match} />} />
                     <Route path="/patientProfile/:patientId/data/:elementType/:elementId" render={({ match }) => <DataPageRouter match={match} />} />

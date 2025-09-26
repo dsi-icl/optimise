@@ -4,6 +4,7 @@ import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { HelmetProvider } from 'react-helmet-async';
 import { Router } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import App from './application';
 import store from './redux/store';
 import history from './redux/history';
@@ -19,13 +20,16 @@ if (window && window.process && typeof window.process.on === 'function') {
     });
 }
 
+const queryClient = new QueryClient();
 const container = document.getElementById('root');
 const rootStruct = (
     <StrictMode>
         <Provider store={store}>
             <Router history={history}>
                 <HelmetProvider>
-                    <App />
+                    <QueryClientProvider client={queryClient}>
+                        <App />
+                    </QueryClientProvider>
                 </HelmetProvider>
             </Router>
         </Provider>

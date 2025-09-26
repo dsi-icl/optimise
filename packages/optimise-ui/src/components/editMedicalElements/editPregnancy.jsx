@@ -338,7 +338,7 @@ class OnePregnancy extends Component {
             >
                 {
                     editing
-                        ? <>
+                        ? <div>
                             <div className={style.editInterruption}>
                                 <label>Start date: </label>
                                 <PickDate startDate={startDate} handleChange={this._handleStartDateChange} />
@@ -376,39 +376,26 @@ class OnePregnancy extends Component {
                             <br />
                             <br />
                             <button onClick={this._handleEditClick}>Cancel</button>
-                        </>
+                        </div>
                         : <>
-                            <label>Start date: </label>
-                            {' '}
-                            {startDate_original._d.toDateString()}
-                            {' '}
-                            <br />
-                            {outcomeDate_original
-                                ? <>
-                                    <label>End date: </label>
-                                    {' '}
-                                    {outcomeDate_original._d.toDateString()}
-                                    <br />
-                                </>
-                                : null}
-                            {outcome_original !== 'unselected'
-                                ? <>
-                                    <label>Outcome: </label>
-                                    {' '}
-                                    {pregnancyOutcomes.filter(ele => ele.id === outcome_original)[0].value}
-                                    {' '}
-                                    <br />
-                                </>
-                                : null}
-                            {meddra_original
-                                ? <>
-                                    <label>MedDRA: </label>
-                                    {' '}
-                                    {meddra_Hash[0][meddra_original].name}
-                                    {' '}
-                                    <br />
-                                </>
-                                : null}
+                            <div style={{ flexGrow: 1 }}>
+                                <label>Start date: </label>{startDate_original._d.toDateString()}<br />
+                                {outcomeDate_original
+                                    ? <>
+                                        <label>End date: </label>{outcomeDate_original._d.toDateString()}<br />
+                                    </>
+                                    : null}
+                                {outcome_original !== 'unselected'
+                                    ? <>
+                                        <label>Outcome: </label>{pregnancyOutcomes.filter(ele => ele.id === outcome_original)[0].value}<br />
+                                    </>
+                                    : null}
+                                {meddra_original
+                                    ? <>
+                                        <label>MedDRA: </label>{meddra_Hash[0][meddra_original].name}<br />
+                                    </>
+                                    : null}
+                            </div>
                             <DeleteButton clickhandler={() => this._handleClickDelete(data)} />
                             <span title="Edit" onClick={this._handleEditClick} className={style.dataEdit}><Icon symbol="edit" /></span>
                         </>

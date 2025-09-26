@@ -18,11 +18,7 @@ class StatusBar extends Component {
         const { username, fetching, adminPriv } = this.props;
         return (
             <div className={style.statusBar} style={{ visibility: (username !== '' && fetching !== true) ? 'visible' : 'hidden' }}>
-                <span>
-                    {' '}
-                    Logged in as
-                    {username}
-                </span>
+                <span> Logged in as {username}</span>
                 {adminPriv === 1
                     ? <SyncIndicator></SyncIndicator>
                     : null}
@@ -30,10 +26,7 @@ class StatusBar extends Component {
                     <NavLink to="/remoteControl">
                         <span className={style.remote_button}>Remote</span>
                     </NavLink>
-                    <span>
-                        OptimiseMS v
-                        {version}
-                    </span>
+                    <span> OptimiseMS v{version}</span>
                 </div>
             </div>
         );

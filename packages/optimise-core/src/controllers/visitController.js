@@ -125,7 +125,7 @@ class VisitController {
      */
     static createReport({ body, user }, res) {
         if (body.hasOwnProperty('visit') && body.hasOwnProperty('report')
-          && typeof body.visit === 'number' && typeof body.report === 'string') {
+            && typeof body.visit === 'number' && typeof body.report === 'string') {
             const newEntry = {};
             newEntry.visit = body.visit;
             newEntry.report = body.report;
@@ -142,7 +142,7 @@ class VisitController {
             res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
         }
- else {
+        else {
             res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }
@@ -164,11 +164,11 @@ class VisitController {
                 return false;
             });
         }
- else if (body.hasOwnProperty('id')) {
+        else if (body.hasOwnProperty('id')) {
             res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }
- else {
+        else {
             res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
         }
@@ -194,11 +194,11 @@ class VisitController {
                 return false;
             });
         }
- else if (!body.hasOwnProperty('id')) {
+        else if (!body.hasOwnProperty('id')) {
             res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
         }
- else {
+        else {
             res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }

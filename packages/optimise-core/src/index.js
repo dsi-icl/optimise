@@ -9,6 +9,13 @@ let web_app;
 let web_server;
 let optimise_server = new OptimiseServer(config);
 
+
+if (typeof process !== 'undefined' && typeof process.on === 'function') {
+    process.on('uncaughtException', function (error) {
+        console.error('Something went really wrong', error);
+    });
+}
+
 const setup = () => {
     web_app = express();
     // Remove unwanted express headers

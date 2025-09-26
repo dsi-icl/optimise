@@ -8,11 +8,7 @@ export default class LocalHelmet extends Component {
         return (
             <Helmet>
                 <title>
-                    {appInfo.productName || 'Optimise MS'}
-                    {' '}
-                    :
-                    {' '}
-                    {title}
+                    {appInfo.productName || 'Optimise MS'} : {title}
                 </title>
                 <meta name="description" content={description} />
             </Helmet>

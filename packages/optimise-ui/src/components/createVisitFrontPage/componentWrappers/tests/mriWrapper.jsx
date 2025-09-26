@@ -68,9 +68,7 @@ class MRITestCreatedMessage extends Component {
                 <p>Please enter MRI results on the opposite panel for the following MRI session:</p>
                 <br />
                 <p>
-                    <b>Date:</b>
-                    {' '}
-                    {dateOccur}
+                    <b>Date:</b> {dateOccur}
                 </p>
 
                 <br />
@@ -78,7 +76,6 @@ class MRITestCreatedMessage extends Component {
                 <p>You can also record another MRI session (only if it is from a different date):</p>
                 <br />
                 <NavLink to={`/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${currentPage}${this.props.location.search}`}>
-                    {' '}
                     <button>Create another test</button>
                 </NavLink>
             </div>

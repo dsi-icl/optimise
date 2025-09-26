@@ -22,7 +22,7 @@ class PatientPiiController {
                 return false;
             });
         }
- else {
+        else {
             res.status(400).json(ErrorHelper(messages.userError.WRONGARGUMENTS));
             return;
         }
@@ -30,7 +30,7 @@ class PatientPiiController {
 
     static createPatientPii({ body, user }, res) {
         if (body.hasOwnProperty('patient') && body.hasOwnProperty('firstName') && body.hasOwnProperty('surname') && body.hasOwnProperty('fullAddress') && body.hasOwnProperty('postcode')
-          && typeof body.patient === 'number' && typeof body.firstName === 'string' && typeof body.surname === 'string' && typeof body.fullAddress === 'string' && typeof body.postcode === 'string') {
+            && typeof body.patient === 'number' && typeof body.firstName === 'string' && typeof body.surname === 'string' && typeof body.fullAddress === 'string' && typeof body.postcode === 'string') {
             const entryObj = Object.assign({}, PatientPiiModel, body);
             entryObj.createdByUser = user.id;
             PatientPiiCore.createPatientPii(entryObj).then((result) => {
@@ -41,11 +41,11 @@ class PatientPiiController {
                 return false;
             });
         }
- else if (!(body.hasOwnProperty('patient') && body.hasOwnProperty('firstName') && body.hasOwnProperty('surname') && body.hasOwnProperty('fullAddress') && body.hasOwnProperty('postcode'))) {
+        else if (!(body.hasOwnProperty('patient') && body.hasOwnProperty('firstName') && body.hasOwnProperty('surname') && body.hasOwnProperty('fullAddress') && body.hasOwnProperty('postcode'))) {
             res.status(400).json(ErrorHelper(messages.userError.MISSINGARGUMENT));
             return;
         }
- else {
+        else {
             res.status(400).json(ErrorHelper(messages.userError.WRONGARGUMENTS));
             return;
         }
@@ -63,11 +63,11 @@ class PatientPiiController {
                 return false;
             });
         }
- else if (!body.hasOwnProperty('id')) {
+        else if (!body.hasOwnProperty('id')) {
             res.status(400).json(ErrorHelper(messages.userError.MISSINGARGUMENT));
             return;
         }
- else {
+        else {
             res.status(400).json(ErrorHelper(messages.userError.WRONGARGUMENTS));
             return;
         }
@@ -83,11 +83,11 @@ class PatientPiiController {
                 return false;
             });
         }
- else if (!body.hasOwnProperty('id')) {
+        else if (!body.hasOwnProperty('id')) {
             res.status(400).json(ErrorHelper(messages.userError.MISSINGARGUMENT));
             return;
         }
- else {
+        else {
             res.status(400).json(ErrorHelper(messages.userError.WRONGARGUMENTS));
             return;
         }

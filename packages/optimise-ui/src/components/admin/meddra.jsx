@@ -54,7 +54,6 @@ class Meddra extends Component {
                 <br />
                 <br />
                 The coding is provided in multiple files. &quot;mdhier.asc&quot; contains the hierarchy for SOC, HLGT, HLT, and PT codings. &quot;llt.asc&quot; contains the coding for LLT.
-                {' '}
                 <br />
                 <br />
                 <br />
@@ -75,20 +74,13 @@ class Meddra extends Component {
                             <br />
                             <br />
                             <form>
-                                Select
-                                {' '}
-                                <b>mdhier.asc</b>
-                                {' '}
-                                file:
+                                Select <b>mdhier.asc</b> file:
                                 <input type="file" name="mdhierfile" accept=".asc" ref={this.hierRef} onChange={this.handleFileAdded} />
                                 {this.state.lltFileExists === '1'
                                     ? <>
                                         <br />
                                         <br />
-                                        Select
-                                        <b>llt.asc</b>
-                                        {' '}
-                                        file
+                                        Select <b>llt.asc</b> file:
                                         <input type="file" name="lltfile" accept=".asc" ref={this.lltRef} onChange={this.handleFileAdded} />
                                     </>
                                     : null}

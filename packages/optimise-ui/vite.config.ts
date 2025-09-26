@@ -4,12 +4,13 @@ import mdx from '@mdx-js/rollup';
 import rehypeRaw from 'rehype-raw';
 import rehypeMdxImportMedia from 'rehype-mdx-import-media';
 import react from '@vitejs/plugin-react-swc';
-// import tailwindcss from '@tailwindcss/vite';
+import tailwindcss from '@tailwindcss/vite';
 
 /* @type {import('vite').UserConfig} */
 export default defineConfig({
     base: '/',
     plugins: [
+        tailwindcss(),
         babel({
             babelConfig: {
                 compact: process.env.NODE_ENV === 'production',
@@ -40,7 +41,6 @@ export default defineConfig({
                 rehypeMdxImportMedia
             ]
         }),
-        // tailwindcss(),
         {
             name: 'markdown-loader',
             transform(code, id) {

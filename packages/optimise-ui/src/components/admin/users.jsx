@@ -48,18 +48,9 @@ export class UserEntry extends PureComponent { /* consider mapping the endpoints
         return (
             <NavLink to={`/administration/users/${el.id}`}>
                 <div className={style.clickable}>
-                    <b>Username: </b>
-                    {' '}
-                    {el.username}
-                    <br />
-                    <b>Real name: </b>
-                    {el.realname}
-                    {' '}
-                    <br />
-                    <b>Email: </b>
-                    {el.email}
-                    {' '}
-                    <br />
+                    <b>Username: </b>{el.username}<br />
+                    <b>Real name: </b>{el.realname}<br />
+                    <b>Email: </b>{el.email}<br />
                 </div>
             </NavLink>
         );

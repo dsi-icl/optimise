@@ -128,11 +128,11 @@ class DataController {
         if (optionsContainer.hasOwnProperty(`${req.params.dataType}`)) {
             const options = optionsContainer[req.params.dataType];
             if (!(req.body.hasOwnProperty(`${options.entryIdString}`)
-              && (req.body.hasOwnProperty('add') || req.body.hasOwnProperty('update')))) {
+                && (req.body.hasOwnProperty('add') || req.body.hasOwnProperty('update')))) {
                 res.status(400).json(ErrorHelper(message.dataMessage.MISSINGVALUE + options.entryIdString));
                 return;
             }
- else {
+            else {
                 const entries = DataController._formatEntries(options, req);
                 entries.entryId = req.body[options.entryIdString];
                 if (!req.body.hasOwnProperty('update')) { req.body.update = {}; } // adding an empty obj so that the code later doesn't throw error for undefined
@@ -219,7 +219,7 @@ class DataController {
                     });
             }
         }
- else {
+        else {
             res.status(404).json(ErrorHelper(message.userError.WRONGPATH));
         }
     }

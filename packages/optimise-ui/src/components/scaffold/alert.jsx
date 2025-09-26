@@ -31,7 +31,6 @@ class AlertMessage extends Component {
                 <div className={style.errorMessage}>
                     <div className={style.alertMessageDialogBox}>
                         <span><b>CAREFUL!</b></span>
-                        {' '}
                         <span onClick={this._handleCancel} className={style.cancelButton}>&#10006;</span>
                         <br />
                         <br />

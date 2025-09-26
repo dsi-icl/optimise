@@ -285,12 +285,7 @@ class EDSSCalculator extends Component {
                                 {this.state.currentHoverMeasure
                                     ? currentEDSSObject.labels.split('@').map((e, i) => (
                                         <Fragment key={i}>
-                                            <span className={this.state.currentHoverPower === i ? style.currentHoverPower : ''}>
-                                                {i}
-                                                .
-                                                {' '}
-                                                {e}
-                                            </span>
+                                            <span className={this.state.currentHoverPower === i ? style.currentHoverPower : ''}>{i} . {e}</span>
                                             <br />
                                         </Fragment>
                                     ))

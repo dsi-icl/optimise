@@ -132,21 +132,16 @@ class TreatmentCreatedMessage extends Component {
 
                 <br />
                 <p>
-                    <b>Drug:</b>
-                    {' '}
-                    {drugHash[currentTreatment.drug] && drugHash[currentTreatment.drug].name}
+                    <b>Drug:</b> {drugHash[currentTreatment.drug] && drugHash[currentTreatment.drug].name}
                 </p>
                 <p>
-                    <b>Date:</b>
-                    {' '}
-                    {dateOccur}
+                    <b>Date:</b> {dateOccur}
                 </p>
                 <br />
                 <br />
                 <p>You can also record another treatment:</p>
                 <br />
                 <NavLink to={`/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${currentPage}${this.props.location.search}`}>
-                    {' '}
                     <button>Record another treatment</button>
                 </NavLink>
             </div>

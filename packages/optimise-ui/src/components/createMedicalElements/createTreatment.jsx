@@ -170,7 +170,6 @@ class CreateTreatment extends Component {
                         <br />
                         <label htmlFor="dose">Dose:</label>
                         <br />
-                        {' '}
                         <input disabled={this.state.unit === 'na'} value={this.state.unit === 'na' ? 'N/A' : this.state.dose} onChange={this._handleInputChange} name="dose" type="text" autoComplete="off" />
                         <br />
                         <br />

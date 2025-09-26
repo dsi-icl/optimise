@@ -159,7 +159,6 @@ class PatientButton extends PureComponent {
                         )
                         : (
                             <>
-                                {' '}
                                 {data.aliasId}
                             </>
                         )}
@@ -170,16 +169,11 @@ class PatientButton extends PureComponent {
             <Link key={data.aliasId} to={`/patientProfile/${data.aliasId}`} className={style.searchItem}>
                 <div>
                     {styledName}
-                    {' '}
                     <br />
                     <br />
                     <span>
-                        study: optimise
-                        {' '}
-                        <br />
-                        consent:
-                        {' '}
-                        {data.optimiseConsent ? 'yes' : 'no'}
+                        study: optimise<br />
+                        consent: {data.optimiseConsent ? 'yes' : 'no'}
                     </span>
                 </div>
             </Link>

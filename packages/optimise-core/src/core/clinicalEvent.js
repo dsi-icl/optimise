@@ -23,7 +23,6 @@ class ClinicalEvent {
     /**
      * @function createClinicalEvent add a new entry of clinicalEvent
      *
-     * @param {user} user Information about the user
      * @param {ClinicalEventModel} ce The added clinicalEvent
      *
      * @returns a new Promise
@@ -39,7 +38,7 @@ class ClinicalEvent {
      * @function updateClinicalEvent delete an entry of clinicalEvent from an ID.
      *
      * @param {*} user Information about the user
-     * @param {*} idObj ID of the entry that is going to be deleted
+     * @param {*} clinicalEvent ID of the entry that is going to be deleted
      */
     static updateClinicalEvent(user, clinicalEvent) {
         return new Promise((resolve, reject) => updateEntry('CLINICAL_EVENTS', user, '*', { id: clinicalEvent.id }, clinicalEvent).then(success => resolve(success)).catch(error => reject(ErrorHelper(message.errorMessages.DELETEFAIL, error))));

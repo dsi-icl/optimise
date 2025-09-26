@@ -87,9 +87,7 @@ class EditMed extends Component {
                                 </>
                                 : <>
                                     <button onClick={this._handleWannaUpdateClick}>Change treatment, dose, form or frequency</button>
-                                    {' '}
                                     <br />
-                                    {' '}
                                     <br />
                                 </>}
                             <button onClick={this._handleClick} className={style.deleteButton}>Delete this treatment</button>
