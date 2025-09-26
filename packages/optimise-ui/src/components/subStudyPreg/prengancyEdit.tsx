@@ -114,7 +114,6 @@ export const PregnancyDataEdit: FC<RouteComponentProps<{
             e.stopPropagation()
             form.handleSubmit()
         }}
-        onChange={() => console.log('form change', form.state.values)}
         className="flex flex-col gap-4"
     >
         <div>
