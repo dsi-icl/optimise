@@ -43,9 +43,9 @@
 
 * {
     color: inherit;
-    padding: 0;
-    margin: 0;
-    border: 0;
+    /* padding: 0; */
+    /* margin: 0; */
+    /* border: 0; */
     box-sizing: border-box;
     white-space: normal;
     text-decoration: none;
@@ -150,6 +150,27 @@ button {
 
 button:hover {
     background-color: hsl(var(--color-accent-h), var(--color-accent-s), calc(var(--color-accent-l) * 1.05));
+}
+
+button[data-active='true'],
+button[data-state='active'],
+button:active {
+    background-color: var(--color-active-nav);
+}
+
+
+button[data-active='true']:hover,
+button[data-state='active']:hover,
+button:active:hover {
+    background-color: hsl(var(--color-active-nav-h), var(--color-active-nav-s), calc(var(--color-active-nav-l) * 1.3));
+}
+
+
+button:disabled,
+button[disabled] {
+    background-color: hsl(var(--color-background-h), var(--color-background-s), 90%);
+    color: hsl(var(--color-background-h), var(--color-background-s), 60%);
+    cursor: not-allowed;
 }
 
 label {

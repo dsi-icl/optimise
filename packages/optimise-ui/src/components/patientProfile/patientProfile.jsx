@@ -454,6 +454,16 @@ class Pregnancy extends Component {
                 return null;
         }
 
+        // TODO Review this. Disabling explicitly the panel when consenting to the sub study
+        if (this.props.data.pregnancySubStudyConsent) {
+            return <PatientProfileSectionScaffold
+                sectionName="Pregnancies"
+            >
+                <i>The participant is enrolled in the OptimiseMS pregnancy sub-study. Please see the dedicated dashboard.</i><br />
+                <Link to={`/subStudyPreg/${this.props.data.patientId}`} className={style.piiUncover}>Go to the pregnancies</Link>
+            </PatientProfileSectionScaffold>;
+        }
+
         if (this.props.data.demographicData) {
             if (this.props.data.pregnancy.length === 0) {
                 return (
@@ -515,10 +525,7 @@ class Pregnancy extends Component {
                         </>
                         : null}
                     {this.props.data.pregnancySubStudyConsent
-                        ? <Link to={`/patientProfile/${this.props.data.patientId}/pregnancy`} className={style.piiUncover}>See pregnancies</Link>
-                        : null}
-                    {this.props.data.pregnancySubStudyConsent
-                        ? <Link to={`/patientProfile/${this.props.data.patientId}/offsprings`} className={style.piiUncover}>See offsprings</Link>
+                        ? <Link to={`/subStudyPreg/${this.props.data.patientId}`} className={style.piiUncover}>See pregnancies</Link>
                         : null}
                 </>
 

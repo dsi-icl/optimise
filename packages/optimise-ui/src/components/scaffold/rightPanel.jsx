@@ -6,6 +6,7 @@ import { SearchPatient } from '../searchPatient';
 import { UserManual } from '../userManual';
 import { AdminActions } from '../admin/actions';
 import { FilterPanel } from '../filterPatient/selectPanel';
+import { PregnancySubStudyIndex } from '../subStudyPreg';
 import style from './scaffold.module.css';
 
 export default class RightPanel extends Component {
@@ -19,6 +20,9 @@ export default class RightPanel extends Component {
                             <AdminActions location={location.pathname} match={match} />}
                     />
                     <Route path="/createPatient" component={SearchPatient} />
+                    <Route path="/subStudyPreg/:patientNumber/:pregnancyId/:offspringId" component={PregnancySubStudyIndex} />
+                    <Route path="/subStudyPreg/:patientNumber/:pregnancyId" component={PregnancySubStudyIndex} />
+                    <Route path="/subStudyPreg/:patientNumber" component={PregnancySubStudyIndex} />
                     <Route
                         path="/patientProfile/:patientId"
                         render={({ match, location }) =>
