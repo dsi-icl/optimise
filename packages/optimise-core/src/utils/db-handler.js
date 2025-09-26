@@ -5,7 +5,7 @@ import fs from 'fs';
 
 // Current level of the DB
 // This field is to be updated with subsequent versions of the DB
-const CURRENT_VERSION = 23;
+const CURRENT_VERSION = 24;
 
 export async function migrate() {
     // Verify the OPT_KV configuration table exists
