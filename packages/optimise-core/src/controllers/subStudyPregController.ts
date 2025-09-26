@@ -25,7 +25,7 @@ class SubStudyPregController {
                 return false;
             });
         }
- catch (error) {
+        catch (error) {
             res.status(400).json(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
             return false;
         }
@@ -53,7 +53,7 @@ class SubStudyPregController {
                 return false;
             });
         }
- catch (error) {
+        catch (error) {
             res.status(400).json(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
             return false;
         }
@@ -78,7 +78,7 @@ class SubStudyPregController {
                 return false;
             });
         }
- catch (error) {
+        catch (error) {
             res.status(400).json(ErrorHelper(message.errorMessages.GETFAIL, error));
             return false;
         }
@@ -104,7 +104,7 @@ class SubStudyPregController {
                 return false;
             });
         }
- catch (error) {
+        catch (error) {
             res.status(400).json(ErrorHelper(message.errorMessages.GETFAIL, error));
             return false;
         }
@@ -132,7 +132,7 @@ class SubStudyPregController {
                 return false;
             });
         }
- catch (error) {
+        catch (error) {
             res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL, error));
             return false;
         }
@@ -158,7 +158,7 @@ class SubStudyPregController {
                 return false;
             });
         }
- catch (error) {
+        catch (error) {
             res.status(400).json(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
             return false;
         }
@@ -186,7 +186,7 @@ class SubStudyPregController {
                 return false;
             });
         }
- catch (error) {
+        catch (error) {
             res.status(400).json(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
             return false;
         }
@@ -207,7 +207,7 @@ class SubStudyPregController {
                 return false;
             });
         }
- catch (error) {
+        catch (error) {
             res.status(400).json(ErrorHelper(message.errorMessages.GETFAIL, error));
             return false;
         }
@@ -230,7 +230,7 @@ class SubStudyPregController {
                 return false;
             });
         }
- catch (error) {
+        catch (error) {
             res.status(400).json(ErrorHelper(message.errorMessages.GETFAIL, error));
             return false;
         }
@@ -257,7 +257,7 @@ class SubStudyPregController {
                 return false;
             });
         }
- catch (error) {
+        catch (error) {
             res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL, error));
             return false;
         }

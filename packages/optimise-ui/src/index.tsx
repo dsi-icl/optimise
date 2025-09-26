@@ -20,7 +20,7 @@ if (window && window.process && typeof window.process.on === 'function') {
     });
 }
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient();
 const container = document.getElementById('root');
 const rootStruct = (
     <StrictMode>

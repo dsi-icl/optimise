@@ -26,7 +26,7 @@ export const OffspringDataEdit: FC<RouteComponentProps<{
     const isAdd = match.path.endsWith('/add');
     const { patientNumber, pregnancyId, offspringId } = match.params;
     const { push } = useHistory();
-    const [patientId, setPatientId] = useState<number | null>(null);
+    const [, setPatientId] = useState<number | null>(null);
     usePatientInStore(patientNumber, setPatientId)
 
     const { data: offspring, isLoading, refetch } = useQuery({
