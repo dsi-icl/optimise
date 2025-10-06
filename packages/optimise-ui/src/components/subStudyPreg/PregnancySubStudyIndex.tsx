@@ -39,7 +39,7 @@ export const PregnancySubStudyIndex: FC<RouteComponentProps<{
     const { data: pregnanciesRaw, isLoading, isEnabled, isError, error } = usePregnancies(patientId);
 
     useEffect(() => {
-        if (pregnancyId)
+        if (pregnancyId && pregnancyId !== 'old')
             setSelectedPregnancyTab(`pregnancy-${pregnancyId}`);
         else
             setSelectedPregnancyTab('fallback');
@@ -104,6 +104,7 @@ export const PregnancySubStudyIndex: FC<RouteComponentProps<{
     return wrapHeader(<Tabs.Root defaultValue="fallback" orientation="vertical" value={selectedPregnancyTab} onValueChange={(tab) => {
         push(`/subStudyPreg/${patientNumber}/${tab.replace('pregnancy-', '')}`)
     }}>
+        <Link to={`/subStudyPreg/${patientNumber}/old`} className="text-blue-500 block underline mb-3" style={{ textDecoration: 'underline' }}>Consult the list of previous pregnancies record</Link>
         <Tabs.List aria-label="Pregnancies" className="flex flex-row gap-2 pb-1 mb-4 overflow-auto">
             {pregnancies.map((pregnancy, index) => <Tabs.Trigger title={`Pregnancy ${index + 1} (ID:${pregnancy.id})`} key={pregnancy.id} value={`pregnancy-${pregnancy.id}`} className={`flex-none text-start`} data-active={selectedPregnancyTab === pregnancy.id} style={{ width: 'auto', height: '3.3rem', padding: '0 1rem' }}>
                 <div>

@@ -17,6 +17,7 @@ export type PregnancyFieldShape = {
     referenceType: number | null;
     laterality: string | null;
     cdiscName: string | null;
+    deleted: string;
 }
 
 export function FieldInfo({ field }: { field: AnyFieldApi }) {
@@ -54,11 +55,7 @@ export const formFieldsTypeMapper = (pregnancyField: PregnancyFieldShape, formFi
             // step="1"
             value={formField.state.value}
             onBlur={formField.handleBlur}
-            onChange={(e) => {
-                // For text and number only we consider that empty is undefined
-                const finalValue = e.target.value === '' ? undefined : e.target.value;
-                formField.handleChange(finalValue)
-            }}
+            onChange={(e) => formField.handleChange(e.target.value)}
         />
     }
 
@@ -66,7 +63,7 @@ export const formFieldsTypeMapper = (pregnancyField: PregnancyFieldShape, formFi
     switch (commutator) {
         case 'B': // 5
             return wrapLabel(<>
-                <input ref={fieldElementRef} id={formField.name} type="checkbox" style={{ display: 'none' }} checked={formField.state.value} onChange={() => null} />
+                <input ref={fieldElementRef} id={formField.name} type="checkbox" style={{ display: 'none' }} disabled checked={formField.state.value} onChange={() => null} />
                 <button
                     className={formField.state.value ? "bg-amber-700" : "bg-amber-300"}
                     onBlur={formField.handleBlur}
@@ -98,7 +95,7 @@ export const formFieldsTypeMapper = (pregnancyField: PregnancyFieldShape, formFi
                 selected={formField.state.value}
                 dateFormat="dd/MM/yyyy"
                 onBlur={formField.handleBlur}
-                onChange={(date) => formField.handleChange(date?.toISOString())}
+                onChange={(date) => formField.handleChange(date?.toISOString() ?? '')}
             />)
         default: // 3
             return wrapLabel(inputField())

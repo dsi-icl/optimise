@@ -12,6 +12,7 @@ import { UserCreate } from '../admin/userCreatePage';
 import { UserDetail } from '../admin/userDetailPage';
 import { UserActions } from '../admin/userActions';
 import { UserManualMenu } from '../userManual';
+import { EditPregnancies } from '../editMedicalElements';
 import { PregnancyDataEdit } from '../subStudyPreg/prengancyEdit';
 import { OffspringDataEdit } from '../subStudyPreg/offspringEdit';
 import style from './scaffold.module.css';
@@ -22,6 +23,7 @@ export default class FarRightPanel extends Component {
             <div className={style.farRightPanel}>
                 <Switch>
                     <Route path="/subStudyPreg/:patientNumber/add" render={({ match }) => <PregnancyDataEdit match={match} />} />
+                    <Route path="/subStudyPreg/:patientNumber/old" render={({ match, location }) => <EditPregnancies match={match} location={location} readOnly={true} />} />
                     <Route path="/subStudyPreg/:patientNumber/:pregnancyId/edit" render={({ match }) => <PregnancyDataEdit key={match.params.pregnancyId} match={match} />} />
                     <Route path="/subStudyPreg/:patientNumber/:pregnancyId/add" render={({ match }) => <OffspringDataEdit match={match} />} />
                     <Route path="/subStudyPreg/:patientNumber/:pregnancyId/:offspringId/edit" render={({ match }) => <OffspringDataEdit key={match.params.offspringId} match={match} />} />
