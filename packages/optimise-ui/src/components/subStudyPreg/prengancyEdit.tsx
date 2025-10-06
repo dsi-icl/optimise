@@ -1,4 +1,4 @@
-import { FC, ReactNode, useState } from "react";
+import { FC, ReactNode, useMemo, useState } from "react";
 import { RouteComponentProps, useHistory } from "react-router-dom";
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { BackButton } from '../medicalData/utils';
@@ -22,6 +22,8 @@ export const PregnancyDataEdit: FC<RouteComponentProps<{
     usePregnancyFields(patientNumber, ([fields]) => setFields(fields));
     const [patientId, setPatientId] = useState<number | null>(null);
     usePatientInStore(patientNumber, setPatientId)
+
+    const nonDeletedFields = useMemo(() => fields?.filter((f) => f.deleted === '-'), [fields]);
 
     const { data: pregnancy, isLoading, refetch } = useQuery({
         queryKey: ['data'],
@@ -71,11 +73,11 @@ export const PregnancyDataEdit: FC<RouteComponentProps<{
     const getTypeDefault = (type: number | null) => {
         switch (type) {
             case 3: return undefined; // C
+            case 6: return undefined; // D
             case 5: return false; // B
             default: return '';
         }
     }
-
     const form = useForm({
         formId: `pe-${patientNumber}:${pregnancyId ?? 'new'}`,
         defaultValues: {
@@ -91,10 +93,15 @@ export const PregnancyDataEdit: FC<RouteComponentProps<{
             }, {} as Record<string, unknown>) as any),
         },
         onSubmit: async ({ formApi, value }) => {
-            // Do something with form data
+
+            const finalValue: Record<string, unknown> = {}
+            Object.entries(value).forEach(([key, val]) => {
+                if (val !== '' && val !== undefined && val !== null)
+                    finalValue[key] = val;
+            })
             const body = {
                 patientId,
-                data: JSON.stringify(value)
+                data: JSON.stringify(finalValue)
             }
             if (isAdd)
                 await createPregnancy.mutateAsync(body)
@@ -154,7 +161,7 @@ export const PregnancyDataEdit: FC<RouteComponentProps<{
                     <div>
                         <div className={`mt-4 ${levelStyle.levelHeader}`}>Baseline Information:</div>
                         <div className={`flex flex-col gap-2 ${levelStyle.levelBody}`} style={{ padding: '1rem' }}>
-                            {fields?.filter((field) => field.referenceType === 1).map((pregnancyFieldRaw: any) => {
+                            {nonDeletedFields?.filter((field) => field.referenceType === 1).map((pregnancyFieldRaw: any) => {
                                 const pregnancyField = {
                                     ...pregnancyFieldRaw,
                                     idname_orig: pregnancyFieldRaw.idname,
@@ -167,7 +174,7 @@ export const PregnancyDataEdit: FC<RouteComponentProps<{
                     <div>
                         <div className={`mt-4 ${levelStyle.levelHeader}`}>Follow-up Visit Information:</div>
                         <div className={`flex flex-col gap-2 ${levelStyle.levelBody}`} style={{ padding: '1rem' }}>
-                            {fields?.filter((field) => field.referenceType === 2).map((pregnancyFieldRaw: any) => {
+                            {nonDeletedFields?.filter((field) => field.referenceType === 2).map((pregnancyFieldRaw: any) => {
                                 const pregnancyField = {
                                     ...pregnancyFieldRaw,
                                     idname_orig: pregnancyFieldRaw.idname,
@@ -196,7 +203,7 @@ export const PregnancyDataEdit: FC<RouteComponentProps<{
                                     <FieldInfo field={field} />
                                 </>}
                             />
-                            {fields?.filter((field) => field.referenceType === 3).map((pregnancyFieldRaw: any) => {
+                            {nonDeletedFields?.filter((field) => field.referenceType === 3).map((pregnancyFieldRaw: any) => {
                                 const pregnancyField = {
                                     ...pregnancyFieldRaw,
                                     idname_orig: pregnancyFieldRaw.idname,

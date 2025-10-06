@@ -36,6 +36,25 @@ export default async (dbcon, version) => {
                 .orWhere('idname', 'duration of breastfeeding')
                 .update({ deleted: `0@${(new Date()).getTime()}` });
             break;
+        case 25:
+            await dbcon()(TABLE_NAME).insert([
+                { definition: 'Smoking habit', idname: 'smoking habit', section: null, subsection: null, type: 3, unit: null, module: 'MS', permittedValues: "smoker,ex-smoker,never smoked,electronic cigarette", labels: null, referenceType: 1, laterality: null, cdiscName: null, deleted: '-' },
+                { definition: 'Smoking habit', idname: 'smoking habit', section: null, subsection: null, type: 3, unit: null, module: 'MS', permittedValues: "smoker,ex-smoker,never smoked,electronic cigarette", labels: null, referenceType: 2, laterality: null, cdiscName: null, deleted: '-' },
+                { definition: 'Alcohol habit', idname: 'alcohol habit', section: null, subsection: null, type: 3, unit: null, module: 'MS', permittedValues: "More than 3 units a day,Less than 3 units a day,Less than 3 units a week,No alcohol consumption,Unknown", labels: null, referenceType: 1, laterality: null, cdiscName: null, deleted: '-' },
+                { definition: 'Alcohol habit', idname: 'alcohol habit', section: null, subsection: null, type: 3, unit: null, module: 'MS', permittedValues: "More than 3 units a day,Less than 3 units a day,Less than 3 units a week,No alcohol consumption,Unknown", labels: null, referenceType: 2, laterality: null, cdiscName: null, deleted: '-' },
+                { definition: 'Folic acid supplementation end date', idname: 'folic acid supplementation end date', section: null, subsection: null, type: 6, unit: null, module: 'MS', permittedValues: null, labels: null, referenceType: 3, laterality: null, cdiscName: null, deleted: '-' },
+            ]);
+            await dbcon()(TABLE_NAME)
+                .where({ idname: 'maternal bmi', referenceType: 2, deleted: '-' })
+                .orWhere({ idname: 'estimated date of delivery', referenceType: 2, deleted: '-' })
+                .orWhere({ idname: 'folic acid supplementation', referenceType: 2, deleted: '-' })
+                .orWhere({ idname: 'folic acid supplementation date', referenceType: 2, deleted: '-' })
+                .orWhere({ idname: 'gestational age at delivery', deleted: '-' })
+                .orWhere({ idname: 'mode of infant feeding', deleted: '-' })
+                .orWhere({ idname: 'duration of breastfeeding', deleted: '-' })
+                .orWhere({ idname: 'date of last menstrual period', deleted: '-' })
+                .update({ deleted: `0@${(new Date()).getTime()}` });
+            break;
         default:
             break;
     }
