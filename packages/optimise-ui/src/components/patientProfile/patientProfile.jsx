@@ -427,7 +427,7 @@ class Pregnancy extends Component {
                     {MedDRAName ? <> <br /><label>MedDRA: </label> {MedDRAName.name}</> : null}
                     {this.props.data.pregnancySubStudyConsent
                         ? <Link to={`/subStudyPreg/${this.props.data.patientId}`} className={style.piiUncover}>See pregnancies</Link>
-                        : null}
+                        : <Link to={`/patientProfile/${this.props.data.patientId}/edit/pregnancy/data`} className={style.piiUncover}>See pregnancies</Link>}
                 </>
 
             </PatientProfileSectionScaffold>
