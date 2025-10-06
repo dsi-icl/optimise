@@ -68,16 +68,25 @@ export const PregnancyDataEdit: FC<RouteComponentProps<{
 
     const pregnancyData = pregnancy?.data ? JSON.parse(pregnancy.data) : null;
 
+    const getTypeDefault = (type: number | null) => {
+        switch (type) {
+            case 3: return undefined; // C
+            case 5: return false; // B
+            default: return '';
+        }
+    }
+
     const form = useForm({
+        formId: `pe-${patientNumber}:${pregnancyId ?? 'new'}`,
         defaultValues: {
-            startDate: pregnancyData ? pregnancyData.startDate ?? undefined : undefined,
+            startDate: pregnancyData ? pregnancyData.startDate : undefined,
             ...(fields?.reduce((acc: Record<string, unknown>, curr: PregnancyFieldShape) => {
                 if (curr.referenceType === 1)
-                    acc[`baseline___${curr.idname}`] = pregnancyData ? pregnancyData[`baseline___${curr.idname}`] ?? undefined : undefined;
+                    acc[`baseline___${curr.idname}`] = pregnancyData?.[`baseline___${curr.idname}`] ?? getTypeDefault(curr.type);
                 if (curr.referenceType === 2)
-                    acc[`followup___${curr.idname}`] = pregnancyData ? pregnancyData[`followup___${curr.idname}`] ?? undefined : undefined;
+                    acc[`followup___${curr.idname}`] = pregnancyData?.[`followup___${curr.idname}`] ?? getTypeDefault(curr.type);
                 if (curr.referenceType === 3)
-                    acc[`term___${curr.idname}`] = pregnancyData ? pregnancyData[`term___${curr.idname}`] ?? undefined : undefined;
+                    acc[`term___${curr.idname}`] = pregnancyData?.[`term___${curr.idname}`] ?? getTypeDefault(curr.type);
                 return acc
             }, {} as Record<string, unknown>) as any),
         },
@@ -114,6 +123,7 @@ export const PregnancyDataEdit: FC<RouteComponentProps<{
             e.stopPropagation()
             form.handleSubmit()
         }}
+        key={`${patientNumber}:${pregnancyId ?? 'new'}`}
         className="flex flex-col gap-4"
     >
         <div>
