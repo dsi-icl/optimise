@@ -66,7 +66,7 @@ export const formFieldsTypeMapper = (pregnancyField: PregnancyFieldShape, formFi
     switch (commutator) {
         case 'B': // 5
             return wrapLabel(<>
-                <input ref={fieldElementRef} id={formField.name} type="checkbox" style={{ display: 'none' }} checked={formField.state.value} onChange={() => null} />
+                <input ref={fieldElementRef} id={formField.name} type="checkbox" style={{ display: 'none' }} disabled checked={formField.state.value} onChange={() => null} />
                 <button
                     className={formField.state.value ? "bg-amber-700" : "bg-amber-300"}
                     onBlur={formField.handleBlur}
