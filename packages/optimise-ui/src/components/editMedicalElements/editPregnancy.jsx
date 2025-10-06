@@ -120,10 +120,15 @@ class EditPregnancy extends Component {
                     {
                         this.props.renderedInFrontPage
                             ? null
-                            : <div className={style.ariane}>
-                                <h2>Pregnancies</h2>
-                                <BackButton to={`/patientProfile/${this.props.match.params.patientId}`} />
-                            </div>
+                            : this.props.readOnly
+                                ? <div className={style.ariane}>
+                                    <h2>Pregnancies (Previous Records)</h2>
+                                    <BackButton to={`/subStudyPreg/${this.props.match.params.patientNumber}`} />
+                                </div>
+                                : <div className={style.ariane}>
+                                    <h2>Pregnancies</h2>
+                                    <BackButton to={`/patientProfile/${this.props.match.params.patientId}`} />
+                                </div>
                     }
                     <form className={style.panel}>
                         {patientProfile.data.pregnancy
@@ -132,6 +137,7 @@ class EditPregnancy extends Component {
                                 <OnePregnancy
                                     key={Math.random()}
                                     data={el}
+                                    readOnly={this.props.readOnly}
                                     pregnancyOutcomes={pregnancyOutcomes}
                                     meddra_Hash={meddra_Hash}
                                     _handleClickDelete={this._handleClickDelete}
@@ -141,7 +147,7 @@ class EditPregnancy extends Component {
                         {!this.state.addMore
                             ? <>
                                 <br />
-                                <button onClick={this._handleClickingAdd}>Add pregnancies</button>
+                                {this.props.readOnly ? null : <button onClick={this._handleClickingAdd}>Add pregnancies</button>}
                             </>
                             : <>
                                 <div className={style.newInterruption}>
@@ -329,6 +335,7 @@ class OnePregnancy extends Component {
     render() {
         const { editing, startDate, outcomeDate, noEndDate, outcome, meddra, startDate_original, outcomeDate_original, outcome_original, meddra_original } = this.state;
         const { data, pregnancyOutcomes, meddra_Hash } = this.props;
+
         return (
             <div
                 className={style.interruption}
@@ -396,8 +403,12 @@ class OnePregnancy extends Component {
                                     </>
                                     : null}
                             </div>
-                            <DeleteButton clickhandler={() => this._handleClickDelete(data)} />
-                            <span title="Edit" onClick={this._handleEditClick} className={style.dataEdit}><Icon symbol="edit" /></span>
+                            {this.props.readOnly
+                                ? null
+                                : <>
+                                    <DeleteButton clickhandler={() => this._handleClickDelete(data)} />
+                                    <span title="Edit" onClick={this._handleEditClick} className={style.dataEdit}><Icon symbol="edit" /></span>
+                                </>}
                         </>
                 }
             </div>
