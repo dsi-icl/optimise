@@ -37,10 +37,10 @@
     "dependencies": {
         "connect-mongo": "5.1.0",
         "csurf": "1.11.0",
-        "express": "4.21.2",
-        "express-rate-limit": "8.1.0",
+        "express": "4.22.1",
+        "express-rate-limit": "8.2.1",
         "express-session": "1.18.2",
-        "mongodb": "6.20.0",
+        "mongodb": "6.21.0",
         "passport": "0.7.0",
         "pretty-bytes": "7.1.0",
         "saslprep": "1.0.3"
@@ -50,9 +50,9 @@
         "@babel/plugin-syntax-dynamic-import": "^7.8.3",
         "babel-loader": "10.0.0",
         "cross-env": "10.1.0",
-        "rimraf": "6.0.1",
+        "rimraf": "6.1.2",
         "run-script-webpack-plugin": "0.2.3",
-        "webpack": "5.102.1",
+        "webpack": "5.103.0",
         "webpack-cli": "6.0.1"
     },
     "optionalDependencies": {
