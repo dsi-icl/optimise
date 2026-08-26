@@ -41,7 +41,7 @@
         "draft-js": "0.11.7",
         "file-saver": "2.0.5",
         "history": "4.10.1",
-        "immutable": "5.1.4",
+        "immutable": "5.1.8",
         "interactjs": "1.10.27",
         "is-plain-object": "5.0.0",
         "moment": "2.30.1",
