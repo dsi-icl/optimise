@@ -70,7 +70,7 @@
         "@types/react-dom": "19.2.3",
         "@types/react-router-dom": "5.3.3",
         "cross-env": "10.1.0",
-        "http-proxy-middleware": "2.0.9",
+        "http-proxy-middleware": "2.0.10",
         "rehype-mdx-import-media": "1.2.0",
         "rehype-raw": "7.0.0",
         "webpack": "5.103.0"
