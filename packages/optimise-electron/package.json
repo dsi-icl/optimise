@@ -32,7 +32,7 @@
         "electron-log": "5.4.3",
         "electron-unhandled": "4.0.1",
         "electron-updater": "6.7.2",
-        "express": "4.22.1",
+        "express": "5.2.1",
         "sqlite3": "5.1.6"
     },
     "devDependencies": {
